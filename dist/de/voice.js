@@ -48,8 +48,9 @@ function parseWishes(text){
   if(group)people=collective[group[1]];
   else if(m)people=words[m[1]]||Number(m[1]);
  }
- if(people===1||people===2){demoState.people=people;applied.push(people===1?'eine Person':'zwei Personen');}
+ if(people===1||people===2){demoState.people=people;collected.add('people');applied.push(people===1?'eine Person':'zwei Personen');}
  else if(people!==null)questions.push({
+  field:'people',
   message:`Du hast ${people} Personen gesagt. Diese Demo plant für eine oder zwei — größere Tische kann die App.`,
   options:[{label:'Dann zwei Personen',apply(){demoState.people=2;}},{label:'Nur ich',apply(){demoState.people=1;}}]
  });
@@ -57,9 +58,10 @@ function parseWishes(text){
  const kcalMatch=t.match(/ (\d{2,6}) ?(?:kcal|kalorien) /)||t.match(/ kalorien (?:ziel |von |auf )?(\d{2,6}) /);
  if(kcalMatch){
   const kcal=Number(kcalMatch[1]);
-  if(kcal>=1&&kcal<=10000){demoState.calorieTarget=kcal;applied.push(kcal+' kcal am Tag');}
+  if(kcal>=1&&kcal<=10000){demoState.calorieTarget=kcal;collected.add('calorieTarget');applied.push(kcal+' kcal am Tag');}
   else questions.push({
-   message:`${kcal} kcal liegt außerhalb dessen, was diese Demo rechnet (1 bis 10000).`,
+   field:'calorieTarget',
+  message:`${kcal} kcal liegt außerhalb dessen, was diese Demo rechnet (1 bis 10000).`,
    options:[{label:'Nimm 2000 kcal',apply(){demoState.calorieTarget=2000;}},{label:'Bei '+demoState.calorieTarget+' lassen',apply(){}}]
   });
  }
@@ -67,9 +69,10 @@ function parseWishes(text){
  const proteinMatch=t.match(/ (\d{1,4}) ?(?:g|gramm)? (?:protein|eiweiß|eiweiss) /)||t.match(/ (?:protein|eiweiß|eiweiss) (?:ziel |von |auf )?(\d{1,4}) /);
  if(proteinMatch){
   const protein=Number(proteinMatch[1]);
-  if(protein>=1&&protein<=1000){demoState.proteinTarget=protein;applied.push(protein+' g Protein am Tag');}
+  if(protein>=1&&protein<=1000){demoState.proteinTarget=protein;collected.add('proteinTarget');applied.push(protein+' g Protein am Tag');}
   else questions.push({
-   message:`${protein} g Protein liegt außerhalb dessen, was diese Demo rechnet (1 bis 1000).`,
+   field:'proteinTarget',
+  message:`${protein} g Protein liegt außerhalb dessen, was diese Demo rechnet (1 bis 1000).`,
    options:[{label:'Nimm 100 g',apply(){demoState.proteinTarget=100;}},{label:'Bei '+demoState.proteinTarget+' lassen',apply(){}}]
   });
  }
@@ -100,32 +103,60 @@ function parseWishes(text){
  return {applied,questions};
 }
 
-let pending=[];
+let pending=[],summaryOf=[],expecting=null;
+const collected=new Set();
+const limits={people:[1,2],calorieTarget:[1,10000],proteinTarget:[1,1000]};
+const essentialLabel=(field,value)=>field==='people'?(value===1?'eine Person':'zwei Personen'):field==='calorieTarget'?value+' kcal am Tag':value+' g Protein am Tag';
+
+// Ein Plan braucht die Personenzahl und Tagesziele. Was nicht gesagt wurde, wird nachgefragt.
+function essentialQuestions(){
+ const list=[];
+ if(!collected.has('people'))list.push({field:'people',message:'Wie viele Personen esst ihr?',options:[{label:'Nur ich',apply(){demoState.people=1;}},{label:'Zu zweit',apply(){demoState.people=2;}}]});
+ if(!collected.has('calorieTarget'))list.push({field:'calorieTarget',message:'Welches Kalorienziel hast du pro Tag? Sag oder tippe eine andere Zahl, wenn nichts davon passt.',options:[{label:'1500 kcal',apply(){demoState.calorieTarget=1500;}},{label:'2000 kcal',apply(){demoState.calorieTarget=2000;}},{label:'2500 kcal',apply(){demoState.calorieTarget=2500;}}]});
+ if(!collected.has('proteinTarget'))list.push({field:'proteinTarget',message:'Und dein Proteinziel pro Tag?',options:[{label:'80 g',apply(){demoState.proteinTarget=80;}},{label:'100 g',apply(){demoState.proteinTarget=100;}},{label:'130 g',apply(){demoState.proteinTarget=130;}}]});
+ return list;
+}
 
 function handleWishes(text){
  const clean=text.trim();
  if(!clean)return;
  heard.textContent='„'+clean+'“';
+
+ // Eine nackte Zahl beantwortet die Frage, die gerade offen ist.
+ const bare=expecting&&clean.match(/^(\d{1,5})\s*(?:kcal|kalorien|g|gramm|personen|leute)?$/i);
+ if(bare){
+  const value=Number(bare[1]),[min,max]=limits[expecting];
+  if(value>=min&&value<=max){
+   demoState[expecting]=value;collected.add(expecting);summaryOf.push(essentialLabel(expecting,value));
+   pending.shift();syncInputs();renderDemo();renderQuestion();
+   return;
+  }
+ }
+
  const {applied,questions}=parseWishes(clean);
  if(!applied.length&&!questions.length){
-  agent.innerHTML='<p class="voice-question">Daraus konnte ich nichts herauslesen. Sag zum Beispiel <em>„Wir sind zu zweit, 2000 kcal, kein Fisch“</em>.</p>';
+  pending=essentialQuestions();
+  renderQuestion('<p class="voice-question">Daraus konnte ich nichts herauslesen — gehen wir es zusammen durch.</p>');
   return;
  }
  demoState.step=0;
+ summaryOf=applied.slice();
  syncInputs();renderDemo();
- agent.innerHTML=applied.length?`<p class="voice-applied">Eingestellt: ${applied.join(' · ')}</p>`:'';
- pending=questions;
- renderQuestion(Boolean(applied.length));
+ const alreadyAsked=new Set(questions.map(item=>item.field).filter(Boolean));
+ pending=questions.concat(essentialQuestions().filter(item=>!alreadyAsked.has(item.field)));
+ renderQuestion();
 }
 
-function renderQuestion(keepApplied){
- const summary=keepApplied?agent.querySelector('.voice-applied')?.outerHTML||'':'';
+function renderQuestion(note){
+ const head=(summaryOf.length?`<p class="voice-applied">Eingestellt: ${summaryOf.join(' · ')}</p>`:'')+(note||'');
  if(!pending.length){
-  agent.innerHTML=summary+'<p class="voice-question">Mehr kann ich von hier aus nicht einstellen.</p><button type="button" class="button voice-continue">Weiter zur Gerichteauswahl →</button>';
+  expecting=null;
+  agent.innerHTML=head+'<p class="voice-question">Mehr brauche ich nicht. Deine Ziele stehen in den Feldern darunter und lassen sich jederzeit ändern.</p><button type="button" class="button voice-continue">Weiter zur Gerichteauswahl →</button>';
   return;
  }
  const q=pending[0];
- agent.innerHTML=summary+`<p class="voice-question">${q.message}</p><div class="voice-options">${q.options.map((o,i)=>`<button type="button" data-voice-option="${i}">${o.label}</button>`).join('')}</div>`;
+ expecting=q.field||null;
+ agent.innerHTML=head+`<p class="voice-question">${q.message}</p><div class="voice-options">${q.options.map((o,i)=>`<button type="button" data-voice-option="${i}">${o.label}</button>`).join('')}</div>`;
 }
 
 // Die Demo behandelt Klicks im gesamten Abschnitt — unsere eigenen Knöpfe sollen dort kein zweites Rendern auslösen.
@@ -134,8 +165,10 @@ panel.addEventListener('click',e=>{if(e.target.closest('button'))e.stopPropagati
 agent.addEventListener('click',e=>{
  const option=e.target.closest('[data-voice-option]');
  if(option){
-  pending.shift().options[Number(option.dataset.voiceOption)].apply();
-  syncInputs();renderDemo();renderQuestion(true);
+  const q=pending.shift();
+  q.options[Number(option.dataset.voiceOption)].apply();
+  if(q.field){collected.add(q.field);summaryOf.push(essentialLabel(q.field,demoState[q.field]));}
+  syncInputs();renderDemo();renderQuestion();
   return;
  }
  if(e.target.closest('.voice-continue')){
