@@ -1,0 +1,11 @@
+# Local archives and packages - not part of the website
+_archive-png/
+*.zip
+
+# Deployment config for the previous OpenAI hosting (still usable locally)
+.openai/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
