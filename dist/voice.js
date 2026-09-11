@@ -9,7 +9,7 @@ panel.className='voice-intake';
 panel.innerHTML=`<div class="eyebrow">START BY SAYING IT</div>
 <h3>Tell us what your basket needs.</h3>
 <p>How many of you are eating, your daily targets, anything you would rather not have. If something does not fit this demo, it asks back before changing anything.</p>
-<div class="voice-controls"><button type="button" class="voice-mic" aria-pressed="false"><span class="voice-dot" aria-hidden="true"></span><span class="voice-mic-label">Say your wishes</span></button><button type="button" class="voice-type-toggle" aria-expanded="false">or type it instead</button></div>
+<div class="voice-controls"><button type="button" class="voice-mic" aria-pressed="false"><svg class="voice-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path fill="currentColor" d="M18 10.5a1 1 0 0 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.91V19H8.5a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2H13v-2.59a6 6 0 0 0 5-5.91Z"/></svg><span class="voice-mic-label">Say your wishes</span></button><button type="button" class="voice-type-toggle" aria-expanded="false">or type it instead</button></div>
 <form class="voice-typed" hidden><label for="voice-text">Your wishes</label><div><input id="voice-text" type="text" autocomplete="off" placeholder="Two of us, 2000 kcal, no fish"><button class="button" type="submit">Apply</button></div></form>
 <p class="voice-heard" aria-live="polite"></p>
 <div class="voice-agent" aria-live="polite"></div>
