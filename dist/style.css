@@ -16,3 +16,13 @@
 .legal-links{flex-basis:100%;display:flex;gap:22px;font-size:14px;order:-1}.legal-links a{border-bottom:1px solid #d8c4b4}
 @media(max-width:800px){.legal{padding:45px 24px 70px}}
 
+/* Retailer-facing page: a wider lead, and the honest two-column status. */
+.partner .partner-lead{font-size:19px;line-height:1.6;color:var(--ink);margin-bottom:34px}
+.partner h3{font-size:16px;margin:0 0 10px;letter-spacing:0}
+.partner-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:22px 0 14px}
+.partner-cols>div{background:#f9f0e6;border-radius:12px;padding:20px 22px}
+.partner-cols ul{margin:0;padding-left:20px}.partner-cols li{font-size:15px}
+.partner-note{font-size:13px;font-style:italic}
+.partner .button{margin-top:6px}
+@media(max-width:700px){.partner-cols{grid-template-columns:1fr;gap:16px}.partner .partner-lead{font-size:17px}}
+

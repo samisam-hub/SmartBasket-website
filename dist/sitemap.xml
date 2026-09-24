@@ -5,41 +5,55 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
   </url>
   <url>
     <loc>https://smartbasket.samisam.org/de/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://smartbasket.samisam.org/partners/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/partners/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/partner/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/partners/"/>
+    <lastmod>2026-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://smartbasket.samisam.org/de/partner/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/partners/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/partner/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/partners/"/>
+    <lastmod>2026-09-24</lastmod>
   </url>
   <url>
     <loc>https://smartbasket.samisam.org/legal-notice/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/legal-notice/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/impressum/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/legal-notice/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
   </url>
   <url>
     <loc>https://smartbasket.samisam.org/de/impressum/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/legal-notice/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/impressum/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/legal-notice/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
   </url>
   <url>
     <loc>https://smartbasket.samisam.org/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/privacy/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/privacy/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
   </url>
   <url>
     <loc>https://smartbasket.samisam.org/de/datenschutz/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://smartbasket.samisam.org/privacy/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://smartbasket.samisam.org/de/datenschutz/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartbasket.samisam.org/privacy/"/>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-24</lastmod>
   </url>
 </urlset>
