@@ -1,29 +1,157 @@
-// Gesprochene Wünsche für die Planungs-Demo. Die Erkennung läuft im Browser; SmartBasket speichert nichts.
+// Voice-guided intake for the planning demo.
+// Interpretation is local and deterministic by default. Point INTERPRET_ENDPOINT
+// at a server-side proxy to have a model read the request instead; the API key
+// belongs on that server and must never reach the browser. Any failure there
+// falls back to the local interpreter, so the demo works offline either way.
 (function(){
 const shell=document.querySelector('#planning-demo .demo-shell');
 if(!shell||typeof demoState==='undefined')return;
+
+const INTERPRET_ENDPOINT=null;
 const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+const MIC='<svg class="voice-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path fill="currentColor" d="M18 10.5a1 1 0 0 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.91V19H8.5a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2H13v-2.59a6 6 0 0 0 5-5.91Z"/></svg>';
+const quote=t=>T.quoteOpen+t+T.quoteClose;
+// A budget reads as a round figure, not an invoice.
+const money=n=>euro(n).replace(/[.,]00(?!\d)/,'');
 
-const panel=document.createElement('div');
-panel.className='voice-intake';
-panel.innerHTML=`<div class="eyebrow">SAG ES EINFACH</div>
-<h3>Sag, was in deinen Einkauf soll.</h3>
-<p>Wie viele ihr seid, deine Tagesziele, was nicht auf den Tisch soll. Was diese Demo nicht kann, fragt sie nach, bevor sie etwas ändert.</p>
-<div class="voice-controls"><button type="button" class="voice-mic" aria-pressed="false"><svg class="voice-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path fill="currentColor" d="M18 10.5a1 1 0 0 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.91V19H8.5a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2H13v-2.59a6 6 0 0 0 5-5.91Z"/></svg><span class="voice-mic-label">Wünsche sagen</span></button><button type="button" class="voice-type-toggle" aria-expanded="false">oder lieber tippen</button></div>
-<form class="voice-typed" hidden><label for="voice-text">Deine Wünsche</label><div><input id="voice-text" type="text" autocomplete="off" placeholder="Wir sind zu zweit, 2000 kcal, kein Fisch"><button class="button" type="submit">Übernehmen</button></div></form>
-<p class="voice-heard" aria-live="polite"></p>
-<div class="voice-agent" aria-live="polite"></div>
-<p class="voice-privacy">Die Spracherkennung übernimmt dein Browser: Chrome sendet die Aufnahme dafür an Google, Safari an Apple. SmartBasket bekommt keine Audiodaten und speichert nichts. Tippen funktioniert genauso gut.</p>`;
-shell.prepend(panel);
+const LANG='de-DE';
+const T={
+ eyebrow:'SAG ES EINFACH',
+ headline:'Sag SmartBasket, was du brauchst.',
+ lead:'Ein Satz genügt: wie viele ihr seid, für wie viele Tage, worauf du achtest und was es kosten darf. Den Rest rechnet die Demo aus und fragt nur nach, wenn etwas Wichtiges fehlt.',
+ cta:'Sag SmartBasket, was du brauchst',
+ close:'Schließen',
+ hint:'Sag zum Beispiel',
+ example:'Plane drei Tage Abendessen für zwei Personen, viel Protein, etwa 70 Euro, davon einmal vegetarisch.',
+ start:'Sprechen starten',
+ listening:'Ich höre zu…',
+ waiting:'Warte auf dich…',
+ stop:'Beenden',
+ interpreting:'Ich sortiere, was du brauchst…',
+ retry:'Von vorn',
+ go:'Plan ansehen →',
+ orType:'oder lieber tippen',
+ typedLabel:'Dein Wunsch',
+ placeholder:'Drei Tage für zwei, viel Protein, etwa 70 Euro',
+ send:'Absenden',
+ noMic:'Dieser Browser bringt keine Spracherkennung mit, deshalb nimmt die Demo deinen Wunsch als Text entgegen.',
+ privacy:'Die Spracherkennung übernimmt dein Browser: Chrome sendet die Aufnahme dafür an Google, Safari an Apple. SmartBasket bekommt keine Audiodaten und speichert nichts. Tippen funktioniert genauso gut.',
+ errDenied:'Dein Browser hat den Zugriff auf das Mikrofon nicht erlaubt. Du kannst deinen Wunsch stattdessen tippen.',
+ errSilent:'Ich habe nichts gehört. Tippe es ein oder schließe das Fenster und versuch es noch einmal.',
+ errService:'Die Spracherkennung ist gerade nicht verfügbar. Tippen geht auch.',
+ quoteOpen:'„',quoteClose:'“'
+};
 
-const mic=panel.querySelector('.voice-mic'),micLabel=panel.querySelector('.voice-mic-label');
-const typeToggle=panel.querySelector('.voice-type-toggle'),typedForm=panel.querySelector('.voice-typed'),typedInput=panel.querySelector('#voice-text');
-const heard=panel.querySelector('.voice-heard'),agent=panel.querySelector('.voice-agent');
+const NUMBERS={ein:1,eine:1,eins:1,zwei:2,drei:3,vier:4,fünf:5,sechs:6,sieben:7,acht:8,neun:9,zehn:10};
+const GROUPS={zweit:2,dritt:3,viert:4,fünft:5,sechst:6,siebt:7,acht:8};
+const COUNT='\\d+|'+Object.keys(NUMBERS).join('|');
+const value=w=>NUMBERS[w]!==undefined?NUMBERS[w]:Number(w);
 
-if(!SpeechRec){
- mic.hidden=true;typeToggle.hidden=true;typedForm.hidden=false;
- panel.querySelector('.voice-privacy').textContent='Dieser Browser bringt keine Spracherkennung mit, deshalb nimmt die Demo deine Wünsche als Text entgegen. Nichts davon wird gespeichert oder irgendwohin gesendet.';
+function mockInterpret(text){
+ const t=' '+text.toLowerCase().replace(/[.,!?;:]/g,' ').replace(/\s+/g,' ')+' ';
+ const p={days:null,people:null,budget:null,calorieTarget:null,proteinTarget:null,breakfast:null,lunch:null,dinner:null,pantry:false,notes:[]};
+ let m;
+
+ m=t.match(new RegExp(' ('+COUNT+') tage? '));
+ if(m)p.days=value(m[1]);
+ else if(/ (eine |die )?woche /.test(t))p.days=7;
+
+ if(/ (allein|alleine|nur ich|für mich|für eine person|für 1) /.test(t))p.people=1;
+ else{
+  const group=t.match(new RegExp(' zu ('+Object.keys(GROUPS).join('|')+') '));
+  if(group)p.people=GROUPS[group[1]];
+  else if(/ (wir beide|für zwei|für 2|mein partner|meine partnerin) /.test(t))p.people=2;
+  else{
+   m=t.match(new RegExp(' (?:für|wir sind|sind) ('+COUNT+') '))||t.match(new RegExp(' ('+COUNT+') (?:personen|leute) '));
+   if(m)p.people=value(m[1]);
+  }
+ }
+
+ m=t.match(/ (\d{1,4})(?:[.,](\d{1,2}))? ?(?:€|euro|eur) /)||t.match(/ € ?(\d{1,4})(?:[.,](\d{1,2}))? /)||t.match(/ budget (?:von |um |etwa |unter |bei )?€? ?(\d{1,4})(?:[.,](\d{1,2}))? /);
+ if(m)p.budget=Number(m[1]+(m[2]?'.'+m[2]:''));
+
+ m=t.match(/ (\d{2,6}) ?(?:kcal|kalorien) /)||t.match(/ kalorien (?:ziel |von |auf )?(\d{2,6}) /);
+ if(m)p.calorieTarget=Number(m[1]);
+
+ m=t.match(/ (\d{1,4}) ?(?:g|gramm)? (?:protein|eiweiß|eiweiss) /)||t.match(/ (?:protein|eiweiß|eiweiss) (?:ziel |von |auf )?(\d{1,4}) /);
+ if(m)p.proteinTarget=Number(m[1]);
+ else if(/ (viel protein|viel eiweiß|viel eiweiss|proteinreich|eiweißreich) /.test(t))p.proteinTarget=150;
+
+ const vegan=/ (vegan|pflanzlich) /.test(t);
+ const vegetarisch=vegan||/ (vegetarisch|fleischlos|kein fleisch|ohne fleisch) /.test(t);
+ if(vegetarisch){
+  if(vegan)p.breakfast='oats';
+  p.dinner='teriyaki';
+  p.notes.push('veg');
+ }else if(/ (kein fisch|keinen fisch|ohne fisch|kein lachs) /.test(t))p.dinner='teriyaki';
+ else if(/ (fisch|lachs) /.test(t))p.dinner='salmon';
+
+ if(/ (rest|reste|vorrat|vorräte|hab noch|habe noch|aufbrauchen) /.test(t))p.pantry=true;
+ if(/ snacks? /.test(t))p.notes.push('snacks');
+ if(/ abendessen /.test(t))p.notes.push('dinners');
+ return p;
 }
+
+// Höchstens eine Rückfrage, und nur zu etwas, das die Demo wirklich nicht raten kann.
+function clarification(p){
+ if(p.people!==null&&(p.people<1||p.people>2))return {
+  message:'Diese Demo plant für eine oder zwei Personen — größere Tische kann die App. Womit soll ich rechnen?',
+  options:[{label:'Zwei Personen',apply(){p.people=2;}},{label:'Nur ich',apply(){p.people=1;}}]
+ };
+ if(p.people===null)return {
+  message:'Wie viele Personen esst ihr?',
+  options:[{label:'Nur ich',apply(){p.people=1;}},{label:'Zu zweit',apply(){p.people=2;}}]
+ };
+ if(p.days!==null&&p.days>7)return {
+  message:'Die Demo plant höchstens sieben Tage am Stück. Nehme ich sieben?',
+  options:[{label:'Sieben Tage',apply(){p.days=7;}},{label:'Drei Tage',apply(){p.days=3;}}]
+ };
+ return null;
+}
+
+function summarise(p){
+ const s=demoState;
+ let out='Ich stelle einen Plan für '+(s.days===1?'einen Tag':s.days+' Tage')+' und '+(s.people===1?'eine Person':s.people+' Personen')+' zusammen';
+ if(p.notes.indexOf('veg')>=0)out+=', abends pflanzlich';
+ else if(s.proteinTarget>=130)out+=', proteinreich';
+ if(s.budget!==null)out+=', mit einem Budget von '+money(s.budget);
+ return out+'.';
+}
+
+function factsList(){
+ const s=demoState;
+ const items=[['Tage',s.days===1?'1 Tag':s.days+' Tage'],['Personen',s.people===1?'1 Person':s.people+' Personen']];
+ if(s.budget!==null)items.push(['Budget',money(s.budget)]);
+ items.push(['Kalorien pro Tag',s.calorieTarget+' kcal'],['Protein pro Tag',s.proteinTarget+' g'],['Abendessen',demoMeals[s.dinner].name]);
+ return items.map(i=>'<li><span>'+i[0]+'</span><b>'+i[1]+'</b></li>').join('');
+}
+
+function notesLine(p){
+ const out=[];
+ if(p.notes.indexOf('dinners')>=0)out.push('Diese Demo plant immer Frühstück, Mittag- und Abendessen zusammen.');
+ if(p.notes.indexOf('snacks')>=0)out.push('Snacks gehören zur App, nicht zu dieser Demo.');
+ if(p.notes.indexOf('veg')>=0)out.push('Beide Mittagessen enthalten hier Fleisch, deshalb konnten nur Frühstück und Abendessen fleischlos werden.');
+ return out.length?'<p class="vd-note">'+out.join(' ')+'</p>':'';
+}
+
+// --- the invitation that sits above the planning steps ----------------------
+const intake=document.createElement('div');
+intake.className='voice-intake';
+intake.innerHTML='<div class="eyebrow">'+T.eyebrow+'</div><h3>'+T.headline+'</h3><p>'+T.lead+'</p>'
+ +'<button type="button" class="button voice-open">'+MIC+' '+T.cta+'</button>'
+ +'<p class="voice-privacy">'+T.privacy+'</p>';
+shell.prepend(intake);
+// The demo delegates clicks across its whole section; keep ours from firing a second render.
+intake.addEventListener('click',e=>{if(e.target.closest('button'))e.stopPropagation();});
+
+const dialog=document.createElement('dialog');
+dialog.className='voice-dialog';
+dialog.innerHTML='<div class="vd-head"><h2>'+T.cta+'</h2><button type="button" class="vd-close" aria-label="'+T.close+'">&#215;</button></div><div class="vd-body"></div>';
+document.body.append(dialog);
+const body=dialog.querySelector('.vd-body');
+
+// idle -> listening -> interpreting -> clarifying (only if needed) -> summary
+let state='idle',transcript='',prefs=null,question=null,recognition=null,problem='';
 
 function syncInputs(){
  const c=shell.querySelector('#calorie-target'),p=shell.querySelector('#protein-target');
@@ -31,191 +159,147 @@ function syncInputs(){
  if(p&&demoState.proteinTarget!==null)p.value=demoState.proteinTarget;
 }
 
-// Liest heraus, was die Demo umsetzen kann, und sammelt für alles andere eine Rückfrage.
-function parseWishes(text){
- const t=' '+text.toLowerCase().replace(/[.,!?;:]/g,' ').replace(/\s+/g,' ')+' ';
- const applied=[],questions=[];
-
- let people=null;
- if(/ (allein|alleine|nur ich|für mich|für eine person|für 1) /.test(t))people=1;
- else if(/ (zu zweit|wir beide|für zwei|für 2|mein partner|meine partnerin) /.test(t))people=2;
- else{
-  const collective={dritt:3,viert:4,fünft:5,sechst:6,siebt:7,acht:8};
-  const words={ein:1,eine:1,eins:1,zwei:2,drei:3,vier:4,fünf:5,sechs:6,sieben:7,acht:8};
-  const group=t.match(new RegExp(' zu ('+Object.keys(collective).join('|')+') '));
-  const count='\\d+|'+Object.keys(words).join('|');
-  const m=t.match(new RegExp(' (?:für|wir sind|sind) ('+count+') '))||t.match(new RegExp(' ('+count+') (?:personen|leute) '));
-  if(group)people=collective[group[1]];
-  else if(m)people=words[m[1]]||Number(m[1]);
- }
- if(people===1||people===2){demoState.people=people;collected.add('people');applied.push(people===1?'eine Person':'zwei Personen');}
- else if(people!==null)questions.push({
-  field:'people',
-  message:`Du hast ${people} Personen gesagt. Diese Demo plant für eine oder zwei — größere Tische kann die App.`,
-  options:[{label:'Dann zwei Personen',apply(){demoState.people=2;}},{label:'Nur ich',apply(){demoState.people=1;}}]
- });
-
- const kcalMatch=t.match(/ (\d{2,6}) ?(?:kcal|kalorien) /)||t.match(/ kalorien (?:ziel |von |auf )?(\d{2,6}) /);
- if(kcalMatch){
-  const kcal=Number(kcalMatch[1]);
-  if(kcal>=1&&kcal<=10000){demoState.calorieTarget=kcal;collected.add('calorieTarget');applied.push(kcal+' kcal am Tag');}
-  else questions.push({
-   field:'calorieTarget',
-  message:`${kcal} kcal liegt außerhalb dessen, was diese Demo rechnet (1 bis 10000).`,
-   options:[{label:'Nimm 2000 kcal',apply(){demoState.calorieTarget=2000;}},{label:'Bei '+demoState.calorieTarget+' lassen',apply(){}}]
-  });
- }
-
- const proteinMatch=t.match(/ (\d{1,4}) ?(?:g|gramm)? (?:protein|eiweiß|eiweiss) /)||t.match(/ (?:protein|eiweiß|eiweiss) (?:ziel |von |auf )?(\d{1,4}) /);
- if(proteinMatch){
-  const protein=Number(proteinMatch[1]);
-  if(protein>=1&&protein<=1000){demoState.proteinTarget=protein;collected.add('proteinTarget');applied.push(protein+' g Protein am Tag');}
-  else questions.push({
-   field:'proteinTarget',
-  message:`${protein} g Protein liegt außerhalb dessen, was diese Demo rechnet (1 bis 1000).`,
-   options:[{label:'Nimm 100 g',apply(){demoState.proteinTarget=100;}},{label:'Bei '+demoState.proteinTarget+' lassen',apply(){}}]
-  });
- }
-
- const vegan=/ (vegan|pflanzlich|rein pflanzlich) /.test(t),vegetarian=vegan||/ (vegetarisch|fleischlos|kein fleisch|ohne fleisch) /.test(t);
- if(vegetarian){
-  if(vegan){demoState.meal='oats';applied.push('pflanzliches Frühstück');}
-  demoState.dinner='teriyaki';applied.push('Tofu am Abend');
-  questions.push({
-   message:'Beide Mittagessen dieser Demo enthalten Fleisch, einen komplett fleischlosen Tag bekomme ich hier nicht hin. Frühstück und Abendessen stehen.',
-   options:[{label:'Passt, Mittag wähle ich',apply(){}},{label:'Zeig mir das Fleischgericht',apply(){demoState.step=0;}}]
-  });
- }else if(/ (kein fisch|keinen fisch|ohne fisch|kein lachs) /.test(t)){demoState.dinner='teriyaki';applied.push('kein Fisch');}
- else if(/ (fisch|lachs) /.test(t)){demoState.dinner='salmon';applied.push('Lachs am Abend');}
-
- if(/ (rest|reste|vorrat|vorräte|hab noch|habe noch|aufbrauchen) /.test(t)){demoState.pantry=true;applied.push('Vorrat wird berücksichtigt');}
-
- const days=t.match(/ (\d+) tage? /);
- if((days&&Number(days[1])>1)||/ (eine |die )?woche /.test(t)||/ mehrere tage /.test(t))questions.push({
-  message:'Diese Demo plant einen Tag mit Frühstück, Mittag- und Abendessen. Mehrere Tage am Stück plant die App.',
-  options:[{label:'Weiter mit einem Tag',apply(){}}]
- });
- if(/ snacks? /.test(t))questions.push({
-  message:'Snacks gehören zur App, nicht zu dieser Demo — hier geht es um Frühstück, Mittag- und Abendessen.',
-  options:[{label:'Verstanden',apply(){}}]
- });
-
- return {applied,questions};
+function typedBlock(open){
+ const toggle=SpeechRec?'<button type="button" class="vd-typed-toggle" aria-expanded="'+(open?'true':'false')+'">'+T.orType+'</button>':'';
+ return toggle+'<form class="vd-form"'+(open?'':' hidden')+'><label for="vd-text">'+T.typedLabel+'</label><div><input id="vd-text" type="text" autocomplete="off" placeholder="'+T.placeholder+'"><button class="button" type="submit">'+T.send+'</button></div></form>';
 }
 
-let pending=[],summaryOf=[],expecting=null;
-const collected=new Set();
-const limits={people:[1,2],calorieTarget:[1,10000],proteinTarget:[1,1000]};
-const essentialLabel=(field,value)=>field==='people'?(value===1?'eine Person':'zwei Personen'):field==='calorieTarget'?value+' kcal am Tag':value+' g Protein am Tag';
+function render(){
+ let html='';
+ if(state==='idle'){
+  html='<p class="vd-hint">'+T.hint+' <em>'+quote(T.example)+'</em></p>'
+   +(SpeechRec?'<div class="vd-stage"><button type="button" class="vd-mic">'+MIC+' '+T.start+'</button></div>':'<p class="vd-status">'+T.noMic+'</p>')
+   +typedBlock(!SpeechRec)
+   +'<p class="vd-privacy">'+T.privacy+'</p>';
+ }else if(state==='listening'){
+  html='<div class="vd-stage"><div class="vd-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div><p class="vd-status">'+T.listening+'</p></div>'
+   +'<p class="vd-transcript" aria-live="polite"><span class="vd-dim">'+T.waiting+'</span></p>'
+   +'<div class="vd-controls"><button type="button" class="button vd-stop">'+T.stop+'</button></div>';
+ }else if(state==='interpreting'){
+  html='<div class="vd-stage"><div class="vd-spinner" aria-hidden="true"></div><p class="vd-status">'+T.interpreting+'</p></div>'
+   +'<p class="vd-transcript">'+quote(transcript)+'</p>';
+ }else if(state==='clarifying'){
+  html='<p class="vd-transcript">'+quote(transcript)+'</p>'
+   +'<p class="vd-question" aria-live="polite">'+question.message+'</p>'
+   +'<div class="vd-options">'+question.options.map((o,i)=>'<button type="button" data-opt="'+i+'">'+o.label+'</button>').join('')+'</div>'
+   +'<div class="vd-controls"><button type="button" class="vd-retry">'+T.retry+'</button></div>';
+ }else if(state==='summary'){
+  html='<p class="vd-transcript">'+quote(transcript)+'</p>'
+   +'<p class="vd-summary" aria-live="polite">'+summarise(prefs)+'</p>'
+   +'<ul class="vd-facts">'+factsList()+'</ul>'+notesLine(prefs)
+   +'<div class="vd-controls"><button type="button" class="button vd-go">'+T.go+'</button><button type="button" class="vd-retry">'+T.retry+'</button></div>';
+ }else{
+  html='<p class="vd-status vd-err">'+problem+'</p>'+typedBlock(true);
+ }
+ body.innerHTML=html;
+}
+function setState(next){state=next;render();}
 
-// Ein Plan braucht die Personenzahl und Tagesziele. Was nicht gesagt wurde, wird nachgefragt.
-function essentialQuestions(){
- const list=[];
- if(!collected.has('people'))list.push({field:'people',message:'Wie viele Personen esst ihr?',options:[{label:'Nur ich',apply(){demoState.people=1;}},{label:'Zu zweit',apply(){demoState.people=2;}}]});
- if(!collected.has('calorieTarget'))list.push({field:'calorieTarget',message:'Welches Kalorienziel hast du pro Tag? Sag oder tippe eine andere Zahl, wenn nichts davon passt.',options:[{label:'1500 kcal',apply(){demoState.calorieTarget=1500;}},{label:'2000 kcal',apply(){demoState.calorieTarget=2000;}},{label:'2500 kcal',apply(){demoState.calorieTarget=2500;}}]});
- if(!collected.has('proteinTarget'))list.push({field:'proteinTarget',message:'Und dein Proteinziel pro Tag?',options:[{label:'80 g',apply(){demoState.proteinTarget=80;}},{label:'100 g',apply(){demoState.proteinTarget=100;}},{label:'130 g',apply(){demoState.proteinTarget=130;}}]});
- return list;
+function clampToDemo(p){
+ if(p.people!==null)p.people=Math.min(2,Math.max(1,p.people));
+ if(p.days!==null)p.days=Math.min(7,Math.max(1,p.days));
+ if(p.calorieTarget!==null&&(p.calorieTarget<1||p.calorieTarget>10000))p.calorieTarget=null;
+ if(p.proteinTarget!==null&&(p.proteinTarget<1||p.proteinTarget>1000))p.proteinTarget=null;
+ if(p.budget!==null&&(p.budget<1||p.budget>10000))p.budget=null;
 }
 
-function handleWishes(text){
- const clean=text.trim();
- if(!clean)return;
- heard.textContent='„'+clean+'“';
-
- // Eine nackte Zahl beantwortet die Frage, die gerade offen ist.
- const bare=expecting&&clean.match(/^(\d{1,5})\s*(?:kcal|kalorien|g|gramm|personen|leute)?$/i);
- if(bare){
-  const value=Number(bare[1]),[min,max]=limits[expecting];
-  if(value>=min&&value<=max){
-   demoState[expecting]=value;collected.add(expecting);summaryOf.push(essentialLabel(expecting,value));
-   pending.shift();syncInputs();renderDemo();renderQuestion();
-   return;
-  }
- }
-
- const {applied,questions}=parseWishes(clean);
- if(!applied.length&&!questions.length){
-  pending=essentialQuestions();
-  renderQuestion('<p class="voice-question">Daraus konnte ich nichts herauslesen — gehen wir es zusammen durch.</p>');
-  return;
- }
+function apply(p){
+ clampToDemo(p);
+ if(p.people!==null)demoState.people=p.people;
+ if(p.days!==null)demoState.days=p.days;
+ if(p.budget!==null)demoState.budget=p.budget;
+ if(p.calorieTarget!==null)demoState.calorieTarget=p.calorieTarget;
+ if(p.proteinTarget!==null)demoState.proteinTarget=p.proteinTarget;
+ if(p.breakfast)demoState.meal=p.breakfast;
+ if(p.lunch)demoState.lunch=p.lunch;
+ if(p.dinner)demoState.dinner=p.dinner;
+ if(p.pantry)demoState.pantry=true;
  demoState.step=0;
- summaryOf=applied.slice();
  syncInputs();renderDemo();
- const alreadyAsked=new Set(questions.map(item=>item.field).filter(Boolean));
- pending=questions.concat(essentialQuestions().filter(item=>!alreadyAsked.has(item.field)));
- renderQuestion();
 }
 
-function renderQuestion(note){
- const head=(summaryOf.length?`<p class="voice-applied">Eingestellt: ${summaryOf.join(' · ')}</p>`:'')+(note||'');
- if(!pending.length){
-  expecting=null;
-  agent.innerHTML=head+'<p class="voice-question">Mehr brauche ich nicht. Deine Ziele stehen in den Feldern darunter und lassen sich jederzeit ändern.</p><button type="button" class="button voice-continue">Weiter zur Gerichteauswahl →</button>';
-  return;
- }
- const q=pending[0];
- expecting=q.field||null;
- agent.innerHTML=head+`<p class="voice-question">${q.message}</p><div class="voice-options">${q.options.map((o,i)=>`<button type="button" data-voice-option="${i}">${o.label}</button>`).join('')}</div>`;
+// Tries the proxy when one is configured, and otherwise — or on any failure —
+// uses the deterministic local interpreter.
+function interpret(text){
+ if(!INTERPRET_ENDPOINT)return new Promise(done=>setTimeout(()=>done(mockInterpret(text)),450));
+ return fetch(INTERPRET_ENDPOINT,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:text,lang:LANG})})
+  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+  .then(data=>Object.assign(mockInterpret(text),data))
+  .catch(()=>mockInterpret(text));
 }
 
-// Die Demo behandelt Klicks im gesamten Abschnitt — unsere eigenen Knöpfe sollen dort kein zweites Rendern auslösen.
-panel.addEventListener('click',e=>{if(e.target.closest('button'))e.stopPropagation();});
+function handle(){
+ if(!transcript)return;
+ setState('interpreting');
+ interpret(transcript).then(p=>{
+  prefs=p;
+  question=clarification(p);
+  if(question){setState('clarifying');return;}
+  apply(p);setState('summary');
+ });
+}
 
-agent.addEventListener('click',e=>{
- const option=e.target.closest('[data-voice-option]');
- if(option){
-  const q=pending.shift();
-  q.options[Number(option.dataset.voiceOption)].apply();
-  if(q.field){collected.add(q.field);summaryOf.push(essentialLabel(q.field,demoState[q.field]));}
-  syncInputs();renderDemo();renderQuestion();
-  return;
- }
- if(e.target.closest('.voice-continue')){
-  renderDemo();
-  const first=shell.querySelector('[data-meal]');
-  if(first){first.focus({preventScroll:true});first.scrollIntoView({block:'center',behavior:'smooth'});}
+body.addEventListener('click',e=>{
+ const b=e.target.closest('button');
+ if(!b)return;
+ if(b.classList.contains('vd-mic'))startListening();
+ else if(b.classList.contains('vd-stop'))stopListening();
+ else if(b.classList.contains('vd-retry'))reset();
+ else if(b.classList.contains('vd-go'))finish();
+ else if(b.classList.contains('vd-typed-toggle')){
+  const f=body.querySelector('.vd-form');
+  f.hidden=!f.hidden;b.setAttribute('aria-expanded',String(!f.hidden));
+  if(!f.hidden)f.querySelector('input').focus();
+ }else if(b.dataset.opt!==undefined){
+  question.options[Number(b.dataset.opt)].apply();
+  apply(prefs);setState('summary');
  }
 });
-
-typeToggle.addEventListener('click',()=>{
- const open=typedForm.hidden;
- typedForm.hidden=!open;
- typeToggle.setAttribute('aria-expanded',String(open));
- if(open)typedInput.focus();
+body.addEventListener('submit',e=>{
+ e.preventDefault();
+ const value=body.querySelector('#vd-text').value.trim();
+ if(value){transcript=value;handle();}
 });
-typedForm.addEventListener('submit',e=>{e.preventDefault();handleWishes(typedInput.value);typedInput.value='';});
 
-let recognition=null,listening=false;
-function stopListening(){
- listening=false;
- mic.setAttribute('aria-pressed','false');
- micLabel.textContent='Wünsche sagen';
+function reset(){transcript='';prefs=null;question=null;problem='';setState('idle');}
+function finish(){
+ dialog.close();
+ const first=shell.querySelector('[data-meal]');
+ if(first){first.focus({preventScroll:true});first.scrollIntoView({block:'center',behavior:'smooth'});}
 }
-mic.addEventListener('click',()=>{
- if(listening){recognition.stop();return;}
+
+intake.querySelector('.voice-open').addEventListener('click',()=>{reset();dialog.showModal();});
+dialog.querySelector('.vd-close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
+dialog.addEventListener('close',()=>{if(recognition){try{recognition.abort();}catch(err){}}});
+
+function startListening(){
+ if(!SpeechRec)return;
  recognition=new SpeechRec();
- recognition.lang='de-DE';
+ recognition.lang=LANG;
  recognition.interimResults=true;
  recognition.maxAlternatives=1;
- recognition.onstart=()=>{listening=true;mic.setAttribute('aria-pressed','true');micLabel.textContent='Ich höre zu · beenden';heard.textContent='';agent.innerHTML='';};
+ recognition.onstart=()=>{transcript='';setState('listening');};
  recognition.onresult=e=>{
   let text='';
   for(const result of e.results)text+=result[0].transcript;
-  heard.textContent='„'+text.trim()+'“';
-  if(e.results[e.results.length-1].isFinal)handleWishes(text);
+  transcript=text.trim();
+  const el=body.querySelector('.vd-transcript');
+  if(el)el.innerHTML=transcript?quote(transcript):'<span class="vd-dim">'+T.waiting+'</span>';
+  if(e.results[e.results.length-1].isFinal){recognition.stop();handle();}
  };
  recognition.onerror=e=>{
-  stopListening();
   if(e.error==='aborted')return;
-  const message=e.error==='not-allowed'||e.error==='service-not-allowed'
-   ?'Dein Browser hat den Zugriff auf das Mikrofon nicht erlaubt. Du kannst deine Wünsche stattdessen tippen.'
-   :e.error==='no-speech'?'Ich habe nichts gehört. Versuch es noch einmal oder tippe es ein.'
-   :'Die Spracherkennung ist gerade nicht verfügbar. Tippen geht auch.';
-  agent.innerHTML=`<p class="voice-question">${message}</p>`;
-  typedForm.hidden=false;typeToggle.setAttribute('aria-expanded','true');
+  problem=e.error==='not-allowed'||e.error==='service-not-allowed'?T.errDenied:e.error==='no-speech'?T.errSilent:T.errService;
+  setState('error');
  };
- recognition.onend=stopListening;
+ recognition.onend=()=>{if(state==='listening'&&!transcript)setState('idle');};
  recognition.start();
-});
+}
+function stopListening(){
+ if(recognition){try{recognition.stop();}catch(err){}}
+ if(transcript)handle();else setState('idle');
+}
+
+render();
 })();
