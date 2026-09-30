@@ -9,3 +9,6 @@ _archive-png/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Nur Ansichten zum Anschauen, gehoeren nicht ins Repo
+_ansichten/

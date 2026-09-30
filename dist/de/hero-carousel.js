@@ -1,6 +1,6 @@
 const heroSlides=[
  {slot:'Frühstück',src:'breakfast.webp',name:'Spiegelei auf Sauerteigbrot',description:'Kirschtomaten, Spinat und frische Kräuter.'},
- {slot:'Mittag',src:'steak.webp',name:'Steak mit Kartoffeln',description:'Ein sättigender Teller, mit etwas Grünem dazu.'},
+ {slot:'Mittag',src:'chickenpotato.webp',name:'Hähnchen mit Kartoffeln',description:'Brokkoli und Röstkartoffeln.'},
  {slot:'Abend',src:'stroganoff.webp',name:'Hähnchen-Stroganoff',description:'Nudeln und eine cremige Pilzsauce.'},
  {slot:'Snack',src:'snack.webp',name:'Banane & dunkle Schokolade',description:'Eine Kleinigkeit zwischendurch.'}
 ];

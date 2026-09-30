@@ -76,6 +76,7 @@ function mockInterpret(text){
  const vegetarian=vegan||/ (vegetarian|veggie|meat-free|no meat) /.test(t);
  if(vegetarian){
   if(vegan)p.breakfast='oats';
+  p.lunch='lentilpasta';
   p.dinner='teriyaki';
   p.notes.push('veg');
  }else if(/ (no fish|without fish|no salmon) /.test(t))p.dinner='teriyaki';
@@ -118,7 +119,9 @@ function factsList(){
  const s=demoState;
  const items=[['Days',s.days===1?'1 day':s.days+' days'],['People',s.people===1?'1 person':s.people+' people']];
  if(s.budget!==null)items.push(['Budget',money(s.budget)]);
- items.push(['Calories a day',s.calorieTarget+' kcal'],['Protein a day',s.proteinTarget+' g'],['Dinner',demoMeals[s.dinner].name]);
+ items.push(['Calories a day',s.calorieTarget+' kcal']);
+ if(s.proteinTarget!==null)items.push(['Protein a day',s.proteinTarget+' g']);
+ items.push(['Dinner',demoMeals[s.dinner].name]);
  return items.map(i=>'<li><span>'+i[0]+'</span><b>'+i[1]+'</b></li>').join('');
 }
 
@@ -126,7 +129,7 @@ function notesLine(p){
  const out=[];
  if(p.notes.indexOf('dinners')>=0)out.push('This demo always plans breakfast, lunch and dinner together.');
  if(p.notes.indexOf('snacks')>=0)out.push('Snacks are part of the app, not of this demo.');
- if(p.notes.indexOf('veg')>=0)out.push('Both lunches here contain meat, so only breakfast and dinner could be made meat-free.');
+ if(p.notes.indexOf('veg')>=0)out.push('Breakfast, lunch and dinner are all meat-free here.');
  return out.length?'<p class="vd-note">'+out.join(' ')+'</p>':'';
 }
 
