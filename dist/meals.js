@@ -50,7 +50,7 @@ const SB_INGREDIENTS = {
 const SB_MEALS = {
   // ---------- Frühstück / breakfast ----------
   skyrbowl: {
-    slot: 'meal', icon: 'dish', kcal: 255, protein: 24,
+    slot: 'meal', image: 'skyrbowl.webp', kcal: 255, protein: 24,
     name:   { en: 'Skyr with berries', de: 'Skyr mit Beeren' },
     option: { en: ['Skyr with berries', 'Light & high in protein'],
               de: ['Skyr mit Beeren', 'Leicht und proteinreich'] },
@@ -71,7 +71,7 @@ const SB_MEALS = {
     items: [['oats', 80], ['banana', 120], ['berries', 100]]
   },
   pbporridge: {
-    slot: 'meal', icon: 'dish', kcal: 620, protein: 21,
+    slot: 'meal', image: 'pbporridge.webp', kcal: 620, protein: 21,
     name:   { en: 'Porridge with peanut butter', de: 'Porridge mit Erdnussmus' },
     option: { en: ['Porridge with peanut butter', 'Warm & filling'],
               de: ['Porridge mit Erdnussmus', 'Warm und sättigend'] },
@@ -80,7 +80,7 @@ const SB_MEALS = {
 
   // ---------- Mittagessen / lunch ----------
   saladbowl: {
-    slot: 'lunch', icon: 'dish', kcal: 420, protein: 38,
+    slot: 'lunch', image: 'saladbowl.webp', kcal: 420, protein: 38,
     name:   { en: 'Chicken salad bowl', de: 'Hähnchensalat-Bowl' },
     option: { en: ['Chicken salad bowl', 'Light, still plenty of protein'],
               de: ['Hähnchensalat-Bowl', 'Leicht, trotzdem viel Protein'] },
@@ -94,7 +94,7 @@ const SB_MEALS = {
     items: [['beef', 160], ['potatoes', 220], ['spinach', 100], ['oil', 8], ['parsley', 3], ['pepper', 0.2]]
   },
   lheat: {
-    slot: 'lunch', icon: 'heat', kcal: 620, protein: 26,
+    slot: 'lunch', image: 'lheat.webp', kcal: 620, protein: 26,
     name:   { en: 'Lasagne to heat', de: 'Lasagne zum Erhitzen' },
     option: { en: ['Lasagne to heat', 'Chilled ready meal, no cooking'],
               de: ['Lasagne erhitzen', 'Fertiggericht, kein Kochen'] },
@@ -108,7 +108,7 @@ const SB_MEALS = {
     items: [['chicken', 180], ['noodles', 65], ['mushrooms', 100], ['onion', 40], ['cream', 70], ['oil', 5], ['parsley', 3], ['pepper', 0.2]]
   },
   ragu: {
-    slot: 'lunch', icon: 'dish', kcal: 880, protein: 48,
+    slot: 'lunch', image: 'ragu.webp', kcal: 880, protein: 48,
     name:   { en: 'Pasta with beef ragù', de: 'Nudeln mit Rinderragout' },
     option: { en: ['Pasta with beef ragù', 'Hearty, for a high target'],
               de: ['Nudeln mit Rinderragout', 'Herzhaft, für hohe Ziele'] },
@@ -117,7 +117,7 @@ const SB_MEALS = {
 
   // ---------- Abendessen / dinner ----------
   soup: {
-    slot: 'dinner', icon: 'dish', kcal: 430, protein: 12,
+    slot: 'dinner', image: 'soup.webp', kcal: 430, protein: 12,
     name:   { en: 'Vegetable soup with bread', de: 'Gemüsesuppe mit Brot' },
     option: { en: ['Vegetable soup with bread', 'A light evening'],
               de: ['Gemüsesuppe mit Brot', 'Ein leichter Abend'] },
@@ -145,7 +145,7 @@ const SB_MEALS = {
     items: []
   },
   salmonpasta: {
-    slot: 'dinner', icon: 'dish', kcal: 950, protein: 47,
+    slot: 'dinner', image: 'salmonpasta.webp', kcal: 950, protein: 47,
     name:   { en: 'Baked salmon pasta', de: 'Lachs-Nudelauflauf' },
     option: { en: ['Baked salmon pasta', 'Hearty, for a high target'],
               de: ['Lachs-Nudelauflauf', 'Herzhaft, für hohe Ziele'] },
@@ -161,7 +161,7 @@ const SB_MEALS = {
     items: []
   },
   skyrsnack: {
-    slot: 'snack', icon: 'dish', kcal: 150, protein: 17,
+    slot: 'snack', image: 'skyrsnack.webp', kcal: 150, protein: 17,
     name:   { en: 'Skyr with berries', de: 'Skyr mit Beeren' },
     option: { en: ['Skyr with berries', 'Small, mostly protein'], de: ['Skyr mit Beeren', 'Klein, vor allem Protein'] },
     items: [['skyr', 150], ['berries', 50]]
@@ -173,7 +173,7 @@ const SB_MEALS = {
     items: [['banana', 120], ['chocolate', 25]]
   },
   nutsnack: {
-    slot: 'snack', icon: 'dish', kcal: 300, protein: 8,
+    slot: 'snack', image: 'nutsnack.webp', kcal: 300, protein: 8,
     name:   { en: 'A handful of nuts', de: 'Eine Handvoll Nüsse' },
     option: { en: ['A handful of nuts', 'The biggest step'], de: ['Eine Handvoll Nüsse', 'Der größte Schritt'] },
     items: [['nuts', 45]]
