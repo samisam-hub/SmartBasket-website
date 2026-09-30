@@ -18,7 +18,7 @@ const LANG='de-DE';
 const T={
  eyebrow:'SAG ES EINFACH',
  headline:'Sag SmartBasket, was du brauchst.',
- lead:'Ein Satz genügt: wie viele ihr seid, für wie viele Tage, worauf du achtest und was es kosten darf. Den Rest rechnet die Demo aus und fragt nur nach, wenn etwas Wichtiges fehlt.',
+ lead:'Ein Satz genügt: Sag, wie viele ihr seid, welche Ziele du hast und was es kosten darf. Diese Website-Demo berechnet einen Einkauf für drei Tage; fünf und sieben Tage gibt es in der App.',
  cta:'Sag SmartBasket, was du brauchst',
  close:'Schließen',
  hint:'Sag zum Beispiel',
@@ -103,10 +103,6 @@ function clarification(p){
   message:'Wie viele Personen esst ihr?',
   options:[{label:'Nur ich',apply(){p.people=1;}},{label:'Zu zweit',apply(){p.people=2;}}]
  };
- if(p.days!==null&&p.days>7)return {
-  message:'Die Demo plant höchstens sieben Tage am Stück. Nehme ich sieben?',
-  options:[{label:'Sieben Tage',apply(){p.days=7;}},{label:'Drei Tage',apply(){p.days=3;}}]
- };
  return null;
 }
 
@@ -131,6 +127,7 @@ function factsList(){
 
 function notesLine(p){
  const out=[];
+ if(p.days!==null&&p.days!==3)out.push('Die Website-Demo berechnet immer einen Einkauf für drei Tage; fünf und sieben Tage gibt es in der App.');
  if(p.notes.indexOf('dinners')>=0)out.push('Diese Demo plant immer Frühstück, Mittag- und Abendessen zusammen.');
  if(p.notes.indexOf('snacks')>=0)out.push('Snacks gehören zur App, nicht zu dieser Demo.');
  if(p.notes.indexOf('veg')>=0)out.push('Frühstück, Mittag- und Abendessen sind hier alle fleischlos.');
@@ -200,7 +197,6 @@ function setState(next){state=next;render();}
 
 function clampToDemo(p){
  if(p.people!==null)p.people=Math.min(2,Math.max(1,p.people));
- if(p.days!==null)p.days=Math.min(7,Math.max(1,p.days));
  if(p.calorieTarget!==null&&(p.calorieTarget<1||p.calorieTarget>10000))p.calorieTarget=null;
  if(p.proteinTarget!==null&&(p.proteinTarget<1||p.proteinTarget>1000))p.proteinTarget=null;
  if(p.budget!==null&&(p.budget<1||p.budget>10000))p.budget=null;
@@ -209,7 +205,7 @@ function clampToDemo(p){
 function apply(p){
  clampToDemo(p);
  if(p.people!==null)demoState.people=p.people;
- if(p.days!==null)demoState.days=p.days;
+ demoState.days=3;
  if(p.budget!==null)demoState.budget=p.budget;
  if(p.calorieTarget!==null)demoState.calorieTarget=p.calorieTarget;
  if(p.proteinTarget!==null)demoState.proteinTarget=p.proteinTarget;

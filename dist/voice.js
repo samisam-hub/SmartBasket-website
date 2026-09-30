@@ -18,7 +18,7 @@ const LANG='en-US';
 const T={
  eyebrow:'START BY SAYING IT',
  headline:'Tell SmartBasket what you need.',
- lead:'One sentence is enough: how many of you, how many days, what matters and what it may cost. The demo works out the rest and only asks back when something important is missing.',
+ lead:'One sentence is enough: tell us who is eating, your goals and your budget. This website demo estimates a three-day basket; five and seven days are available in the app.',
  cta:'Tell SmartBasket what you need',
  close:'Close',
  hint:'Say something like',
@@ -98,10 +98,6 @@ function clarification(p){
   message:'How many of you are eating?',
   options:[{label:'Just me',apply(){p.people=1;}},{label:'Two of us',apply(){p.people=2;}}]
  };
- if(p.days!==null&&p.days>7)return {
-  message:'The demo plans up to seven days at a time. Shall I use seven?',
-  options:[{label:'Seven days',apply(){p.days=7;}},{label:'Three days',apply(){p.days=3;}}]
- };
  return null;
 }
 
@@ -127,6 +123,7 @@ function factsList(){
 
 function notesLine(p){
  const out=[];
+ if(p.days!==null&&p.days!==3)out.push('The website demo always estimates a three-day basket; five and seven days are available in the app.');
  if(p.notes.indexOf('dinners')>=0)out.push('This demo always plans breakfast, lunch and dinner together.');
  if(p.notes.indexOf('snacks')>=0)out.push('Snacks are part of the app, not of this demo.');
  if(p.notes.indexOf('veg')>=0)out.push('Breakfast, lunch and dinner are all meat-free here.');
@@ -196,7 +193,6 @@ function setState(next){state=next;render();}
 
 function clampToDemo(p){
  if(p.people!==null)p.people=Math.min(2,Math.max(1,p.people));
- if(p.days!==null)p.days=Math.min(7,Math.max(1,p.days));
  if(p.calorieTarget!==null&&(p.calorieTarget<1||p.calorieTarget>10000))p.calorieTarget=null;
  if(p.proteinTarget!==null&&(p.proteinTarget<1||p.proteinTarget>1000))p.proteinTarget=null;
  if(p.budget!==null&&(p.budget<1||p.budget>10000))p.budget=null;
@@ -205,7 +201,7 @@ function clampToDemo(p){
 function apply(p){
  clampToDemo(p);
  if(p.people!==null)demoState.people=p.people;
- if(p.days!==null)demoState.days=p.days;
+ demoState.days=3;
  if(p.budget!==null)demoState.budget=p.budget;
  if(p.calorieTarget!==null)demoState.calorieTarget=p.calorieTarget;
  if(p.proteinTarget!==null)demoState.proteinTarget=p.proteinTarget;
