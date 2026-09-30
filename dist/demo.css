@@ -55,3 +55,5 @@
 
 .goal-days{margin:20px 0}.goal-days>strong{display:block;font-size:15px;margin-bottom:10px}.day-options{display:flex;gap:10px;flex-wrap:wrap}.day-option{display:grid;gap:2px;min-width:110px;padding:10px 16px;border:1px solid #dccbbb;border-radius:10px;background:var(--paper);font-size:16px;font-weight:700;line-height:1.3}.day-option small{font-size:12px;font-weight:500}.day-current{background:#f9e6d5;border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.day-app{color:var(--muted);background:#f7f4f0}.goal-days p{margin:10px 0 0!important;font-size:13px!important}
 @media(max-width:480px){.day-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.day-option{min-width:0;padding:9px 7px;font-size:14px}.day-option small{font-size:11px}}
+
+.demo-invite{margin-top:22px;padding:24px;background:#f4e5d7;border-radius:16px}.demo-invite h3{margin:0 0 8px}.demo-invite p{max-width:55ch;color:var(--muted);font-size:15px}.demo-invite .button{gap:12px}@media(max-width:480px){.demo-invite{padding:20px}.demo-invite .button{font-size:14px;padding:13px 16px}}
