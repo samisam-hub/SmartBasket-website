@@ -7,7 +7,7 @@ function demoBasket(state){
  return [...combined.values()].map((r,index)=>{const needed=Math.round(r.needed*100)/100,used=state.pantry&&index===0?needed:0,packs=Math.ceil((needed-used)/r.size);return {...r,needed,used,packs,cost:packs*r.price,left:Math.round((packs*r.size-(needed-used))*100)/100};});
 }
 const demo=document.createElement('section');demo.id='planning-demo';demo.className='planning-demo section';
-demo.innerHTML=`<div class="eyebrow">TRY THE FLOW</div><h2>Three meals.<br>One thoughtful basket.</h2><p>Make a choice. Watch your ingredients, basket and pantry update.</p><div class="demo-shell"><nav class="demo-tabs" aria-label="Planning demo steps"><button data-step="0">01 <span>Plan your meals</span></button><button data-step="1">02 <span>Build the basket</span></button><button data-step="2">03 <span>Use your pantry</span></button></nav><div class="demo-goals"><div><div class="eyebrow">YOUR DAILY GOALS · PER PERSON</div><h3>Start with your targets.</h3><p>See how breakfast, lunch and dinner contribute. This demo covers breakfast, lunch and dinner; snacks are part of the app. Portions stay fixed here.</p></div><fieldset class="goal-people"><legend>Who's eating?</legend><div class="demo-choice"><button data-people="1" aria-pressed="true">Just me</button><button data-people="2" aria-pressed="false">Two of us</button></div></fieldset><div class="goal-inputs"><label for="calorie-target">Calorie target <span>kcal / day</span><input id="calorie-target" type="number" min="1" max="10000" step="1" value="1500" inputmode="numeric" aria-describedby="goal-help"></label><label for="protein-target">Protein target <span>g / day</span><input id="protein-target" type="number" min="1" max="1000" step="1" value="100" inputmode="numeric" aria-describedby="goal-help"></label></div><p id="goal-help">Enter your own daily targets. The same targets apply to each person in this example.</p><button type="button" class="demo-suggest" id="suggest-plan">Suggest a fitting plan</button><p class="suggest-note" id="suggest-note"></p><div id="goal-coverage" aria-live="polite"></div><div id="live-basket-cost" class="live-basket-cost" aria-live="polite"></div></div><div id="demo-panel"></div><div class="demo-bottom"><button class="demo-back">Back</button><p id="demo-progress" aria-live="polite"></p><button class="button demo-next">See the basket →</button></div></div><p class="demo-disclaimer">Interactive example, not a live order. Equal portions are used here to keep the demonstration simple. Nutrition and package prices are illustrative estimates. Nothing is saved to your account.</p>`;
+demo.innerHTML=`<div class="eyebrow">TRY THE FLOW</div><h2>Three meals.<br>One thoughtful basket.</h2><p>Make a choice. Watch your ingredients, basket and pantry update.</p><div class="demo-shell"><nav class="demo-tabs" aria-label="Planning demo steps"><button data-step="0">01 <span>Plan your meals</span></button><button data-step="1">02 <span>Build the basket</span></button><button data-step="2">03 <span>Use your pantry</span></button></nav><div class="demo-goals"><div><div class="eyebrow">YOUR DAILY GOALS · PER PERSON</div><h3>Start with your targets.</h3><p>See how breakfast, lunch and dinner contribute. This demo covers breakfast, lunch and dinner; snacks are part of the app. Portions stay fixed here.</p></div><fieldset class="goal-people"><legend>Who's eating?</legend><div class="demo-choice"><button data-people="1" aria-pressed="true">Just me</button><button data-people="2" aria-pressed="false">Two of us</button></div></fieldset><div class="goal-inputs"><label for="calorie-target">Calorie target <span>kcal / day</span><select id="calorie-target" aria-describedby="goal-help">${SB_CAL_STEPS.map(v=>'<option value="'+v+'"'+(v===1500?' selected':'')+'>'+v+' kcal</option>').join('')}</select></label><label for="protein-target">Protein target <span>g / day</span><input id="protein-target" type="number" min="1" max="1000" step="1" value="100" inputmode="numeric" aria-describedby="goal-help"></label></div><p id="goal-help">Enter your own daily targets. The same targets apply to each person in this example.</p><button type="button" class="demo-suggest" id="suggest-plan">Suggest a fitting plan</button><p class="suggest-note" id="suggest-note"></p><div id="goal-coverage" aria-live="polite"></div><div id="live-basket-cost" class="live-basket-cost" aria-live="polite"></div></div><div id="demo-panel"></div><div class="demo-bottom"><button class="demo-back">Back</button><p id="demo-progress" aria-live="polite"></p><button class="button demo-next">See the basket →</button></div></div><p class="demo-disclaimer">Interactive example, not a live order. Equal portions are used here to keep the demonstration simple. Nutrition and package prices are illustrative estimates. Nothing is saved to your account.</p>`;
 document.querySelector('.app-section').before(demo);
 const euro=n=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).format(n);
 // Shown only once a spoken request named a budget.
@@ -57,8 +57,30 @@ demo.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)retur
   });
  }
 });
-demo.addEventListener('change',e=>{if(e.target.id==='use-pantry'){demoState.pantry=e.target.checked;renderDemo('#use-pantry');}});
+demo.addEventListener('change',e=>{
+ if(e.target.id==='use-pantry'){demoState.pantry=e.target.checked;renderDemo('#use-pantry');}
+ else if(e.target.id==='calorie-target'){
+  demoState.calorieTarget=Number(e.target.value);
+  const best=sbBestPlan(demoState,demoMeals);
+  if(best){demoState.meal=best.meal;demoState.lunch=best.lunch;demoState.dinner=best.dinner;demoState.pantry=false;}
+  renderDemo('#calorie-target');
+ }
+});
+// Haelt die Auswahlliste und demoState.calorieTarget zusammen. Ein Wert, der nicht in der
+// Liste steht (etwa aus der Spracheingabe), wird an der passenden Stelle eingehaengt.
+function sbSyncCalorieSelect(){
+ const sel=demo.querySelector('#calorie-target');if(!sel||!sel.options)return;
+ const v=demoState.calorieTarget;if(v===null||v===undefined)return;
+ const vorhanden=Array.prototype.some.call(sel.options,o=>Number(o.value)===v);
+ if(!vorhanden){
+  const o=document.createElement('option');o.value=String(v);o.textContent=v+' kcal';
+  const dahinter=Array.prototype.find.call(sel.options,x=>Number(x.value)>v);
+  sel.insertBefore(o,dahinter||null);
+ }
+ if(sel.value!==String(v))sel.value=String(v);
+}
 function renderCoverage(){
+ sbSyncCalorieSelect();
  const m=demoMeals[demoState.meal],l=demoMeals[demoState.lunch],d=demoMeals[demoState.dinner];
  const cells=[['Calories',m.kcal+l.kcal+d.kcal,demoState.calorieTarget,'kcal'],['Protein',m.protein+l.protein+d.protein,demoState.proteinTarget,'g']];
  demo.querySelector('#goal-coverage').innerHTML=cells.map(([label,value,target,unit])=>{

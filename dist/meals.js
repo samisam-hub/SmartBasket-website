@@ -6,6 +6,9 @@
 // Amounts are per person and per day. Pack size and price belong to the
 // ingredient, so the same ingredient is always priced the same way.
 
+// Auswahlwerte fuer das Kalorienziel. 1500 ist die Vorgabe.
+const SB_CAL_STEPS = [1100, 1300, 1500, 1700, 1900, 2100, 2300, 2500];
+
 const SB_INGREDIENTS = {
   bread:     { en: 'Sourdough bread',            de: 'Sauerteigbrot',           size: 500,  price: 2.8 },
   eggs:      { en: 'Eggs (edible mass)',         de: 'Eier (essbarer Anteil)',  size: 300,  price: 2.4 },
