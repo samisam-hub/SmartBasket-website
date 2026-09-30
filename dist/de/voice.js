@@ -123,7 +123,9 @@ function factsList(){
  const s=demoState;
  const items=[['Tage',s.days===1?'1 Tag':s.days+' Tage'],['Personen',s.people===1?'1 Person':s.people+' Personen']];
  if(s.budget!==null)items.push(['Budget',money(s.budget)]);
- items.push(['Kalorien pro Tag',s.calorieTarget+' kcal'],['Protein pro Tag',s.proteinTarget+' g'],['Abendessen',demoMeals[s.dinner].name]);
+ items.push(['Kalorien pro Tag',s.calorieTarget+' kcal']);
+ if(s.proteinTarget!==null)items.push(['Protein pro Tag',s.proteinTarget+' g']);
+ items.push(['Abendessen',demoMeals[s.dinner].name]);
  return items.map(i=>'<li><span>'+i[0]+'</span><b>'+i[1]+'</b></li>').join('');
 }
 

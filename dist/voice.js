@@ -119,7 +119,9 @@ function factsList(){
  const s=demoState;
  const items=[['Days',s.days===1?'1 day':s.days+' days'],['People',s.people===1?'1 person':s.people+' people']];
  if(s.budget!==null)items.push(['Budget',money(s.budget)]);
- items.push(['Calories a day',s.calorieTarget+' kcal'],['Protein a day',s.proteinTarget+' g'],['Dinner',demoMeals[s.dinner].name]);
+ items.push(['Calories a day',s.calorieTarget+' kcal']);
+ if(s.proteinTarget!==null)items.push(['Protein a day',s.proteinTarget+' g']);
+ items.push(['Dinner',demoMeals[s.dinner].name]);
  return items.map(i=>'<li><span>'+i[0]+'</span><b>'+i[1]+'</b></li>').join('');
 }
 
