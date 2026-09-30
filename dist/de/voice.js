@@ -81,6 +81,7 @@ function mockInterpret(text){
  const vegetarisch=vegan||/ (vegetarisch|fleischlos|kein fleisch|ohne fleisch) /.test(t);
  if(vegetarisch){
   if(vegan)p.breakfast='oats';
+  p.lunch='lentilpasta';
   p.dinner='teriyaki';
   p.notes.push('veg');
  }else if(/ (kein fisch|keinen fisch|ohne fisch|kein lachs) /.test(t))p.dinner='teriyaki';
@@ -130,7 +131,7 @@ function notesLine(p){
  const out=[];
  if(p.notes.indexOf('dinners')>=0)out.push('Diese Demo plant immer Frühstück, Mittag- und Abendessen zusammen.');
  if(p.notes.indexOf('snacks')>=0)out.push('Snacks gehören zur App, nicht zu dieser Demo.');
- if(p.notes.indexOf('veg')>=0)out.push('Beide Mittagessen enthalten hier Fleisch, deshalb konnten nur Frühstück und Abendessen fleischlos werden.');
+ if(p.notes.indexOf('veg')>=0)out.push('Frühstück, Mittag- und Abendessen sind hier alle fleischlos.');
  return out.length?'<p class="vd-note">'+out.join(' ')+'</p>':'';
 }
 

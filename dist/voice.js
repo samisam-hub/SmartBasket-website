@@ -76,6 +76,7 @@ function mockInterpret(text){
  const vegetarian=vegan||/ (vegetarian|veggie|meat-free|no meat) /.test(t);
  if(vegetarian){
   if(vegan)p.breakfast='oats';
+  p.lunch='lentilpasta';
   p.dinner='teriyaki';
   p.notes.push('veg');
  }else if(/ (no fish|without fish|no salmon) /.test(t))p.dinner='teriyaki';
@@ -126,7 +127,7 @@ function notesLine(p){
  const out=[];
  if(p.notes.indexOf('dinners')>=0)out.push('This demo always plans breakfast, lunch and dinner together.');
  if(p.notes.indexOf('snacks')>=0)out.push('Snacks are part of the app, not of this demo.');
- if(p.notes.indexOf('veg')>=0)out.push('Both lunches here contain meat, so only breakfast and dinner could be made meat-free.');
+ if(p.notes.indexOf('veg')>=0)out.push('Breakfast, lunch and dinner are all meat-free here.');
  return out.length?'<p class="vd-note">'+out.join(' ')+'</p>':'';
 }
 

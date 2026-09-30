@@ -1,6 +1,6 @@
 const heroSlides=[
  {slot:'Breakfast',src:'breakfast.webp',name:'Sunny-side-up sourdough',description:'Cherry tomatoes, spinach & fresh herbs.'},
- {slot:'Lunch',src:'steak.webp',name:'Steak with potatoes',description:'A satisfying plate, with a little green.'},
+ {slot:'Lunch',src:'chickenpotato.webp',name:'Chicken potato bowl',description:'Broccoli and roast potatoes.'},
  {slot:'Dinner',src:'stroganoff.webp',name:'Chicken Stroganoff',description:'Noodles & a creamy mushroom sauce.'},
  {slot:'Snack',src:'snack.webp',name:'Banana & dark chocolate',description:'A little something between meals.'}
 ];
