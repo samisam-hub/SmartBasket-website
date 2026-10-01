@@ -21,7 +21,7 @@ const SB_TOL = { protein: 0.10, vegetables: 0.15, fruit: 0.15, staples: 0.10, oi
 const SB_INGREDIENTS = {
   sourdough: { en: 'Sourdough bread',         de: 'Sauerteigbrot',          group: 'staples',    cal: 250, prot: 9,   size: 500,  price: 2.8 },
   bread:     { en: 'Wholemeal bread',         de: 'Vollkornbrot',           group: 'staples',    cal: 240, prot: 10,  size: 500,  price: 2.2 },
-  eggs:      { en: 'Eggs (edible mass)',      de: 'Eier (essbarer Anteil)', group: 'precise',    cal: 143, prot: 13,  size: 300,  price: 2.4 },
+  eggs:      { en: 'Eggs',                    de: 'Eier',                   group: 'precise',    cal: 143, prot: 13,  size: 300,  price: 2.4, each: 50 },
   ham:       { en: 'Chicken ham',             de: 'Hähnchenschinken',       group: 'protein',    cal: 110, prot: 20,  size: 200,  price: 2.2 },
   yogurt:    { en: 'Greek yogurt',            de: 'Griechischer Joghurt',   group: 'protein',    cal: 73,  prot: 10,  size: 500,  price: 1.9 },
   cherry:    { en: 'Cherry tomatoes',         de: 'Kirschtomaten',          group: 'vegetables', cal: 18,  prot: 0.9, size: 250,  price: 1.8 },
@@ -236,7 +236,7 @@ function sbBuildMeals(lang) {
       flexKcal += g.cal * amount / 100 * tol;
       flexProtein += g.prot * amount / 100 * tol;
       const unit = g.unit ? (typeof g.unit === 'string' ? g.unit : g.unit[lang]) : 'g';
-      return [g[lang], amount, g.size, g.price, unit, tol];
+      return [g[lang], amount, g.size, g.price, unit, tol, g.each];
     });
     // Gerichte ohne Zutatenliste tragen ihren Schätzwert selbst und lassen sich nicht portionieren.
     if (typeof m.kcal === 'number') { kcal = m.kcal; protein = m.protein; flexKcal = 0; flexProtein = 0; }
@@ -281,7 +281,7 @@ function sbApplyDial(meals, dial) {
     m.items = m.base.items.map(function (it) {
       // Angepasste Mengen auf ganze Gramm runden; feste Mengen (Gewürze) bleiben, wie sie sind.
       const amount = it[5] > 0 ? Math.round(it[1] * (1 + dial * it[5])) : it[1];
-      return [it[0], amount, it[2], it[3], it[4], it[5]];
+      return [it[0], amount, it[2], it[3], it[4], it[5], it[6]];
     });
   }
 }
