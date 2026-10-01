@@ -88,8 +88,10 @@ function renderCoverage(){
  demo.querySelector('#goal-coverage').innerHTML=cells.map(([label,value,target,unit])=>{
   if(target===null)return `<div class="coverage-item"><strong>${label}</strong><span>Add a protein target to see coverage.</span></div>`;
   const percent=Math.round(value/target*100),remaining=target-value;
-  return `<div class="coverage-item"><div><strong>${label}</strong><b>${percent}%</b></div><span>${value} / ${target} ${unit} per person</span><div class="coverage-track" aria-hidden="true"><div style="width:${Math.min(percent,100)}%"></div></div><small>${remaining>=0?`${remaining} ${unit} remaining for the day`:`${-remaining} ${unit} above the daily target`}</small></div>`;
+  return `<div class="coverage-item"><div><strong>${label}</strong><b>${percent}%</b></div><span>${value} / ${target} ${unit} per person</span><div class="coverage-track" aria-hidden="true"><div data-fill="${Math.min(percent,100)}"></div></div><small>${remaining>=0?`${remaining} ${unit} remaining for the day`:`${-remaining} ${unit} above the daily target`}</small></div>`;
  }).join('');
+ // Breite per CSSOM statt als style-Attribut: die CSP der Produktionsseite blockt Inline-Styles.
+ demo.querySelectorAll('#goal-coverage [data-fill]').forEach(b=>{b.style.width=b.dataset.fill+'%';});
  const note=demo.querySelector('#suggest-note');
  if(note){const kT=demoState.calorieTarget,sum=m.kcal+l.kcal+d.kcal+sn.kcal,gap=Math.round(Math.abs(sum-kT));
   note.textContent=!kT?'Enter a calorie target to get a suggestion.':gap<=kT*0.05?'This plan fits your calorie target.':`This plan is ${gap} kcal ${sum>kT?'above':'below'} your target.`;}
