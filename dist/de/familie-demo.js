@@ -253,10 +253,7 @@ function sbRender() {
     return '<button type="button" class="slot-btn" data-action="slot" data-value="' + s + '" data-key="slot-' + s + '" aria-pressed="' + (s === st.active[st.day]) + '"><b>' + SB_SLOTS[s].label + '</b><span class="' + (done ? '' : 'open') + '">' + sbEsc(status) + '</span></button>';
   }).join('');
   $('sb-editor').innerHTML = sbEditor(st) + '<p class="notice" aria-live="polite">' + sbEsc(st.notice) + '</p>';
-  var groups = c.perDay[st.day];
-  $('sb-amounts').innerHTML = '<h3>Mengen für ' + sbDay(st).label + '</h3>' + (groups.length ? groups.map(function (g) { return '<div class="qty-group"><b>' + sbEsc(g.title) + '</b>' + (g.note ? '<span class="muted">' + sbEsc(g.note) + '</span>' : '') + g.items.map(function (it) { return '<div class="qty-line"><span>' + sbEsc(it.name) + '</span><strong>' + sbEsc(it.qty) + '</strong></div>'; }).join('') + '</div>'; }).join('') : '<p class="muted">Noch kein Gericht gewählt. Sobald ein Gericht feststeht, erscheinen hier die Mengen.</p>');
   var packsTxt = function (r) { var it = SB_ITEMS[r.key]; return r.packs ? r.packs + ' × ' + sbPack(it) : 'Nichts zu kaufen, Vorrat reicht'; };
-  $('sb-short').innerHTML = '<h3>Einkaufsliste für Montag und Dienstag</h3>' + (c.rows.length ? c.rows.map(function (r) { return '<div class="qty-line"><span>' + sbEsc(SB_ITEMS[r.key].name) + '</span><strong>' + sbEsc(packsTxt(r)) + '</strong></div>'; }).join('') : '<p>Noch leer. Wähle ein Gericht aus.</p>') + '<div class="qty-line"><small>Geschätzter Betrag für diesen Einkauf</small></div><span class="big">' + sbEur(c.total) + '</span><a href="#einkauf">Ganze Einkaufsliste mit Vorrat ansehen</a>';
   $('sb-calc').innerHTML = (c.lines.length ? c.lines : [{ text: 'Im Moment ist kein Gericht gewählt.' }]).map(function (l) { return '<p class="calc-line">' + sbEsc(l.text) + '</p>'; }).join('');
   $('sb-notice2').textContent = st.notice;
   $('sb-total2').textContent = sbEur(c.total);
@@ -265,11 +262,14 @@ function sbRender() {
     var it = SB_ITEMS[r.key], p = prev[r.key], checked = !!st.checked[r.key], open = !!st.pantryOpen[r.key];
     var same = !!p && r.packs > 0 && r.need < p.need - 0.5 && r.packs === p.packs, hasLeft = r.packs > 0 && r.left >= (it.unit === 'Stück' ? 1 : 5);
     var val = st.pantryText[r.key] !== undefined ? st.pantryText[r.key] : String(st.pantry[r.key] || 0);
-    return '<div class="item' + (checked ? ' checked' : '') + '"><div class="item-top"><label><input type="checkbox" data-action="check" data-value="' + r.key + '" data-key="check-' + r.key + '"' + (checked ? ' checked' : '') + '><span class="names"><b>' + sbEsc(it.name) + '</b><strong>' + sbEsc(packsTxt(r)) + '</strong><span>' + (checked ? 'Abgehakt · liegt im Wagen' : 'Noch nicht abgehakt') + '</span></span></label><span class="price">' + sbEur(r.price) + '</span></div>'
-      + '<div class="facts"><span>Benötigt: ' + sbEsc(sbQty(r.need, it.unit)) + '</span>' + (r.used > 0 ? '<span>Vorrat berücksichtigt: ' + sbEsc(sbQty(r.used, it.unit)) + '</span>' : '') + (hasLeft ? '<span>Voraussichtlich übrig nach dem Kochen: ' + sbEsc(it.unit === 'Stück' ? Math.floor(r.left + 1e-6) + ' Stück' : sbQty(r.left, it.unit)) + '</span>' : '') + (same ? '<span class="same">Ihr braucht weniger, dieselbe Packung reicht weiterhin.</span>' : '') + '</div>'
+    var facts = ['Benötigt ' + sbQty(r.need, it.unit)];
+    if (r.used > 0) facts.push('Vorrat berücksichtigt: ' + sbQty(r.used, it.unit));
+    if (hasLeft) facts.push('Voraussichtlich übrig nach dem Kochen: ' + (it.unit === 'Stück' ? Math.floor(r.left + 1e-6) + ' Stück' : sbQty(r.left, it.unit)));
+    return '<div class="item' + (checked ? ' checked' : '') + '"><div class="item-top"><label><input type="checkbox" data-action="check" data-value="' + r.key + '" data-key="check-' + r.key + '"' + (checked ? ' checked' : '') + '><span class="names"><b>' + sbEsc(it.name) + '</b><strong>' + sbEsc(packsTxt(r)) + (checked ? ' · im Wagen' : '') + '</strong></span></label><span class="price">' + sbEur(r.price) + '</span></div>'
+      + '<p class="facts">' + sbEsc(facts.join(' · ')) + '</p>' + (same ? '<p class="facts same">Ihr braucht weniger, dieselbe Packung reicht weiterhin.</p>' : '')
       + '<div class="pantry">' + sbBtn('link-btn', 'pantry', r.key, 'Schon vorhanden?', ' aria-expanded="' + open + '" aria-controls="sb-pf-' + r.key + '"')
       + (open ? '<div class="pantry-form" id="sb-pf-' + r.key + '"><label for="sb-pantry-' + r.key + '">Vorhanden in ' + it.unit + '</label><input id="sb-pantry-' + r.key + '" type="number" min="0" step="' + (it.unit === 'Stück' ? 1 : 50) + '" inputmode="numeric" value="' + sbEsc(val) + '" data-pantry="' + r.key + '" data-key="pantryinput-' + r.key + '"><small>Ändert nur den Beispielvorrat dieser Demo.</small>' + (st.pantryErr[r.key] ? '<span class="field-error" role="alert">' + sbEsc(st.pantryErr[r.key]) + '</span>' : '') + '</div>' : '') + '</div></div>';
-  }).join('') : '<p class="noscript-box">Für die gewählten Mahlzeiten wird gerade nichts gebraucht.</p>';
+  }).join('') : '<p class="noscript-box">Noch leer. Sobald du ein Gericht wählst, erscheinen hier die Packungen.</p>';
   if (focusKey) { var el = document.querySelector('[data-key="' + focusKey + '"]'); if (el) el.focus({ preventScroll: true }); }
   else if (wasCard) { var cd = document.getElementById('sb-card'); if (cd) cd.focus({ preventScroll: true }); }
 }
