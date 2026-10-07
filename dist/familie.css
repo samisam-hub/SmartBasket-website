@@ -201,3 +201,9 @@ details.calc p{margin-top:10px;font-size:15px;line-height:1.6}
 .shop-list .stack,#sb-list{gap:8px}
 .deck{height:336px}
 .card .txt span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.cards.with-shots li{padding:16px 16px 24px}
+.cards.with-shots h3,.cards.with-shots p{padding:0 8px}
+.app-shot{margin:0 0 6px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fffaf5}
+.app-shot img{display:block;width:100%;height:auto;aspect-ratio:780/730}
+.shots-note{margin-top:12px}
