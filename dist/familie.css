@@ -242,3 +242,12 @@ details.calc p{margin-top:10px;font-size:15px;line-height:1.6}
 .hero .hint::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--highlight);flex-shrink:0}
 .hero-art img{border-radius:var(--r-lg);box-shadow:var(--sh-md)}
 @media(max-width:700px){.hero .hint{font-size:13px;padding:8px 13px}}
+
+/* Das Vorrats-Formular erbte die Kopfzeilen-Regel für .item label. Deren
+   flex:1 1 200px ist als Breite gedacht; im senkrechten Formular wurde daraus
+   eine Höhe von 200px, und die Kachel wuchs beim Aufklappen auf das Dreifache. */
+.pantry-form{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:center;gap:6px 12px;padding:8px 0 2px}
+.pantry-form label{display:block;flex:0 0 auto;min-height:0;cursor:default;font-size:14px;font-weight:600}
+.pantry-form input{width:124px}
+.pantry-form small,.pantry-form .field-error{grid-column:1/-1;margin:0}
+@media(max-width:420px){.pantry-form{grid-template-columns:1fr}.pantry-form input{width:100%}}
