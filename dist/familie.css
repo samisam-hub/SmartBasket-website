@@ -1,4 +1,4 @@
-:root{--ink:#362B26;--muted:#5E5049;--line:#EADFD6;--soft:#F3EAE2;--cream:#FFFCF8;--blush:#FCEEDD;--brand:#AD5137;--brand-dark:#8A3F2A;--ok:#3F6B2E;--err:#8C2F1F}
+:root{--ink:#2B2D42;--muted:#56596F;--line:#E4E0D8;--soft:#F1EDE6;--cream:#F8F7F4;--blush:#FBEFE9;--brand:#4A7C59;--brand-dark:#3B6447;--highlight:#E07A5F;--ok:#3F6B2E;--err:#8C2F1F;--r-card:16px;--r-lg:24px;--sh-sm:0 1px 2px rgba(43,45,66,.06),0 2px 8px rgba(43,45,66,.05);--sh-md:0 4px 12px rgba(43,45,66,.07),0 12px 28px rgba(43,45,66,.07)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
@@ -207,3 +207,38 @@ details.calc p{margin-top:10px;font-size:15px;line-height:1.6}
 .app-shot{margin:0 0 6px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#fffaf5}
 .app-shot img{display:block;width:100%;height:auto;aspect-ratio:780/730}
 .shots-note{margin-top:12px}
+
+/* === Design-Auffrischung: Karten, Geräterahmen, Demo-Widget, Luft === */
+
+/* Mehr Luft pro Abschnitt, auf kleinen Schirmen weniger. */
+.section{padding:80px 0}
+@media(max-width:700px){.section{padding:48px 0}}
+
+/* Karten und Container: gleiche Rundung, abgestufte Schatten. */
+.panel,.total-box,.notice,.cards>li,.dark-panel{border-radius:var(--r-card);box-shadow:var(--sh-sm)}
+.panel{border-radius:var(--r-lg);padding:22px}
+.cards>li{background:#fff;border:1px solid var(--line);padding:22px}
+.total-box{border-radius:var(--r-lg)}
+
+/* App-Ansichten als UI-Karte mit Kopfleiste. Die Bilder sind Ausschnitte
+   im Format 780x730, kein Telefonformat - ein Handyrahmen würde sie verzerren. */
+.app-shot{position:relative;border-radius:var(--r-lg);border:1px solid var(--line);background:#fff;box-shadow:var(--sh-md);padding:34px 10px 10px;overflow:hidden}
+.app-shot::before{content:"";position:absolute;inset:0 0 auto;height:34px;background:var(--soft);border-bottom:1px solid var(--line)}
+.app-shot::after{content:"";position:absolute;top:13px;left:14px;width:8px;height:8px;border-radius:50%;background:var(--highlight);box-shadow:14px 0 0 var(--line),28px 0 0 var(--line)}
+.app-shot img{border-radius:12px}
+
+/* Die Familien-Demo als zentrales Widget: eigener Rahmen, Akzentkante, kräftigerer Schatten. */
+#demo .demo{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:26px;margin-top:8px;overflow:hidden}
+#demo .demo::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--highlight)}
+#demo .demo .panel{box-shadow:none;border-color:var(--line)}
+#demo .panel-title{color:var(--brand)}
+@media(max-width:700px){#demo .demo{padding:18px;border-radius:var(--r-card)}}
+
+/* Hero: klare Rangfolge zwischen Haupt- und Nebenhandlung. */
+.hero .actions{align-items:center;gap:16px}
+.hero .pill-btn.primary{box-shadow:var(--sh-md)}
+.hero .pill-btn.secondary{min-height:52px;border-color:var(--line);background:#fff}
+.hero .hint{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px;color:var(--muted);box-shadow:var(--sh-sm)}
+.hero .hint::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--highlight);flex-shrink:0}
+.hero-art img{border-radius:var(--r-lg);box-shadow:var(--sh-md)}
+@media(max-width:700px){.hero .hint{font-size:13px;padding:8px 13px}}
