@@ -178,3 +178,13 @@
 .b2c-dots button[aria-current="step"]::before{width:24px;border-radius:4px;background:var(--ed-green)}
 .b2c .b2c-note{margin-top:8px;text-align:center}
 }
+
+/* ---------- Vorteile als Karussell auf dem Handy ---------- */
+@media (max-width:767px){
+.b2c .b2c-benefits{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:80%;gap:16px;
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;margin:0 -20px;padding:4px 20px 8px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.b2c .b2c-benefits::-webkit-scrollbar{display:none}
+.b2c .b2c-benefits li,.b2c .b2c-benefits li:first-child{scroll-snap-align:center;border:1px solid var(--ed-line);border-radius:20px;background:#fff;padding:28px 20px}
+.b2c .b2c-benefits:focus-visible{outline:2px solid var(--ed-green);outline-offset:4px}
+}
