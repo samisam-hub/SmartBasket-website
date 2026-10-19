@@ -188,3 +188,24 @@
 .b2c .b2c-benefits li,.b2c .b2c-benefits li:first-child{scroll-snap-align:center;border:1px solid var(--ed-line);border-radius:20px;background:#fff;padding:28px 20px}
 .b2c .b2c-benefits:focus-visible{outline:2px solid var(--ed-green);outline-offset:4px}
 }
+
+/* Konzept-Screens als SVG (900×1800): scharf in jeder Größe, Höhe bestimmt die Darstellung */
+.b2c-mock{mix-blend-mode:normal;aspect-ratio:1/2}
+.b2c-mock{height:400px}
+@media (max-width:1023px){.b2c-mock{height:340px}}
+@media (max-width:767px){.b2c-mock{height:340px}}
+
+/* ---------- Hero: aufgeräumtes Zweispalten-Layout ab 900px ---------- */
+@media (min-width:900px){
+.hero.b2c .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center;padding-top:64px;padding-bottom:88px}
+.b2c h1{font-size:clamp(46px,4.4vw,64px)}
+.hero.b2c .actions{flex-wrap:nowrap}
+.hero.b2c .pill-btn{padding:0 22px;white-space:nowrap}
+.hero.b2c .hero-art{align-items:stretch}
+.hero.b2c .hero-art picture{max-width:none}
+.hero.b2c figcaption{text-align:right}
+}
+@media (min-width:900px) and (max-width:1023px){
+.hero.b2c .wrap{gap:36px}
+.hero.b2c .actions{flex-wrap:wrap}
+}
