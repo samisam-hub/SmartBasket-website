@@ -88,3 +88,14 @@
 .partner-page .site-header .brand{display:inline-flex;align-items:center;min-height:44px}
 .partner-page .hero .hint{align-self:flex-start}
 @media(max-width:420px){.phase{padding:14px}.flow li{padding:12px;gap:12px}.phase-summary{padding:16px}}
+
+/* Schema statt Fließtext: Stichworte, zentriert, Pfeile zwischen den Schritten */
+.flow p b{display:block;font-size:17px;font-weight:800;margin-bottom:2px;color:var(--ink)}
+.flow p{font-size:15px;line-height:1.45;color:var(--muted)}
+@media(min-width:900px){
+.flow li{align-items:center;text-align:center;position:relative}
+.flow li>div{align-items:center}
+.flow li:not(:last-child)::after{content:"\2192";position:absolute;right:-13px;top:44px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:1}
+}
+.partner-page .hero .lead{max-width:30ch}
+.cards.wip li p{font-size:15px}
