@@ -1,0 +1,38 @@
+[
+  {
+    "file": "step-01-household.webp",
+    "dimensions": "1200x2400",
+    "source_crop": [
+      145,
+      78,
+      550,
+      930
+    ],
+    "native_detail": "cropped from a 1536x1024 source image and resampled; NOT native high-resolution detail",
+    "intended_use": "concept UI marketing mockup, not real app screenshot"
+  },
+  {
+    "file": "step-02-weekplan.webp",
+    "dimensions": "1200x2400",
+    "source_crop": [
+      550,
+      78,
+      974,
+      930
+    ],
+    "native_detail": "cropped from a 1536x1024 source image and resampled; NOT native high-resolution detail",
+    "intended_use": "concept UI marketing mockup, not real app screenshot"
+  },
+  {
+    "file": "step-03-shopping.webp",
+    "dimensions": "1200x2400",
+    "source_crop": [
+      968,
+      78,
+      1410,
+      930
+    ],
+    "native_detail": "cropped from a 1536x1024 source image and resampled; NOT native high-resolution detail",
+    "intended_use": "concept UI marketing mockup, not real app screenshot"
+  }
+]
