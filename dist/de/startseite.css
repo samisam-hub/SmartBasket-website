@@ -248,3 +248,9 @@
 .b2c .b2c-benefits li,.b2c .b2c-benefits li:first-child{align-items:center;text-align:center;padding:32px 24px}
 .b2c .b2c-benefits p{max-width:320px}
 }
+
+/* Demo-Gerichtsbilder (freigegeben): Teller rund und mit Abstand zeigen statt eng anzuschneiden */
+.b2c-page #demo .card .img,.b2c-page #demo .chosen .img{background:#F7F2EB;padding:14px 0}
+.b2c-page #demo .card img,.b2c-page #demo .chosen img{display:block;width:164px;height:164px;margin:0 auto;object-fit:cover;border-radius:50%;box-shadow:0 6px 18px rgba(31,41,55,.12)}
+.b2c-page #demo .deck{height:276px}
+.b2c-page #demo .deck.auto{height:auto}
