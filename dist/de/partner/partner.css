@@ -99,3 +99,83 @@
 }
 .partner-page .hero .lead{max-width:30ch}
 .cards.wip li p{font-size:15px}
+
+/* ---------- Nutzen, Dashboard, Datenschutz, Aufrufe ---------- */
+.section.tint-soft{background:var(--soft)}
+
+/* Dashboard-Mockup im Hero */
+.dash{margin:0;width:100%;max-width:440px;display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--sh-md)}
+.dash-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.dash-title{font-size:16px;font-weight:800;color:var(--ink)}
+.dash-area{font-size:13px;font-weight:700;color:var(--brand-dark);background:#E6F0E4;padding:3px 10px;border-radius:999px}
+.dash-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dash-kpis div{display:flex;flex-direction:column;padding:12px;border-radius:12px;background:var(--cream);border:1px solid var(--line)}
+.dash-kpis b{font-size:26px;font-weight:800;color:var(--ink);line-height:1.1}
+.dash-kpis span{font-size:13px;color:var(--muted)}
+.dash-callout{margin:0;padding:12px 14px;border-radius:12px;background:var(--blush);border-left:4px solid var(--highlight);font-size:15px;line-height:1.45;color:var(--ink)}
+.dash-block{display:flex;flex-direction:column;gap:8px}
+.dash-label{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.dash-bars{display:block;width:100%;height:auto}
+.dash-bars text{font-size:13px;font-family:inherit}
+.dash-bars .lbl text{fill:var(--ink)}
+.dash-bars .val text{fill:var(--muted);font-weight:700}
+.dash-bars .bar rect{fill:var(--brand)}
+.dash-seg{display:block;width:100%;height:14px}
+.dash-seg .s1,.dash-legend .s1::before{fill:var(--brand);background:var(--brand)}
+.dash-seg .s2,.dash-legend .s2::before{fill:#9DBBA5;background:#9DBBA5}
+.dash-seg .s3,.dash-legend .s3::before{fill:#D9C7B8;background:#D9C7B8}
+.dash-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted)}
+.dash-legend li{display:flex;align-items:center;gap:6px}
+.dash-legend li::before{content:"";width:10px;height:10px;border-radius:3px}
+.dash figcaption{font-size:12px;color:var(--muted);text-align:right}
+
+/* Nutzen */
+.benefits{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.benefits li{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:var(--r-card);background:#fff;border:1px solid var(--line);box-shadow:var(--sh-sm)}
+.benefits .ico-wrap{background:#E6F0E4;border-color:transparent;margin-bottom:6px}
+.benefits h3{font-size:20px;font-weight:800}
+.benefits p{font-size:16px;color:var(--muted)}
+.audience{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:22px}
+.audience-label{font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--brand-dark)}
+.audience ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.audience li{padding:7px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:15px;font-weight:700;color:var(--ink)}
+
+/* Kleiner Aufruf nach dem Ablauf */
+.inline-cta{margin-top:22px;font-size:17px;color:var(--muted)}
+.inline-cta a{display:inline-flex;align-items:center;min-height:44px;font-weight:800;color:var(--brand-dark)}
+
+/* Datenschutz */
+.privacy .wrap{display:flex;flex-direction:column;gap:22px}
+.privacy .eyebrow{color:#F4D8BF}
+.privacy h2{color:#fff;max-width:20ch}
+.badges{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.badges li{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r-card);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);font-size:17px;font-weight:700;color:#fff}
+.badges .ico{width:36px;height:36px}
+.badges .ico *{stroke:#F4D8BF}
+.badges .ico .f{fill:#F4D8BF}
+
+/* Abschluss */
+.pilot-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.pilot .pill-btn.secondary{border-color:rgba(255,255,255,.55);color:#fff}
+.pilot .pill-btn.secondary:hover{background:rgba(255,255,255,.1)}
+.pilot .contact{font-size:16px;color:#E9DED6}
+
+@media(max-width:700px){
+.dash{padding:16px}
+.dash-kpis b{font-size:22px}
+.benefits li{padding:18px}
+.flow li{padding:10px 12px}
+.ico-wrap{width:48px;height:48px;border-radius:14px}
+.ico-wrap .ico{width:30px;height:30px}
+.pilot-actions .pill-btn{width:100%}
+}
+.privacy h2{max-width:none}
+.pilot-actions{align-items:center}
+.pilot-actions .pill-btn{min-height:56px}
+@media(max-width:700px){
+.benefits{gap:10px}
+.benefits li{display:grid;grid-template-columns:48px 1fr;column-gap:14px;row-gap:2px;align-items:center;padding:14px}
+.benefits .ico-wrap{grid-row:span 2;margin:0}
+.benefits h3{font-size:18px}
+.benefits p{font-size:15px}
+}
