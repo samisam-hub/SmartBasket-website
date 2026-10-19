@@ -1,0 +1,90 @@
+/* Händlerseite (DE): baut auf familie.css auf. Ablaufschema, Vision, Zeitstrahl, Pilot-Aufruf. */
+
+.partner-page .hero h1{font-size:clamp(32px,5.2vw,60px);overflow-wrap:break-word;hyphens:auto}
+.partner-page .intro .eyebrow{align-self:flex-start}
+
+/* Symbole: dunkel, flach, Farbe nur über Klassen. */
+.ico{display:block;width:40px;height:40px;flex-shrink:0}
+.ico *{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ico .f{fill:var(--ink);stroke:none}
+
+/* Hero-Karte: die zwei Phasen in Kurzform. */
+.phase-summary{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px;padding:22px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--sh-md)}
+.phase-summary-title{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--brand-dark)}
+.phase-summary-item{display:flex;align-items:flex-start;gap:14px;padding:14px;border-radius:var(--r-card);background:var(--soft)}
+.phase-summary-item.consent{background:var(--blush);border:1px dashed #D9A58C}
+.phase-summary-item div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.phase-summary-item b{font-size:16px}
+.phase-summary-item span{font-size:15px;line-height:1.45;color:var(--muted)}
+
+/* Ablaufschema */
+.phase{padding:24px;border-radius:var(--r-lg);border:1px solid var(--line);background:#fff;box-shadow:var(--sh-sm)}
+.phase-consent{background:var(--blush);border:2px solid #E3B49E}
+.phase-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:18px}
+.phase-head h3{font-size:21px;font-weight:800}
+.phase-tag{padding:5px 12px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.3px}
+.phase-anon .phase-tag{background:var(--soft);color:var(--brand-dark)}
+.phase-consent .phase-tag{background:#fff;color:#8C3B25;border:1px solid #E3B49E}
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.flow li{display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:var(--r-card);background:var(--cream);border:1px solid var(--line)}
+.phase-consent .flow li{background:#fff}
+.flow li>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ico-wrap{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--line);flex-shrink:0}
+.phase-anon .ico-wrap{background:var(--soft);border-color:transparent}
+.flow .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:800}
+.flow p{font-size:16px;line-height:1.55;color:var(--ink)}
+.phase-gate{display:flex;align-items:center;gap:12px;margin:20px 0;font-size:15px;font-weight:800;color:#8C3B25}
+.phase-gate::before,.phase-gate::after{content:"";flex:1 1 20px;border-top:2px dashed #D9A58C}
+.phase-gate .ico{width:28px;height:28px}
+.phase-gate .ico *{stroke:#8C3B25}
+.promise{margin-top:22px;padding:18px 22px;border-radius:var(--r-card);background:#fff;border:1px solid var(--line);border-left:5px solid var(--brand);font-size:18px;line-height:1.5;font-weight:700;max-width:820px}
+
+/* Vision: sichtbar als Work in Progress. */
+.wip-badge{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1.5px dashed #B99C8B;background:#fff;font-size:14px;font-weight:700;color:var(--muted)}
+.wip-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--highlight);flex-shrink:0}
+.cards.wip>li{border:1.5px dashed #C9B3A5;box-shadow:none;background:rgba(255,255,255,.75)}
+.cards.wip h3{font-size:19px}
+.wip-note{margin-top:16px;font-size:15px;color:var(--muted);max-width:760px}
+
+/* Zeitstrahl: waagerecht ab 700px, sonst senkrecht. */
+.timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.timeline li{position:relative;display:flex;flex-direction:column;gap:8px;padding-top:40px;min-width:0}
+.timeline li::before{content:"";position:absolute;top:4px;left:0;width:22px;height:22px;border-radius:50%;background:var(--cream);border:3px solid #B99C8B;box-sizing:border-box;z-index:1}
+.timeline li::after{content:"";position:absolute;top:14px;left:30px;right:-18px;border-top:2px dashed #C9B3A5}
+.timeline li:last-child::after{display:none}
+.timeline li.now::before{background:var(--brand);border-color:var(--brand)}
+.timeline li.now::after{border-top-style:solid;border-top-color:var(--brand)}
+.tl-when{font-size:14px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--brand-dark)}
+.timeline h3{font-size:21px;font-weight:800}
+.timeline p{font-size:16px;line-height:1.6;color:var(--muted)}
+.tl-state{align-self:flex-start;margin-top:4px;padding:4px 10px;border-radius:999px;background:var(--soft);font-size:13px;font-weight:700;color:var(--muted)}
+.timeline li.now .tl-state{background:#E6F0E4;color:var(--ok)}
+
+/* Aufruf */
+.pilot{text-align:center}
+.pilot .wrap{max-width:860px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.pilot .eyebrow{color:#F4D8BF}
+.pilot p{font-size:18px;line-height:1.6;color:#E9DED6;max-width:62ch}
+.pilot .pill-btn.primary{margin-top:6px}
+.pilot .contact{font-size:17px;color:#fff}
+.pilot a:not(.pill-btn){display:inline-flex;align-items:center;min-height:44px;color:#F4D8BF;font-weight:700}
+.pilot .fine{font-size:15px}
+
+@media(max-width:700px){
+.phase{padding:18px}
+.flow{grid-template-columns:1fr;gap:10px}
+.flow li{flex-direction:row;align-items:flex-start;gap:14px;padding:14px}
+.ico-wrap{width:56px;height:56px;border-radius:16px}
+.ico-wrap .ico{width:34px;height:34px}
+.promise{font-size:17px;padding:16px 18px}
+.timeline{grid-template-columns:1fr;gap:28px}
+.timeline li{padding-top:0;padding-left:40px}
+.timeline li::before{top:2px}
+.timeline li::after{top:30px;left:10px;right:auto;bottom:-26px;border-top:0;border-left:2px dashed #C9B3A5}
+.timeline li.now::after{border-left-style:solid;border-left-color:var(--brand)}
+}
+
+/* Logo-Link als Bedienelement mindestens 44px hoch. */
+.partner-page .site-header .brand{display:inline-flex;align-items:center;min-height:44px}
+.partner-page .hero .hint{align-self:flex-start}
+@media(max-width:420px){.phase{padding:14px}.flow li{padding:12px;gap:12px}.phase-summary{padding:16px}}
