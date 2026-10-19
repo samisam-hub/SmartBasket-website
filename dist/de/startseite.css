@@ -209,3 +209,34 @@
 .hero.b2c .wrap{gap:36px}
 .hero.b2c .actions{flex-wrap:wrap}
 }
+
+/* ================= Desktop-Raster vereinheitlichen =================
+   Alle Abschnitte nutzen dasselbe Raster wie die (unveränderte) Demo:
+   max. 1200px, 16px Rand – so liegen alle linken Kanten auf einer Linie. */
+.b2c > .wrap,.b2c-header > .wrap,.b2c-page .site-footer > .wrap{max-width:1200px;padding-left:16px;padding-right:16px}
+@media (max-width:1023px){.b2c > .wrap,.b2c-header > .wrap,.b2c-page .site-footer > .wrap{padding-left:16px;padding-right:16px}}
+@media (max-width:767px){
+.b2c > .wrap,.b2c-header > .wrap,.b2c-page .site-footer > .wrap{padding-left:16px;padding-right:16px}
+.b2c .b2c-steps,.b2c .b2c-benefits{margin:0 -16px;padding-left:16px;padding-right:16px;scroll-padding:0 16px}
+}
+
+/* Vorteile linksbündig wie alle anderen Abschnitte */
+@media (min-width:768px){
+.b2c .b2c-benefits li{align-items:flex-start;text-align:left;padding:4px 40px 4px 32px}
+.b2c .b2c-benefits li:first-child{padding-left:0}
+.b2c .b2c-benefits p{max-width:none}
+}
+
+/* Alltag: Text und Kacheln beginnen auf derselben Linie, Schale unter dem Text */
+#alltag.b2c .b2c-bowl{margin:28px 0 0;width:136px}
+#alltag.b2c .b2c-features li:nth-child(-n+2){border-top:0;padding-top:0}
+
+/* FAQ: Überschrift links, Fragen rechts – gleiche Kanten wie der Rest */
+@media (min-width:1024px){
+#fragen.b2c > .wrap.faq{max-width:1200px;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);column-gap:80px;align-items:start}
+#fragen.b2c h2{text-align:left;margin:0}
+}
+@media (max-width:1023px){#fragen.b2c > .wrap.faq{max-width:1200px}#fragen.b2c h2{text-align:left}}
+
+/* Abschluss bleibt zentriert, aber auf dem Raster */
+.android.b2c > .wrap{max-width:760px}
