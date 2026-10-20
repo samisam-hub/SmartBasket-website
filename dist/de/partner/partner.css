@@ -370,3 +370,13 @@
 .partner-page{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }
 @media(max-width:360px){.partner-page .hero .actions{flex-direction:column;align-items:stretch}.partner-page .hero .actions a{width:100%;text-align:center}}
+
+/* Step 6: quieter roadmap, clearer current-vs-future status */
+.partner-page .timeline{gap:clamp(12px,2vw,20px)}
+.partner-page .timeline li{background:#fff;border:1px solid #D8E5D9;border-radius:18px;box-shadow:none;padding:clamp(18px,2vw,24px)}
+.partner-page .timeline li.now{border-color:#93C29D;background:#F3F9F0}
+.partner-page .timeline .tl-when{color:#075C35;font-weight:800}
+.partner-page .timeline h3{color:#163B2B;line-height:1.25}
+.partner-page .timeline p{color:#435D4C;line-height:1.5}
+.partner-page .timeline .tl-state{font-size:12px}
+@media(max-width:767px){.partner-page .timeline{gap:12px}.partner-page .timeline li{padding:18px}}
