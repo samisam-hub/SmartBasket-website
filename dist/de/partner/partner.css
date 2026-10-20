@@ -314,3 +314,15 @@
 .partner-page .partner-dashboard-visual{max-width:960px;margin-inline:auto}
 .partner-page .partner-benefit-visual{margin-top:28px}
 @media(max-width:767px){.partner-page .partner-visual img{border-radius:12px}.partner-page .partner-visual figcaption{font-size:12px}.partner-page .partner-story .intro,.partner-page .partner-dashboard-section .intro{max-width:100%}}
+
+/* Higher-contrast brand treatment: richer partner visuals */
+.partner-page .partner-story{background:#FFF3DE}
+.partner-page .partner-dashboard-section{background:#DCEED8}
+.partner-page .partner-visual img{border:1px solid #A7C8A9;box-shadow:0 22px 55px -28px rgba(5,72,38,.3)}
+.partner-page .partner-story .intro h2,.partner-page .partner-dashboard-section .intro h2{color:#075C35}
+.partner-page .partner-story .eyebrow,.partner-page .partner-dashboard-section .eyebrow{color:#E55B00}
+.partner-page .benefits li{border-color:#B4D2B7;box-shadow:0 16px 35px -26px rgba(5,72,38,.3)}
+.partner-page .dash-kpis>div{background:#E4F3DC;border-color:#B4D2B7}
+.partner-page .dash-callout{background:#FFE59C;border-left-color:#F2690D}
+.partner-page .pill-btn.primary{background:#075C35}
+.partner-page .pill-btn.primary:hover{background:#034729}
