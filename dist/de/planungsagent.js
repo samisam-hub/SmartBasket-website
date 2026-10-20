@@ -1,6 +1,6 @@
 /* SmartBasket guided planning prototype. Local state only; no AI/API, no persistence. */
 (()=>{'use strict';
-const root=document.getElementById('sb-agent');if(!root)return;
+const root=document.getElementById('sb-agent-wizard');const demoPanel=document.getElementById('sb-agent-demo');if(!root||!demoPanel)return;
 const steps=[
  {key:'people',question:'Für wie viele Personen kaufst du ein?',options:['1 Person','2 Personen','3–4 Personen','5 oder mehr']},
  {key:'days',question:'Für welchen Zeitraum möchtest du planen?',options:['2–3 Tage','5 Tage','7 Tage']},
@@ -22,15 +22,15 @@ const live=el('span','sb-agent-live');live.setAttribute('aria-live','polite');
 actions.append(back,next);body.append(progress,track,question,options,summary,actions,live);
 const shell=el('div','sb-agent-shell');shell.append(head,body);root.append(shell);
 function render(){
- const done=index===steps.length;progress.textContent=done?'Deine Angaben im Überblick':`Schritt ${index+1} von ${steps.length}`;
+ const done=index===steps.length;demoPanel.hidden=!done;progress.textContent=done?'Deine Angaben im Überblick':`Schritt ${index+1} von ${steps.length}`;
  fill.className='sb-agent-fill sb-agent-fill-'+(done?steps.length:index);
  options.replaceChildren();summary.replaceChildren();back.disabled=index===0;next.disabled=!done&&!answers[steps[index].key];
  if(done){
-  question.textContent='Deine Einkaufswünsche stehen fest.';
+  question.textContent='Jetzt deine Gerichte auswählen und Einkaufsliste erstellen.';
   const panel=el('div','sb-agent-summary');const dl=el('dl');
   for(const step of steps){dl.append(el('dt','',step.question),el('dd','',answers[step.key]||'–'))}
-  panel.append(dl);summary.append(panel,el('p','sb-agent-note','Dies ist eine Planungsvorschau, noch kein berechneter Warenkorb. Als Nächstes kannst du die bestehende SmartBasket-Demo ausprobieren und Mahlzeiten sowie Mengen anpassen.'));
-  const link=el('a','pill-btn secondary','Zur Einkaufsdemo ↓');link.href='#demo';summary.append(link);
+  panel.append(dl);summary.append(panel,el('p','sb-agent-note','Wähle jetzt unten deine Gerichte aus. Die eingebettete SmartBasket-Demo berechnet daraus automatisch die Einkaufsliste und Packungsmengen. Wichtig: Die Demo nutzt weiterhin einen Beispielhaushalt und Montag/Dienstag; deine Antworten oben werden noch nicht in diese Berechnung übernommen.'));
+  const link=el('a','pill-btn secondary','Gerichte auswählen und Einkaufsliste erstellen ↓');link.href='#demo';summary.append(link);
   next.textContent='Neu beginnen';next.disabled=false;
  }else{
   const step=steps[index];question.textContent=step.question;next.textContent=index===steps.length-1?'Zusammenfassung ansehen →':'Weiter →';
