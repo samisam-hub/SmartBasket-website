@@ -370,3 +370,13 @@
 .partner-page .partner-primary-flow .flow .num{background:#075C35}
 .partner-page .partner-primary-flow .phase-consent .flow .num{background:#A54D0C}
 @media(max-width:767px){.partner-page .partner-primary-flow .flow{grid-template-columns:1fr}.partner-page .partner-primary-flow .flow li{flex-direction:row;align-items:center;padding:15px}.partner-page .partner-primary-flow .flow li .ico-wrap{width:50px;height:50px;border-radius:13px}.partner-page .partner-primary-flow .flow li .ico{width:31px;height:31px}.partner-page .partner-primary-flow .phase{padding:18px}.partner-page .partner-primary-flow .phase-gate{margin:24px 0;text-align:center}}
+
+/* Step 3: unified card surfaces, retailer benefit hierarchy */
+.partner-page .benefits{gap:18px}
+.partner-page .benefits li{background:#fff;border:1px solid #C7DDC8;border-radius:20px;box-shadow:0 14px 35px -29px rgba(7,72,40,.32);padding:clamp(20px,2.4vw,28px)}
+.partner-page .benefits .ico-wrap{background:#E7F2E3;border:0;border-radius:15px;width:62px;height:62px}
+.partner-page .benefits .ico *{stroke:#075C35}
+.partner-page .benefits h3{font-size:clamp(19px,1.9vw,23px);letter-spacing:-.025em;line-height:1.22;color:#163B2B}
+.partner-page .benefits p{font-size:15px;line-height:1.6;color:#435D4C}
+.partner-page .timeline li{border-radius:20px}
+@media(max-width:767px){.partner-page .benefits{gap:12px}.partner-page .benefits li{padding:20px}.partner-page .benefits .ico-wrap{width:54px;height:54px}}
