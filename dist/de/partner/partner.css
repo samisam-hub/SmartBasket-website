@@ -357,3 +357,16 @@
 .partner-page .section:not(.dark) .intro p{color:#435D4C}
 .partner-page .privacy{background:#164A35}
 .partner-page .pilot{background:#075C35}
+
+/* Step 5: mobile readability, navigation anchors and safe-area CTA */
+@media(max-width:767px){
+.partner-page .section{scroll-margin-top:24px}
+.partner-page .partner-primary-flow .phase-head{align-items:flex-start;gap:10px}
+.partner-page .partner-primary-flow .phase-head h3{font-size:20px}
+.partner-page .partner-primary-flow .phase-tag{font-size:12px;line-height:1.35;white-space:normal}
+.partner-page .partner-primary-flow .flow li>div{flex:1;min-width:0}
+.partner-page .partner-primary-flow .flow p{font-size:15px;line-height:1.5}
+.partner-page .mobile-sticky-cta{padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+.partner-page{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:360px){.partner-page .hero .actions{flex-direction:column;align-items:stretch}.partner-page .hero .actions a{width:100%;text-align:center}}
