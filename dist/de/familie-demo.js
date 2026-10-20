@@ -274,10 +274,28 @@ function sbRender() {
   else if (wasCard) { var cd = document.getElementById('sb-card'); if (cd) cd.focus({ preventScroll: true }); }
 }
 
+function sbDownloadList() {
+  var rows = sbCalc(sbState).rows.filter(function (r) { return !sbState.excluded[r.key] && r.packs > 0; });
+  if (!rows.length) { sbState.notice = 'Wähle zuerst mindestens einen Artikel für deine Einkaufsliste aus.'; sbRender(); return; }
+  var total = rows.reduce(function (sum, r) { return sum + r.price; }, 0);
+  var lines = ['SmartBasket – Einkaufsliste', 'Beispielplanung: Montag und Dienstag', '', 'Artikel;Packungen;Packungsgröße;Geschätzter Preis (EUR)'];
+  function cell(value) { return '"' + String(value).replace(/"/g, '""') + '"'; }
+  rows.forEach(function (r) {
+    var it = SB_ITEMS[r.key];
+    lines.push([it.name, r.packs, sbPack(it), r.price.toFixed(2).replace('.', ',')].map(cell).join(';'));
+  });
+  lines.push('', 'Geschätzte Summe (EUR);;;' + cell(total.toFixed(2).replace('.', ',')));
+  var blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = 'smartbasket-einkaufsliste.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+}
+
 function sbInit() {
   var root = document.getElementById('main');
   if (!root || !document.getElementById('sb-demo')) return;
-  root.addEventListener('click', function (e) {
+  root.addEventListener('click', function (e) {\n    if (e.target.closest('#sb-download-list')) { e.preventDefault(); sbDownloadList(); return; }
     var b = e.target.closest('[data-action]');
     if (!b || b.disabled || b.tagName === 'INPUT') return;
     var fn = SB_ACTIONS[b.getAttribute('data-action')];
