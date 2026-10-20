@@ -23,7 +23,7 @@ actions.append(back,next);body.append(progress,track,question,options,summary,ac
 const shell=el('div','sb-agent-shell');shell.append(head,body);root.append(shell);
 function render(){
  const done=index===steps.length;progress.textContent=done?'Deine Angaben im Überblick':`Schritt ${index+1} von ${steps.length}`;
- fill.style.width=`${(done?1:index/steps.length)*100}%`;
+ fill.className='sb-agent-fill sb-agent-fill-'+(done?steps.length:index);
  options.replaceChildren();summary.replaceChildren();back.disabled=index===0;next.disabled=!done&&!answers[steps[index].key];
  if(done){
   question.textContent='Deine Einkaufswünsche stehen fest.';
