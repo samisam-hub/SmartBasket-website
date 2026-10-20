@@ -25,3 +25,12 @@
 .sb-agent .sb-agent-live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 @media(max-width:600px){.sb-agent .sb-agent-options{grid-template-columns:1fr}.sb-agent .sb-agent-summary dl{grid-template-columns:1fr;gap:4px}.sb-agent .sb-agent-summary dd{margin-bottom:12px}.sb-agent .sb-agent-head{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.sb-agent .sb-agent-fill{transition:none}}
+
+/* CSP-safe progress states */
+.sb-agent .sb-agent-fill-0{width:0%}
+.sb-agent .sb-agent-fill-1{width:16.67%}
+.sb-agent .sb-agent-fill-2{width:33.33%}
+.sb-agent .sb-agent-fill-3{width:50%}
+.sb-agent .sb-agent-fill-4{width:66.67%}
+.sb-agent .sb-agent-fill-5{width:83.33%}
+.sb-agent .sb-agent-fill-6{width:100%}
