@@ -296,3 +296,26 @@
 .b2c .b2c-quotes blockquote{margin:0 0 14px;font-family:var(--ed-serif);font-size:22px;line-height:1.4;color:var(--ed-text)}
 .b2c .b2c-quote-by{font-size:14px;color:var(--ed-muted);margin:0}
 @media (max-width:767px){.b2c .b2c-quotes li,.b2c .b2c-quotes li:first-child{border-left:0;padding:24px 0;border-top:1px solid var(--ed-line)}.b2c .b2c-quotes li:first-child{border-top:0;padding-top:0}}
+
+/* ---------- Inline-Beta-Formular im Abschluss ---------- */
+.android.b2c .b2c-beta-form{width:100%;max-width:620px;margin:8px auto 0;text-align:left;display:flex;flex-direction:column;gap:14px;scroll-margin-top:96px}
+.b2c-field label{display:block;font-size:14px;font-weight:600;color:#fff;margin-bottom:8px}
+.b2c-field-row{display:flex;gap:10px}
+.b2c-field-row input{flex:1 1 auto;min-width:0;height:54px;padding:0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:#fff;color:var(--ed-text);font:16px/1.2 var(--ed-sans)}
+.b2c-field-row input:focus-visible{outline:2px solid #F3C77A;outline-offset:2px}
+.b2c-field-row input[aria-invalid="true"]{border-color:#F3A38F;box-shadow:0 0 0 2px #F3A38F}
+.android.b2c .b2c-field-row .pill-btn{flex:0 0 auto;white-space:nowrap}
+.android.b2c .b2c-field-row .pill-btn[disabled]{opacity:.75;cursor:progress}
+.android.b2c .b2c-hint{margin:8px 0 0;font-size:13px;color:rgba(255,255,255,.75)}
+.b2c-consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:rgba(255,255,255,.85);cursor:pointer}
+.b2c-consent input{flex:0 0 auto;width:20px;height:20px;margin:1px 0 0;accent-color:#F3C77A}
+.b2c-consent input[aria-invalid="true"]{outline:2px solid #F3A38F;outline-offset:2px}
+.b2c-consent a,.b2c-status a{color:#F3C77A;font-weight:600}
+.b2c-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.android.b2c .b2c-status{margin:0;min-height:1.5em;font-size:14px;color:#fff}
+.android.b2c .b2c-status.is-ok{color:#CFEBD9;font-weight:600}
+.android.b2c .b2c-status.is-error{color:#FFD2C6}
+@media (max-width:767px){
+.b2c-field-row{flex-direction:column}
+.android.b2c .b2c-field-row .pill-btn{width:100%}
+}
