@@ -1,0 +1,4 @@
+{
+  "_hinweis": "Nur echte Rückmeldungen von Beta-Testerinnen und -Testern eintragen, mit deren Einwilligung (consent: true). Solange 'items' leer ist, bleibt der Abschnitt auf der Seite unsichtbar. Beispiel-Eintrag: {\"quote\": \"…\", \"name\": \"Vorname N.\", \"context\": \"Familie mit zwei Kindern\", \"consent\": true}",
+  "items": []
+}
