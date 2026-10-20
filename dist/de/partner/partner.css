@@ -302,3 +302,15 @@
 .partner-page .eyebrow{letter-spacing:.12em}
 .partner-page .timeline li.now::before{background:#0F6B3F;border-color:#0F6B3F}
 @media(max-width:767px){.partner-page .hero h1{max-width:17ch;font-size:clamp(2.45rem,9vw,3.6rem)}.partner-page .hero .wrap{gap:26px}.partner-page .dash{padding:18px}.partner-page .dash-kpis>div{padding:10px}}
+
+/* Visual assets integration: product story and dashboard showcase */
+.partner-page .partner-story{background:#FFF8F0}
+.partner-page .partner-dashboard-section{background:#F3F7F0}
+.partner-page .partner-story .intro,.partner-page .partner-dashboard-section .intro{max-width:780px}
+.partner-page .partner-story .intro p,.partner-page .partner-dashboard-section .intro p{max-width:66ch;color:#4B6254;line-height:1.65}
+.partner-page .partner-visual{margin:clamp(24px,4vw,46px) 0 0;max-width:100%}
+.partner-page .partner-visual img{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 20px 55px -40px rgba(15,65,40,.25)}
+.partner-page .partner-visual figcaption{margin-top:13px;color:#53685A;font-size:13px;line-height:1.5}
+.partner-page .partner-dashboard-visual{max-width:960px;margin-inline:auto}
+.partner-page .partner-benefit-visual{margin-top:28px}
+@media(max-width:767px){.partner-page .partner-visual img{border-radius:12px}.partner-page .partner-visual figcaption{font-size:12px}.partner-page .partner-story .intro,.partner-page .partner-dashboard-section .intro{max-width:100%}}
