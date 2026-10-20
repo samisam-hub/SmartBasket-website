@@ -337,3 +337,19 @@
 .partner-page .pilot-flow-future{margin-top:20px;padding:16px 20px;background:#FFF1D2;border-left:4px solid #F2690D;border-radius:10px;color:#34473A;line-height:1.55}
 @media(max-width:950px){.partner-page .pilot-flow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.partner-page .pilot-flow-steps{grid-template-columns:1fr;gap:12px}.partner-page .pilot-flow-steps li{padding:18px}.partner-page .pilot-flow-number{margin-bottom:12px}}
+
+/* Step 1: hero dashboard hierarchy — scoped, reversible */
+.partner-page .hero .dash{background:#fff;border:1px solid #B9D3BE;border-radius:24px;box-shadow:0 26px 60px -26px rgba(9,66,37,.3);gap:18px}
+.partner-page .hero .dash-top{align-items:center;padding-bottom:14px;border-bottom:1px solid #E0E9DF}
+.partner-page .hero .dash-title{font-size:clamp(16px,1.6vw,19px);letter-spacing:-.02em;color:#163B2B}
+.partner-page .hero .dash-area{background:#E7F1E5;border:1px solid #B8D4BB;color:#075C35;font-size:11px;letter-spacing:.01em}
+.partner-page .hero .dash-kpis{gap:12px}
+.partner-page .hero .dash-kpis>div{background:#F2F8EF;border:1px solid #C8DFC7;border-radius:14px;padding:18px 16px;gap:6px}
+.partner-page .hero .dash-kpis b{font-size:clamp(30px,3vw,40px);letter-spacing:-.045em;line-height:1;color:#075C35}
+.partner-page .hero .dash-kpis span{font-size:13px;color:#385746;line-height:1.4}
+.partner-page .hero .dash-callout{background:#FFF0C2;border-left:4px solid #F2690D;padding:15px 17px;color:#244332}
+.partner-page .hero .dash-label{color:#3D5C4A;font-size:11px;letter-spacing:.11em}
+.partner-page .hero .dash-bars .bar rect{fill:#0F6B3F}
+.partner-page .hero .dash-bars .val text{fill:#075C35;font-weight:800}
+.partner-page .hero .dash figcaption{font-size:11px;line-height:1.4;color:#52685A}
+@media(max-width:420px){.partner-page .hero .dash{padding:16px;gap:14px}.partner-page .hero .dash-kpis>div{padding:13px 11px}.partner-page .hero .dash-kpis b{font-size:28px}.partner-page .hero .dash-area{font-size:10px}}
