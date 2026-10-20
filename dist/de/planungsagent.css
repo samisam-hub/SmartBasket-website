@@ -34,3 +34,15 @@
 .sb-agent .sb-agent-fill-4{width:66.67%}
 .sb-agent .sb-agent-fill-5{width:83.33%}
 .sb-agent .sb-agent-fill-6{width:100%}
+
+/* Embedded existing demo: same shopping calculation, one unified journey */
+.sb-agent #sb-agent-demo[hidden]{display:none!important}
+.sb-agent .sb-agent-embedded{margin:18px auto 0;max-width:1100px;background:#fff;border:1px solid #C6DEC8;border-radius:24px;padding:clamp(16px,3vw,32px);box-shadow:0 22px 60px -42px rgba(10,75,44,.25)}
+.sb-agent .sb-agent-embedded>.intro{margin-bottom:24px}
+.sb-agent .sb-agent-embedded>.intro h2{font-size:clamp(23px,3vw,30px)}
+.sb-agent .sb-agent-embedded>.intro .lead{font-size:16px;line-height:1.55}
+.sb-agent .sb-agent-embedded .demo{max-width:100%;min-width:0}
+.sb-agent .sb-agent-embedded .demo-col{min-width:0}
+.sb-agent .sb-agent-embedded #sb-list{overflow-wrap:anywhere}
+.sb-agent .sb-agent-shell{max-width:1100px}
+@media(max-width:767px){.sb-agent .sb-agent-embedded{padding:16px;border-radius:18px}.sb-agent .sb-agent-embedded .demo{display:grid;grid-template-columns:minmax(0,1fr)}}
