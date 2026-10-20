@@ -287,7 +287,7 @@ function sbDownloadList() {
     lines.push([it.name, r.packs, sbPack(it), r.price.toFixed(2).replace('.', ',')].map(cell).join(';'));
   });
   lines.push('', 'Geschätzte Summe (EUR);;;' + cell(total.toFixed(2).replace('.', ',')));
-  var blob = new Blob(['\uFEFF' + lines.join('\\r\\n')], { type: 'text/csv;charset=utf-8' });
+  var blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
   var url = URL.createObjectURL(blob), a = document.createElement('a');
   a.href = url; a.download = 'smartbasket-einkaufsliste.csv';
   document.body.appendChild(a); a.click(); a.remove();
