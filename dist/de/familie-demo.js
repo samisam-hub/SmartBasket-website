@@ -156,6 +156,7 @@ var SB_ACTIONS = {
   day: function (v) { sbState.day = v; sbDrag = 0; sbRender(); },
   slot: function (v) { sbState.active[sbState.day] = v; if (sbState.day === 'tue') sbState.tueIntro = false; sbDrag = 0; sbRender(); },
   take: sbTake, reject: sbReject,
+  heat: function () { sbChange(function (st) { var m = sbCur(st); m.dish = 'lasagne'; m.skipped = false; m.choosing = false; m.rejected = []; m.own = null; m.ownOpen = false; }); },
   change: function () { sbChange(function (s) { var mm = sbCur(s), dk = SB_DECKS[s.active[s.day]]; mm.choosing = true; mm.rejected = []; mm.cand = (dk.indexOf(mm.dish) + 1) % dk.length; mm.dish = null; }); },
   restart: function () { sbChange(function (s) { var mm = sbCur(s); mm.rejected = []; mm.cand = 0; }, true); },
   skip: function () { sbChange(function (s) { var mm = sbCur(s); mm.skipped = true; mm.choosing = false; mm.dish = null; mm.own = null; mm.ownOpen = false; mm.present.mia = true; sbAdvance(s); }); },
@@ -204,12 +205,13 @@ function sbEditor(st) {
     h += '<div class="deck">' + (ni >= 0 && ni !== m.cand ? '<div class="card peek" aria-hidden="true"><div class="img"><img src="' + SB_DISHES[deck[ni]].img + '" alt="" width="280" height="230"></div></div>' : '');
     h += '<div class="card" id="sb-card" tabindex="0" role="group" aria-label="Vorschlag: ' + sbEsc(cand.name) + '. Pfeiltaste nach vorn nimmt das Gericht, Pfeiltaste zurück zeigt ein anderes.">' + sbCardInner(cand, cand.tag, false) + '</div></div>';
     h += sbSwipeButtons('Anderes Gericht', 'Dieses Gericht nehmen');
+    h += '<div class="row centered">' + sbBtn('small-btn accent', 'heat', null, 'Erhitzen · Fertiggericht wählen') + '</div>';
     h += '<p class="muted center">Wische die Karte oder nutze die Buttons. Bei ausgewählter Karte gehen auch die Pfeiltasten.</p><div class="row centered">' + sbBtn('small-btn quiet', 'skip', null, 'Diese Mahlzeit auslassen') + '</div>';
     return h + sbPeople(st, m, eaters, false);
   }
   var dish = SB_DISHES[m.dish], kind = isOut ? 'Auswärts' : dish.tag === 'Aufwärmen' ? 'Aufwärmen' : 'Familiengericht';
   h += '<div class="chosen">' + sbCardInner(dish, '✓ Gewählt · ' + kind, true) + '</div>';
-  h += '<div class="row centered">' + sbBtn('small-btn', 'change', null, 'Gericht ändern') + sbBtn('small-btn quiet', 'skip', null, 'Diese Mahlzeit auslassen') + '</div>';
+  h += '<div class="row centered">' + sbBtn('small-btn', 'change', null, 'Gericht ändern') + sbBtn('small-btn accent', 'heat', null, 'Erhitzen · Fertiggericht') + sbBtn('small-btn quiet', 'skip', null, 'Diese Mahlzeit auslassen') + '</div>';
   if (isOut) return h + '<p class="muted">Ihr esst auswärts. Für diese Mahlzeit wird nichts eingekauft.</p>';
   return h + sbPeople(st, m, eaters, true);
 }
