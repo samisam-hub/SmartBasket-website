@@ -15,16 +15,16 @@ const head=el('div','sb-agent-head');const hwrap=el('div');hwrap.append(el('h2',
 const body=el('div','sb-agent-body');const progress=el('div','sb-agent-progress');const track=el('div','sb-agent-track');const fill=el('div','sb-agent-fill');track.append(fill);
 const question=el('h3','sb-agent-question');question.id='sb-agent-question';
 const options=el('div','sb-agent-options');options.setAttribute('role','group');options.setAttribute('aria-labelledby',question.id);
-const summary=el('div');const actions=el('div','sb-agent-actions');
+const summary=el('div');const conversation=el('div','sb-agent-conversation');const actions=el('div','sb-agent-actions');
 const back=el('button','sb-agent-btn sb-agent-back','← Zurück');back.type='button';
 const next=el('button','sb-agent-btn','Weiter →');next.type='button';
 const live=el('span','sb-agent-live');live.setAttribute('aria-live','polite');
-actions.append(back,next);body.append(progress,track,question,options,summary,actions,live);
+actions.append(back,next);body.append(progress,track,conversation,question,options,summary,actions,live);
 const shell=el('div','sb-agent-shell');shell.append(head,body);root.append(shell);
 function render(){
  const done=index===steps.length;demoPanel.hidden=!done;progress.textContent=done?'Deine Angaben im Überblick':`Schritt ${index+1} von ${steps.length}`;
  fill.className='sb-agent-fill sb-agent-fill-'+(done?steps.length:index);
- options.replaceChildren();summary.replaceChildren();back.disabled=index===0;next.disabled=!done&&!answers[steps[index].key];
+ options.replaceChildren();summary.replaceChildren();conversation.replaceChildren();for(let i=0;i<index;i++){const answer=answers[steps[i].key];if(!answer)continue;const bubble=el('div','sb-agent-user-bubble',answer);conversation.append(bubble)}back.disabled=index===0;next.disabled=!done&&!answers[steps[index].key];
  if(done){
   question.textContent='Jetzt deine Gerichte auswählen und Einkaufsliste erstellen.';
   const panel=el('div','sb-agent-summary');const dl=el('dl');
