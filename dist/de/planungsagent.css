@@ -64,3 +64,13 @@
 .sb-agent .sb-agent-embedded .item.excluded{opacity:.56}
 .sb-agent .sb-agent-embedded .item.excluded .names{text-decoration:line-through}
 @media(max-width:600px){.sb-agent .sb-agent-options{display:flex;flex-wrap:wrap}.sb-agent .sb-agent-option{max-width:100%}.sb-agent .sb-agent-question{margin-left:14px;max-width:calc(100% - 14px)}}
+
+/* Exact household size and seven-day multi-select */
+.sb-agent .sb-agent-counter{display:flex;align-items:center;gap:14px;border:1px solid #DADDD5;border-radius:15px;padding:12px 16px;width:100%;background:#fff}
+.sb-agent .sb-agent-counter strong{flex:1;color:#1F2937}
+.sb-agent .sb-agent-counter output{font-weight:750;min-width:2ch;text-align:center;color:#1F2937;font-variant-numeric:tabular-nums}
+.sb-agent .sb-agent-count-btn{display:grid;place-items:center;width:44px;height:44px;flex-shrink:0;border:1px solid #C8D1C9;border-radius:50%;background:#FFFDF8;color:#173D2B;font:inherit;font-size:24px;cursor:pointer}
+.sb-agent .sb-agent-count-btn:disabled{opacity:.3;cursor:not-allowed}
+.sb-agent .sb-agent-options:has(.sb-agent-counter){display:flex;flex-direction:column}
+.sb-agent .sb-agent-option[aria-pressed="true"]{background:#E1EEE8;border-color:#477F68}
+@media(max-width:420px){.sb-agent .sb-agent-counter{gap:9px;padding:10px}.sb-agent .sb-agent-count-btn{width:40px;height:40px}}
