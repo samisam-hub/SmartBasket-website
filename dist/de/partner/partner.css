@@ -272,3 +272,33 @@
 .partner-page{padding-bottom:76px}
 .partner-page .phase-consent .phase-tag{margin-left:0}
 }
+
+/* Partner page visual refinement — October 2026 */
+.partner-page{--color-primary-green:#0F6B3F;--color-bg-warm:#FFF8F0;--color-accent-amber:#FFB92E;--color-border:#E3E9DF;--brand:#0F6B3F;--brand-dark:#0F6B3F;--cream:#FFF8F0;--soft:#F2F6EE;--blush:#FFF8F0}
+.partner-page .hero{background:radial-gradient(circle at 83% 20%,#EAF2DD 0,transparent 39%),#FFF8F0}
+.partner-page .hero .wrap{align-items:center;gap:clamp(32px,5vw,88px)}
+.partner-page .hero h1{font-size:clamp(2.6rem,5vw,5rem);line-height:1.08;letter-spacing:-.055em;max-width:13ch}
+.partner-page .hero h1 em{font-style:normal;color:#0F6B3F}
+.partner-page .hero .lead{max-width:57ch;line-height:1.65}
+.partner-page .hero-art{min-width:0}
+.partner-page .dash{border:1px solid #DCE7DA;border-radius:22px;box-shadow:0 28px 70px -36px rgba(15,64,39,.32),0 5px 18px rgba(15,64,39,.06);padding:clamp(18px,2.5vw,32px)}
+.partner-page .dash-kpis>div{background:#F4F8F1;border:1px solid #E5EDE0;border-radius:12px;padding:14px}
+.partner-page .dash-callout{background:#FFF6DE;border-radius:10px}
+.partner-page .section{scroll-margin-top:80px}
+.partner-page .intro{max-width:760px}
+.partner-page .intro h2{letter-spacing:-.045em;line-height:1.13}
+.partner-page .benefits li{border:1px solid #E3E9DF;border-radius:18px;box-shadow:0 10px 30px -25px rgba(15,64,39,.2)}
+.partner-page .benefits li h3{line-height:1.2}
+.partner-page .section.tint-soft{background:#F3F6EF}
+.partner-page .section.tint{background:#FFF8F0}
+.partner-page .phase{border-radius:20px}
+.partner-page .phase-consent{border:1px dashed #B7CDBD;background:#F9FCF8;box-shadow:none}
+.partner-page .phase-consent .phase-tag{background:#E7F0E7;color:#0F6B3F}
+.partner-page .privacy{background:#164A35!important}
+.partner-page .pilot{background:#0F6B3F!important}
+.partner-page .pill-btn{border-radius:12px;min-height:48px}
+.partner-page .pill-btn.primary{background:#0F6B3F}
+.partner-page .pill-btn.primary:hover{background:#084C2C}
+.partner-page .eyebrow{letter-spacing:.12em}
+.partner-page .timeline li.now::before{background:#0F6B3F;border-color:#0F6B3F}
+@media(max-width:767px){.partner-page .hero h1{max-width:17ch;font-size:clamp(2.45rem,9vw,3.6rem)}.partner-page .hero .wrap{gap:26px}.partner-page .dash{padding:18px}.partner-page .dash-kpis>div{padding:10px}}
