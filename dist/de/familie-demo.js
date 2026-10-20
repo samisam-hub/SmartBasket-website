@@ -63,7 +63,7 @@ function sbMeal(dish) { return { dish: dish, skipped: false, present: { anna: tr
 function sbInitial() {
   return { day: 'mon', tueIntro: true, active: { mon: 'breakfast', tue: 'breakfast' },
     meals: { mon: { breakfast: sbMeal(null), lunch: sbMeal(null), dinner: sbMeal(null) }, tue: { breakfast: sbMeal(null), lunch: sbMeal(null), dinner: sbMeal(null) } },
-    pantry: { potatoes: 1000, oil: 250, oats: 300 }, pantryErr: {}, pantryText: {}, pantryOpen: {}, checked: {}, notice: '', prev: null, drag: 0 };
+    pantry: { potatoes: 1000, oil: 250, oats: 300 }, pantryErr: {}, pantryText: {}, pantryOpen: {}, excluded: {}, checked: {}, notice: '', prev: null, drag: 0 };
 }
 function sbNum(v, digits) { return v.toLocaleString('de-DE', { maximumFractionDigits: digits, minimumFractionDigits: 0 }); }
 function sbQty(v, unit) {
@@ -166,7 +166,7 @@ var SB_ACTIONS = {
   pickOwn: function (v) { sbChange(function (s) { var mm = sbCur(s); mm.own = v; mm.ownOpen = false; mm.present.mia = true; }); },
   ownBack: function () { sbChange(function (s) { var mm = sbCur(s); mm.own = null; mm.present.mia = true; }); },
   reset: function () { sbState = sbInitial(); sbState.notice = 'Beispiel zurückgesetzt.'; sbDrag = 0; sbRender(); },
-  check: function (v) { sbState.checked[v] = !sbState.checked[v]; sbRender(); },
+  check: function (v) { sbState.excluded[v] = !sbState.excluded[v]; sbRender(); },
   pantry: function (v) { sbState.pantryOpen[v] = !sbState.pantryOpen[v]; sbRender(); }
 };
 
@@ -256,16 +256,16 @@ function sbRender() {
   var packsTxt = function (r) { var it = SB_ITEMS[r.key]; return r.packs ? r.packs + ' × ' + sbPack(it) : 'Nichts zu kaufen, Vorrat reicht'; };
   $('sb-calc').innerHTML = (c.lines.length ? c.lines : [{ text: 'Im Moment ist kein Gericht gewählt.' }]).map(function (l) { return '<p class="calc-line">' + sbEsc(l.text) + '</p>'; }).join('');
   $('sb-notice2').textContent = st.notice;
-  $('sb-total2').textContent = sbEur(c.total);
+  $('sb-total2').textContent = sbEur(c.rows.reduce(function(sum,r){return sum+(st.excluded[r.key]?0:r.price);},0));
   var prev = st.prev || {};
   $('sb-list').innerHTML = c.rows.length ? c.rows.map(function (r) {
-    var it = SB_ITEMS[r.key], p = prev[r.key], checked = !!st.checked[r.key], open = !!st.pantryOpen[r.key];
+    var it = SB_ITEMS[r.key], p = prev[r.key], checked = !st.excluded[r.key], open = !!st.pantryOpen[r.key];
     var same = !!p && r.packs > 0 && r.need < p.need - 0.5 && r.packs === p.packs, hasLeft = r.packs > 0 && r.left >= (it.unit === 'Stück' ? 1 : 5);
     var val = st.pantryText[r.key] !== undefined ? st.pantryText[r.key] : String(st.pantry[r.key] || 0);
     var facts = ['Benötigt ' + sbQty(r.need, it.unit)];
     if (r.used > 0) facts.push('Vorrat berücksichtigt: ' + sbQty(r.used, it.unit));
     if (hasLeft) facts.push('Voraussichtlich übrig nach dem Kochen: ' + (it.unit === 'Stück' ? Math.floor(r.left + 1e-6) + ' Stück' : sbQty(r.left, it.unit)));
-    return '<div class="item' + (checked ? ' checked' : '') + '"><div class="item-top"><label><input type="checkbox" data-action="check" data-value="' + r.key + '" data-key="check-' + r.key + '"' + (checked ? ' checked' : '') + '><span class="names"><b>' + sbEsc(it.name) + '</b><strong>' + sbEsc(packsTxt(r)) + (checked ? ' · im Wagen' : '') + '</strong></span></label><span class="price">' + sbEur(r.price) + '</span></div>'
+    return '<div class="item' + (!checked ? ' excluded' : '') + '"><div class="item-top"><label><input type="checkbox" data-action="check" data-value="' + r.key + '" data-key="check-' + r.key + '"' + (checked ? ' checked' : '') + '><span class="names"><b>' + sbEsc(it.name) + '</b><strong>' + sbEsc(packsTxt(r)) + (checked ? ' · eingeplant' : ' · abgewählt') + '</strong></span></label><span class="price">' + sbEur(r.price) + '</span></div>'
       + '<p class="facts">' + sbEsc(facts.join(' · ')) + '</p>' + (same ? '<p class="facts same">Ihr braucht weniger, dieselbe Packung reicht weiterhin.</p>' : '')
       + '<div class="pantry">' + sbBtn('link-btn', 'pantry', r.key, 'Schon vorhanden?', ' aria-expanded="' + open + '" aria-controls="sb-pf-' + r.key + '"')
       + (open ? '<div class="pantry-form" id="sb-pf-' + r.key + '"><label for="sb-pantry-' + r.key + '">Vorhanden in ' + it.unit + '</label><input id="sb-pantry-' + r.key + '" type="number" min="0" step="' + (it.unit === 'Stück' ? 1 : 50) + '" inputmode="numeric" value="' + sbEsc(val) + '" data-pantry="' + r.key + '" data-key="pantryinput-' + r.key + '"><small>Ändert nur den Beispielvorrat dieser Demo.</small>' + (st.pantryErr[r.key] ? '<span class="field-error" role="alert">' + sbEsc(st.pantryErr[r.key]) + '</span>' : '') + '</div>' : '') + '</div></div>';
