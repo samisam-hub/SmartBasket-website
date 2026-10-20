@@ -353,3 +353,20 @@
 .partner-page .hero .dash-bars .val text{fill:#075C35;font-weight:800}
 .partner-page .hero .dash figcaption{font-size:11px;line-height:1.4;color:#52685A}
 @media(max-width:420px){.partner-page .hero .dash{padding:16px;gap:14px}.partner-page .hero .dash-kpis>div{padding:13px 11px}.partner-page .hero .dash-kpis b{font-size:28px}.partner-page .hero .dash-area{font-size:10px}}
+
+/* Step 2: preserve consent-gated two-phase process, refine visual hierarchy */
+.partner-page .partner-primary-flow{background:#F3F7EF}
+.partner-page .partner-primary-flow .phase-anon{background:#fff;border:1px solid #C4DCC8;box-shadow:0 16px 40px -30px rgba(7,92,53,.25)}
+.partner-page .partner-primary-flow .phase-anon .phase-tag{background:#DCEFD8;color:#075C35}
+.partner-page .partner-primary-flow .phase-anon .flow li{background:#F5F9F2;border:1px solid #D7E8D6}
+.partner-page .partner-primary-flow .phase-consent{background:#FFF7EC;border:1px solid #F0C8A5;box-shadow:none}
+.partner-page .partner-primary-flow .phase-consent .phase-tag{background:#FFE4CB;color:#944009;border:1px solid #F1C198}
+.partner-page .partner-primary-flow .phase-consent .flow li{background:#FFFCF7;border:1px solid #F3D7BB}
+.partner-page .partner-primary-flow .phase-gate{color:#99501A;gap:14px;margin:28px 0;font-weight:800}
+.partner-page .partner-primary-flow .phase-gate::before,.partner-page .partner-primary-flow .phase-gate::after{border-top:2px dashed #E4A66B}
+.partner-page .partner-primary-flow .phase-gate .ico *{stroke:#99501A}
+.partner-page .partner-primary-flow .phase-head h3{color:#163B2B}
+.partner-page .partner-primary-flow .flow li{gap:12px}
+.partner-page .partner-primary-flow .flow .num{background:#075C35}
+.partner-page .partner-primary-flow .phase-consent .flow .num{background:#A54D0C}
+@media(max-width:767px){.partner-page .partner-primary-flow .flow{grid-template-columns:1fr}.partner-page .partner-primary-flow .flow li{flex-direction:row;align-items:center;padding:15px}.partner-page .partner-primary-flow .flow li .ico-wrap{width:50px;height:50px;border-radius:13px}.partner-page .partner-primary-flow .flow li .ico{width:31px;height:31px}.partner-page .partner-primary-flow .phase{padding:18px}.partner-page .partner-primary-flow .phase-gate{margin:24px 0;text-align:center}}
