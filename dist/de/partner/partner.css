@@ -303,41 +303,6 @@
 .partner-page .timeline li.now::before{background:#0F6B3F;border-color:#0F6B3F}
 @media(max-width:767px){.partner-page .hero h1{max-width:17ch;font-size:clamp(2.45rem,9vw,3.6rem)}.partner-page .hero .wrap{gap:26px}.partner-page .dash{padding:18px}.partner-page .dash-kpis>div{padding:10px}}
 
-/* Visual assets integration: product story and dashboard showcase */
-.partner-page .partner-story{background:#FFF8F0}
-.partner-page .partner-dashboard-section{background:#F3F7F0}
-.partner-page .partner-story .intro,.partner-page .partner-dashboard-section .intro{max-width:780px}
-.partner-page .partner-story .intro p,.partner-page .partner-dashboard-section .intro p{max-width:66ch;color:#4B6254;line-height:1.65}
-.partner-page .partner-visual{margin:clamp(24px,4vw,46px) 0 0;max-width:100%}
-.partner-page .partner-visual img{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 20px 55px -40px rgba(15,65,40,.25)}
-.partner-page .partner-visual figcaption{margin-top:13px;color:#53685A;font-size:13px;line-height:1.5}
-.partner-page .partner-dashboard-visual{max-width:960px;margin-inline:auto}
-.partner-page .partner-benefit-visual{margin-top:28px}
-@media(max-width:767px){.partner-page .partner-visual img{border-radius:12px}.partner-page .partner-visual figcaption{font-size:12px}.partner-page .partner-story .intro,.partner-page .partner-dashboard-section .intro{max-width:100%}}
-
-/* Higher-contrast brand treatment: richer partner visuals */
-.partner-page .partner-story{background:#FFF3DE}
-.partner-page .partner-dashboard-section{background:#DCEED8}
-.partner-page .partner-visual img{border:1px solid #A7C8A9;box-shadow:0 22px 55px -28px rgba(5,72,38,.3)}
-.partner-page .partner-story .intro h2,.partner-page .partner-dashboard-section .intro h2{color:#075C35}
-.partner-page .partner-story .eyebrow,.partner-page .partner-dashboard-section .eyebrow{color:#E55B00}
-.partner-page .benefits li{border-color:#B4D2B7;box-shadow:0 16px 35px -26px rgba(5,72,38,.3)}
-.partner-page .dash-kpis>div{background:#E4F3DC;border-color:#B4D2B7}
-.partner-page .dash-callout{background:#FFE59C;border-left-color:#F2690D}
-.partner-page .pill-btn.primary{background:#075C35}
-.partner-page .pill-btn.primary:hover{background:#034729}
-
-/* Concise pilot-process section */
-.partner-page .partner-pilot-flow{background:#F3F7EF}
-.partner-page .pilot-flow-steps{list-style:none;margin:32px 0 20px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.partner-page .pilot-flow-steps li{background:#fff;border:1px solid #BCD7BF;border-radius:18px;padding:24px 20px;box-shadow:0 12px 28px -24px rgba(7,92,53,.35)}
-.partner-page .pilot-flow-number{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:#075C35;color:#fff;font-size:15px;font-weight:750;margin-bottom:22px}
-.partner-page .pilot-flow-steps h3{font-size:19px;line-height:1.2;margin:0 0 12px;color:#075C35}
-.partner-page .pilot-flow-steps p{font-size:15px;line-height:1.6;color:#40594B;margin:0}
-.partner-page .pilot-flow-future{margin-top:20px;padding:16px 20px;background:#FFF1D2;border-left:4px solid #F2690D;border-radius:10px;color:#34473A;line-height:1.55}
-@media(max-width:950px){.partner-page .pilot-flow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.partner-page .pilot-flow-steps{grid-template-columns:1fr;gap:12px}.partner-page .pilot-flow-steps li{padding:18px}.partner-page .pilot-flow-number{margin-bottom:12px}}
-
 /* Step 1: hero dashboard hierarchy — scoped, reversible */
 .partner-page .hero .dash{background:#fff;border:1px solid #B9D3BE;border-radius:24px;box-shadow:0 26px 60px -26px rgba(9,66,37,.3);gap:18px}
 .partner-page .hero .dash-top{align-items:center;padding-bottom:14px;border-bottom:1px solid #E0E9DF}
@@ -380,3 +345,15 @@
 .partner-page .benefits p{font-size:15px;line-height:1.6;color:#435D4C}
 .partner-page .timeline li{border-radius:20px}
 @media(max-width:767px){.partner-page .benefits{gap:12px}.partner-page .benefits li{padding:20px}.partner-page .benefits .ico-wrap{width:54px;height:54px}}
+
+/* Step 4: restrained page-wide design tokens and rhythm */
+.partner-page{--partner-forest:#075C35;--partner-ink:#163B2B;--partner-cream:#FFF8F0;--partner-orange:#F2690D;--partner-card-border:#C7DDC8}
+.partner-page .section .intro{margin-bottom:clamp(22px,3vw,36px)}
+.partner-page .section .intro h2{color:var(--partner-ink)}
+.partner-page .section.dark h2,.partner-page .section.dark .intro h2{color:#fff}
+.partner-page .section .eyebrow{color:var(--partner-forest)}
+.partner-page .section.dark .eyebrow{color:#FFE09C}
+.partner-page .section.tint-soft{background:#F3F7EF}
+.partner-page .section:not(.dark) .intro p{color:#435D4C}
+.partner-page .privacy{background:#164A35}
+.partner-page .pilot{background:#075C35}
