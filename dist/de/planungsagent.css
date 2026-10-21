@@ -118,3 +118,12 @@
 .sb-agent #sb-agent-wizard .sb-agent-option:focus-visible,.sb-agent #sb-agent-wizard button:focus-visible{outline:3px solid #C7774C;outline-offset:3px}
 @media(max-width:600px){.sb-agent #sb-agent-wizard .sb-agent-shell{border-radius:20px}.sb-agent #sb-agent-wizard .sb-agent-body{padding:22px 18px}.sb-agent #sb-agent-wizard .sb-agent-question{padding:16px;font-size:18px}.sb-agent #sb-agent-wizard .sb-agent-avatar{width:32px;height:32px;font-size:19px}.sb-agent #sb-agent-wizard .sb-agent-prompt{gap:8px}.sb-agent #sb-agent-wizard .sb-agent-option{font-size:15px;padding:12px 17px}.sb-agent #sb-agent-wizard .sb-agent-counter{padding:12px;gap:9px}}
 @media(prefers-reduced-motion:reduce){.sb-agent #sb-agent-wizard .sb-agent-fill,.sb-agent #sb-agent-wizard .sb-agent-option{transition:none}}
+
+/* Seven-step progress indicator (no inline styles required). */
+.sb-agent #sb-agent-wizard .sb-agent-fill-1{width:14.2857%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-2{width:28.5714%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-3{width:42.8571%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-4{width:57.1429%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-5{width:71.4286%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-6{width:85.7143%}
+.sb-agent #sb-agent-wizard .sb-agent-fill-7{width:100%}
