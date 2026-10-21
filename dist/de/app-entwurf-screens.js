@@ -1,6 +1,40 @@
-/* App-Entwurf: aus der Skizze "SmartBasket Wochenplanung" generiert (scripts nicht von Hand ändern). */
+/* App-Entwurf: generiert von design/app-entwurf/build.py aus den .dc.html-Entwürfen – nicht von Hand ändern. */
 (function(){
 var SCREENS = {};
+SCREENS["Haushalt"] = { label: "Haushalt", title: "Haushalt anlegen", html: "<div style=\"width: 390px; height: 844px; box-sizing: border-box; padding: 56px 24px 32px; display: flex; flex-direction: column; gap: 24px; background: #FFF8F0; color: #1F2937; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif\">\n<div style=\"display: flex; flex-direction: column; gap: 10px\">\n<div style=\"font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #0F6B3F\">EINMAL EINRICHTEN</div>\n<h1 style=\"margin: 0; font-size: 28px; line-height: 36px; font-weight: 700\">Wer isst bei euch mit?</h1>\n<p style=\"margin: 0; font-size: 16px; line-height: 24px; color: #64748B\">Lege an, für wen du planst. Erwachsene und Kinder bekommen passende Portionen.</p>\n</div>\n<div style=\"display: flex; flex-direction: column; gap: 10px\">\n<sc-for list=\"{{people}}\" as=\"p\" hint-placeholder-count=\"3\">\n<div style=\"display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 10px 12px 10px 14px; box-sizing: border-box; border-radius: 16px; background: #FFFFFF; border: 1.5px solid #E5E7EB\">\n<span style=\"{{p.avatar}}\">{{p.initial}}</span>\n<span style=\"display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0\">\n<span style=\"font-size: 17px; font-weight: 600\">{{p.name}}</span>\n<span style=\"font-size: 13px; color: #64748B; overflow: hidden; text-overflow: ellipsis; white-space: nowrap\">{{p.portion}}</span>\n</span>\n<button onClick=\"{{p.toggle}}\" aria-label=\"{{p.toggleLabel}}\" style=\"{{p.chip}}\">{{p.kind}}</button>\n<button onClick=\"{{p.remove}}\" aria-label=\"{{p.removeLabel}}\" style=\"display: {{p.removeDisplay}}; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 999px; border: none; background: #F1F1EE; color: #64748B; font: inherit; font-size: 18px; cursor: pointer\">×</button>\n</div>\n</sc-for>\n<button onClick=\"{{add}}\" style=\"display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; border-radius: 16px; border: 1.5px dashed #CBD5CF; background: none; color: #0F6B3F; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer\">+ Person hinzufügen</button>\n</div>\n<div style=\"display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #EEF5F0\">\n<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0F6B3F\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0\"><circle cx=\"9\" cy=\"8\" r=\"3.5\"></circle><path d=\"M3 20a6 6 0 0 1 12 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a5 5 0 0 1 3 6\"></path></svg>\n<span style=\"font-size: 15px; line-height: 22px\">{{summary}}</span>\n</div>\n<div style=\"flex-grow: 1\"></div>\n<p style=\"margin: 0; font-size: 14px; line-height: 20px; color: #64748B; text-align: center\">Jederzeit im Profil änderbar</p>\n<a href=\"Main.dc.html\" style=\"display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #0F6B3F; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none\">Weiter</a>\n</div>", make: function (DCLogic) {
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { people: [{ name: 'Anna', kid: false }, { name: 'Alex', kid: false }, { name: 'Mia', kid: true }] };
+}
+renderVals() {
+const people = this.state.people;
+const adults = people.filter(p => !p.kid).length;
+const kids = people.length - adults;
+const tints = ['#F6E7CF', '#EFE6D6', '#EEF5F0', '#E5E7EB'];
+const parts = [];
+if (adults) parts.push(adults + (adults === 1 ? ' erwachsene Person' : ' Erwachsene'));
+if (kids) parts.push(kids + (kids === 1 ? ' Kind' : ' Kinder'));
+return {
+summary: people.length ? parts.join(' und ') + ' · alle Mengen werden dafür berechnet.' : 'Noch niemand angelegt.',
+add: () => this.setState({ people: people.concat([{ name: 'Person ' + (people.length + 1), kid: false }]) }),
+people: people.map((p, i) => ({
+name: p.name,
+initial: p.name.charAt(0),
+kind: p.kid ? 'Kind' : 'Erwachsen',
+portion: p.kid ? 'kleine Portion' : 'große Portion',
+toggleLabel: p.name + ': ' + (p.kid ? 'als erwachsen markieren' : 'als Kind markieren'),
+removeLabel: p.name + ' entfernen',
+removeDisplay: people.length > 1 ? 'flex' : 'none',
+toggle: () => this.setState({ people: people.map((q, j) => j === i ? { name: q.name, kid: !q.kid } : q) }),
+remove: () => this.setState({ people: people.filter((_, j) => j !== i) }),
+avatar: 'display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; font-size: 18px; font-weight: 700; color: #1F2937; background: ' + tints[i % tints.length],
+chip: 'min-height: 36px; padding: 0 12px; flex-shrink: 0; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (p.kid ? 'background: #EEF5F0; color: #0F6B3F; border: 1.5px solid #F6E7CF' : 'background: #FFFFFF; color: #1F2937; border: 1.5px solid #E5E7EB')
+}))
+};
+}
+}
+return Component; } };
 SCREENS["Main"] = { label: "Standard", title: "Mahlzeiten-Standard", html: "<div style=\"width: 390px; height: 844px; box-sizing: border-box; padding: 56px 24px 32px; display: flex; flex-direction: column; gap: 28px; background: #FFF8F0; color: #1F2937; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif\">\n<div style=\"display: flex; flex-direction: column; gap: 10px\">\n<div style=\"font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #0F6B3F\">EINMAL EINRICHTEN</div>\n<h1 style=\"margin: 0; font-size: 28px; line-height: 36px; font-weight: 700\">Welche Mahlzeiten planst du normalerweise?</h1>\n<p style=\"margin: 0; font-size: 16px; line-height: 24px; color: #64748B\">Das gilt als Standard für jeden Tag. An einzelnen Tagen kannst du später abweichen.</p>\n</div>\n<div style=\"display: flex; flex-direction: column; gap: 12px\">\n<sc-for list=\"{{slots}}\" as=\"slot\" hint-placeholder-count=\"4\">\n<button onClick=\"{{slot.toggle}}\" style=\"{{slot.style}}\">\n<span style=\"display: flex; flex-direction: column; gap: 2px; text-align: left\">\n<span style=\"font-size: 17px; font-weight: 600; color: #1F2937\">{{slot.label}}</span>\n<span style=\"font-size: 14px; color: #64748B\">{{slot.hint}}</span>\n</span>\n<span style=\"{{slot.track}}\"><span style=\"{{slot.knob}}\"></span></span>\n</button>\n</sc-for>\n</div>\n<div style=\"flex-grow: 1\"></div>\n<p style=\"margin: 0; font-size: 14px; line-height: 20px; color: #64748B; text-align: center\">Jederzeit im Profil änderbar</p>\n<a href=\"Woche.dc.html\" style=\"display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #0F6B3F; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none\">Weiter</a>\n</div>", make: function (DCLogic) {
 class Component extends DCLogic {
 constructor(props) {
@@ -219,5 +253,5 @@ style: 'min-height: 40px; padding: 0 14px; border-radius: 999px; font: inherit; 
 }
 }
 return Component; } };
-window.SB_APP_SCREENS = SCREENS; window.SB_APP_ORDER = ["Main", "Woche", "Tag", "Wischen", "TagFertig", "Wochenplan", "Korb"];
+window.SB_APP_SCREENS = SCREENS; window.SB_APP_ORDER = ["Haushalt", "Main", "Woche", "Tag", "Wischen", "TagFertig", "Wochenplan", "Korb"];
 })();

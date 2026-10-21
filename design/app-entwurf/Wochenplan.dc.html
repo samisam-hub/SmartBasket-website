@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Wochenkalender</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#AD5137}a:hover{color:#8A3F2A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 20px 32px; display: flex; flex-direction: column; gap: 16px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 0 4px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">KW 41</div>
+<h1 style="margin: 0; font-size: 28px; line-height: 36px; font-weight: 700">Deine Woche</h1>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{days}}" as="day" hint-placeholder-count="4">
+<a href="Tag.dc.html" style="display: flex; gap: 14px; padding: 12px 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid #EADFD6; text-decoration: none; color: #362B26">
+<span style="display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0">
+<span style="font-size: 13px; font-weight: 600; color: #75665D">{{day.short}}</span>
+<span style="font-size: 22px; font-weight: 700">{{day.date}}</span>
+</span>
+<span style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0">
+<sc-for list="{{day.meals}}" as="m" hint-placeholder-count="3">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 18px">
+<span style="width: 52px; flex-shrink: 0; font-size: 12px; color: #75665D">{{m.slot}}</span>
+<span style="{{m.dot}}"></span>
+<span style="{{m.textStyle}}">{{m.text}}</span>
+</span>
+</sc-for>
+</span>
+</a>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{free}}" as="f" hint-placeholder-count="3">
+<a href="Woche.dc.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 56px; border-radius: 14px; border: 1.5px dashed #D9CCC2; color: #75665D; text-decoration: none">
+<span style="font-size: 13px; font-weight: 600">{{f.short}} {{f.date}}</span>
+<span style="font-size: 12px">+ planen</span>
+</a>
+</sc-for>
+</div>
+<div style="display: flex; gap: 14px; justify-content: center; font-size: 12px; color: #75665D">
+<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #AD5137"></span>kochen</span>
+<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #E8B386"></span>aufwärmen</span>
+<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; border: 1.5px solid #75665D; box-sizing: border-box"></span>auswärts</span>
+</div>
+<div style="flex-grow: 1"></div>
+<a href="Korb.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #AD5137; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none">Einkaufskorb erstellen</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const dot = {
+cook: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #AD5137',
+heat: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #E8B386',
+out: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; border: 1.5px solid #75665D; box-sizing: border-box',
+open: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #EADFD6'
+};
+const m = (slot, kind, text) => ({ slot, text, dot: dot[kind], textStyle: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap; ' + (kind === 'open' ? 'color: #75665D; font-style: italic' : '') });
+return {
+days: [
+{ short: 'Mo', date: '5', meals: [m('Frühstück', 'cook', 'Haferbrei mit Beeren'), m('Mittag', 'heat', 'Pasta · aufwärmen'), m('Abend', 'out', 'Auswärts essen')] },
+{ short: 'Di', date: '6', meals: [m('Frühstück', 'cook', 'Joghurt-Obst-Frühstück'), m('Mittag', 'cook', 'Hähnchen-Kartoffel-Bowl'), m('Abend', 'cook', 'Lachs-Reis-Bowl')] },
+{ short: 'Mi', date: '7', meals: [m('Frühstück', 'cook', 'Rührei mit Gemüse'), m('Mittag', 'open', 'noch offen'), m('Abend', 'cook', 'Linsen-Curry-Bowl')] },
+{ short: 'Do', date: '8', meals: [m('Frühstück', 'open', 'noch offen'), m('Mittag', 'open', 'noch offen'), m('Abend', 'open', 'noch offen')] }
+],
+free: [{ short: 'Fr', date: '9' }, { short: 'Sa', date: '10' }, { short: 'So', date: '11' }]
+};
+}
+}
+</script>
+</body>
+</html>
