@@ -30,7 +30,7 @@
   }
   var store = {
     data: load(),
-    set: function (patch) { Object.assign(store.data, patch); save(); render(true); },
+    set: function (patch) { if (patch.generated === true && !('hintSeen' in patch)) patch.hintSeen = false; Object.assign(store.data, patch); save(); render(true); },
     reset: function () { store.data = initialData(); try { window.localStorage.removeItem(KEY); } catch (e) {} }
   };
   function save() { try { window.localStorage.setItem(KEY, JSON.stringify(store.data)); } catch (e) {} }
@@ -202,6 +202,8 @@
 
   function go(name, announce) {
     if (!SCREENS[name]) return;
+    // Hinweis 'Dienstag antippen' bei jedem neuen Besuch des Plans zeigen (nicht beim Zurückkommen vom Tauschen)
+    if (name === 'Wochenplan' && current !== 'Wischen' && current !== 'Wochenplan' && store.data.hintSeen) { store.data.hintSeen = false; save(); }
     current = name;
     if (!instances[name]) { var C = SCREENS[name].make(DCLogic); instances[name] = new C({ store: store, lib: LIB, go: function (to) { go(to, true); } }); }
     comp = instances[name];
