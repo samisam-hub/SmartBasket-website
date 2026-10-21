@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Gericht wählen</title>
+<title>Mahlzeit tauschen</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -10,34 +10,21 @@
 <div style="width: 390px; height: 844px; box-sizing: border-box; padding: 52px 24px 28px; display: flex; flex-direction: column; gap: 14px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">{{eyebrow}}</div>
-<h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 700">{{question}}</h1>
+<h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 700">Mahlzeit tauschen</h1>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #75665D">Aktuell: {{currentText}}</p>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px">
-<sc-for list="{{chips}}" as="c" hint-placeholder-count="3">
-<button onClick="{{c.jump}}" style="{{c.style}}">{{c.label}}</button>
-</sc-for>
-</div>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<sc-for list="{{dishes}}" as="dish" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden">
+<sc-for list="{{dishes}}" as="dish" hint-placeholder-count="3">
 <button onClick="{{dish.pick}}" aria-pressed="{{dish.pressed}}" style="{{dish.style}}">
-<span style="{{dish.photo}}">
-<img src="{{dish.img}}" alt="" style="{{dish.imgStyle}}">
-<sc-if value="{{dish.noImg}}" hint-placeholder-val="{{ false }}"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#AD5137" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 50%; top: 50%; margin: -22px 0 0 -22px"><path d="M12 7c-1.5-1.2-4-1.4-5.6.2C4.6 9 5 13 6.6 16c1.2 2.2 2.8 3.8 4.4 3 .6-.3.9-.3 2 0 1.6.8 3.2-.8 4.4-3 1.6-3 2-7-.2-8.8C15.6 5.6 13.5 5.8 12 7z"></path><path d="M12 7c0-1.8.8-3.2 2.4-4"></path></svg></sc-if>
-<span style="{{dish.badge}}">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>
+<span style="{{dish.photo}}"><img src="{{dish.img}}" alt="" style="{{dish.imgStyle}}"></span>
+<span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; text-align: left">
+<span style="font-size: 15px; font-weight: 600; color: #362B26">{{dish.name}}</span>
+<span style="font-size: 12px; color: #75665D">{{dish.meta}}</span>
 </span>
-</span>
-<span style="display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; text-align: left">
-<span style="font-size: 16px; font-weight: 600; color: #362B26">{{dish.name}}</span>
-<span style="font-size: 13px; color: #75665D">{{dish.parts}}</span>
-</span>
+<span style="{{dish.badge}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span>
 </button>
 </sc-for>
 </div>
-<button onClick="{{more}}" style="align-self: center; display: flex; align-items: center; gap: 6px; min-height: 40px; border: none; background: none; color: #AD5137; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"></path></svg>
-Andere zeigen
-</button>
 <div style="flex-grow: 1"></div>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <div style="font-size: 13px; color: #75665D; text-align: center">Oder nicht kochen</div>
@@ -47,50 +34,35 @@ Andere zeigen
 </sc-for>
 </div>
 </div>
-<button onClick="{{next}}" disabled="{{disabled}}" style="{{nextStyle}}">{{nextLabel}}</button>
+<a href="Wochenplan.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; text-decoration: none; cursor: pointer">Zurück zum Plan</a>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
 const st = this.props.store, lib = this.props.lib, data = st.data;
-const day = lib.currentDay(), slots = lib.mealsFor(day);
-const pos = Math.min(data.slotPos, Math.max(slots.length - 1, 0)), slot = slots[pos] || lib.SLOTS[0];
-const dayPlan = data.plan[day] || {}, entry = dayPlan[slot.id];
-const choices = lib.CHOICES[slot.id], off = data.offset[slot.id] || 0;
-const shown = [choices[off % choices.length], choices[(off + 1) % choices.length]];
-const decide = e => { const plan = Object.assign({}, data.plan); plan[day] = Object.assign({}, dayPlan, { [slot.id]: e }); st.set({ plan: plan }); };
-const last = pos >= slots.length - 1, nextSlot = slots[pos + 1];
-const done = !!entry;
+const days = lib.selectedDays(), meals = lib.mealsFor();
+const target = data.edit && days.indexOf(data.edit.day) >= 0 && meals.some(m => m.id === data.edit.slot) ? data.edit : { day: days[0] === undefined ? 0 : days[0], slot: (meals[0] || lib.SLOTS[0]).id };
+const slot = lib.SLOTS.filter(s => s.id === target.slot)[0], dayPlan = data.plan[target.day] || {}, entry = dayPlan[slot.id];
+const decide = e => { const plan = Object.assign({}, data.plan); const dp = Object.assign({}, dayPlan); dp[slot.id] = Object.assign(e, { auto: false }); plan[target.day] = dp; st.set({ plan: plan }); };
 return {
-eyebrow: lib.DAY_NAMES[day].toUpperCase() + ' · ' + (pos + 1) + ' VON ' + slots.length,
-question: slot.q,
-chips: slots.map((s, i) => {
-const ok = !!dayPlan[s.id], cur = i === pos;
-return { label: (ok ? '✓ ' : '') + s.short, jump: () => st.set({ slotPos: i }),
-style: 'min-height: 34px; padding: 0 12px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer; ' + (cur ? 'background: #362B26; color: #FFFFFF; border: 1px solid #362B26; font-weight: 600' : ok ? 'background: #FCEEDD; color: #AD5137; border: 1px solid #F4D8BF; font-weight: 600' : 'background: #FFFFFF; color: #75665D; border: 1px solid #EADFD6') };
-}),
-dishes: shown.map(id => {
-const dish = lib.DISHES[id], on = !!entry && entry.kind === 'cook' && entry.dish === id;
-return {
-name: dish.name, parts: dish.parts, img: dish.img || '', noImg: !dish.img, pressed: on ? 'true' : 'false',
+eyebrow: lib.DAY_NAMES[target.day].toUpperCase() + ' · ' + slot.label.toUpperCase(),
+currentText: lib.entryText(entry),
+dishes: lib.candidates(slot.id).map(id => {
+const dish = lib.DISHES[id], on = !!entry && entry.kind === 'cook' && entry.dish === id, liked = data.prefs[id] === true, disliked = data.prefs[id] === false;
+return { name: dish.name, img: dish.img || '', pressed: on ? 'true' : 'false',
+meta: (liked ? '♥ gemerkt · ' : disliked ? 'nicht gemocht · ' : '') + dish.parts,
 pick: () => decide({ kind: 'cook', dish: id }),
-style: 'display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 18px; cursor: pointer; font: inherit; background: #FFFFFF; ' + (on ? 'border: 2.5px solid #AD5137' : 'border: 1.5px solid #EADFD6'),
-photo: 'position: relative; display: block; height: 104px; overflow: hidden; background: #F4D8BF',
+style: 'display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 8px; border-radius: 16px; cursor: pointer; font: inherit; background: #FFFFFF; ' + (on ? 'border: 2px solid #AD5137' : 'border: 1.5px solid #EADFD6'),
+photo: 'position: relative; display: block; width: 56px; height: 56px; flex-shrink: 0; overflow: hidden; border-radius: 12px; background: #F4D8BF',
 imgStyle: 'position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: ' + (dish.img ? 'block' : 'none'),
-badge: 'position: absolute; top: 10px; right: 10px; display: ' + (on ? 'flex' : 'none') + '; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 999px; background: #AD5137'
-};
+badge: 'display: ' + (on ? 'flex' : 'none') + '; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 999px; background: #AD5137' };
 }),
-more: () => st.set({ offset: Object.assign({}, data.offset, { [slot.id]: off + 1 }) }),
 modes: [['skip', 'Überspringen'], ['heat', 'Aufwärmen'], ['out', 'Auswärts']].map(m => {
 const on = !!entry && entry.kind === m[0];
 return { label: m[1], pressed: on ? 'true' : 'false', pick: () => decide({ kind: m[0] }),
 style: 'height: 46px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (on ? 'background: #362B26; color: #FFFFFF; border: 1.5px solid #362B26' : 'background: #FFFFFF; color: #362B26; border: 1.5px solid #EADFD6') };
-}),
-disabled: !done,
-nextLabel: !done ? 'Erst ' + slot.label + ' wählen' : last ? lib.DAY_NAMES[day] + ' speichern' : 'Weiter zum ' + nextSlot.label,
-next: () => { if (!done) return; if (last) { this.props.go('TagFertig'); } else { st.set({ slotPos: pos + 1 }); } },
-nextStyle: 'display: flex; align-items: center; justify-content: center; height: 54px; border: none; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; color: #FFFFFF; background: ' + (done ? '#AD5137' : '#D9CCC2')
+})
 };
 }
 }

@@ -3,8 +3,8 @@
 Aufruf aus dem Repo-Wurzelverzeichnis: python3 design/app-entwurf/build.py"""
 import json, os, re
 D = os.path.dirname(os.path.abspath(__file__)) + '/'
-ORDER = [('Haushalt', 'Haushalt'), ('Main', 'Standard'), ('Woche', 'Woche'), ('Tag', 'Tag'), ('Wischen', 'Gericht'),
-         ('TagFertig', 'Tag fertig'), ('Wochenplan', 'Kalender'), ('Korb', 'Einkauf')]
+ORDER = [('Haushalt', 'Haushalt'), ('Budget', 'Budget'), ('Main', 'Mahlzeiten'), ('Woche', 'Woche'), ('Geschmack', 'Geschmack'),
+         ('Wochenplan', 'Plan'), ('Wischen', 'Tauschen'), ('Korb', 'Einkauf')]
 # Skizzen-Palette -> Webseiten-Palette
 COLORS = {'#AD5137': '#0F6B3F', '#8A3F2A': '#084B2C', '#FCEEDD': '#EEF5F0', '#362B26': '#1F2937', '#75665D': '#64748B',
           '#EADFD6': '#E5E7EB', '#FFFCF8': '#FFF8F0', '#D9CCC2': '#CBD5CF', '#F3EAE2': '#F1F1EE', '#B3A69C': '#9CA3AF',

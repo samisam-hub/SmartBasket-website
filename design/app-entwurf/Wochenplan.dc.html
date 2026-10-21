@@ -7,52 +7,53 @@
 </head>
 <body>
 <x-dc>
-<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 20px 32px; display: flex; flex-direction: column; gap: 14px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 48px 20px 24px; display: flex; flex-direction: column; gap: 10px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
 <div style="display: flex; flex-direction: column; gap: 6px; padding: 0 4px">
-<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">KW 41</div>
-<h1 style="margin: 0; font-size: 28px; line-height: 36px; font-weight: 700">Deine Woche</h1>
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">KW 41 · AUTOMATISCH GEPLANT</div>
+<h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 700">Deine Woche</h1>
 </div>
-<div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden">
-<sc-for list="{{days}}" as="day" hint-placeholder-count="4">
-<button onClick="{{day.open}}" style="display: flex; gap: 14px; padding: 10px 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid #EADFD6; color: #362B26; font: inherit; text-align: left; cursor: pointer">
-<span style="display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0">
-<span style="font-size: 13px; font-weight: 600; color: #75665D">{{day.short}}</span>
-<span style="font-size: 22px; font-weight: 700">{{day.date}}</span>
+<sc-if value="{{generated}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-radius: 14px; background: #FCEEDD; font-size: 13px; line-height: 18px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AD5137" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"></path></svg>
+<span>{{note}}</span>
+</div>
+</sc-if>
+<sc-if value="{{notGenerated}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid #EADFD6">
+<span style="font-size: 15px; line-height: 21px">Noch kein Plan. Erstelle ihn aus deinen Vorlieben – du kannst danach jede Mahlzeit tauschen.</span>
+<button onClick="{{create}}" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Plan erstellen</button>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px; overflow: hidden">
+<sc-for list="{{days}}" as="day" hint-placeholder-count="5">
+<div style="display: flex; gap: 12px; padding: 5px 10px 5px 12px; border-radius: 14px; background: #FFFFFF; border: 1px solid #EADFD6">
+<span style="display: flex; flex-direction: column; align-items: center; width: 30px; flex-shrink: 0; padding-top: 4px">
+<span style="font-size: 12px; font-weight: 600; color: #75665D">{{day.short}}</span>
+<span style="font-size: 19px; font-weight: 700">{{day.date}}</span>
 </span>
-<span style="display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0">
+<span style="display: flex; flex-direction: column; gap: 0; flex: 1; min-width: 0">
 <sc-for list="{{day.meals}}" as="m" hint-placeholder-count="3">
-<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 18px">
-<span style="width: 58px; flex-shrink: 0; font-size: 12px; color: #75665D">{{m.slot}}</span>
+<button onClick="{{m.edit}}" aria-label="{{m.aria}}" style="display: flex; align-items: center; gap: 8px; min-height: 23px; padding: 1px 4px; border: none; border-radius: 8px; background: none; color: #362B26; font: inherit; font-size: 13px; line-height: 17px; text-align: left; cursor: pointer">
+<span style="width: 52px; flex-shrink: 0; font-size: 11px; color: #75665D">{{m.slot}}</span>
 <span style="{{m.dot}}"></span>
 <span style="{{m.textStyle}}">{{m.text}}</span>
-</span>
-</sc-for>
-</span>
+<span style="margin-left: auto; flex-shrink: 0; font-size: 11px; color: #AD5137">{{m.flag}}</span>
 </button>
 </sc-for>
+</span>
 </div>
-<div style="display: flex; gap: 8px">
-<sc-for list="{{free}}" as="f" hint-placeholder-count="3">
-<a href="Woche.dc.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 52px; border-radius: 14px; border: 1.5px dashed #D9CCC2; color: #75665D; text-decoration: none">
-<span style="font-size: 13px; font-weight: 600">{{f.short}} {{f.date}}</span>
-<span style="font-size: 12px">+ planen</span>
-</a>
 </sc-for>
 </div>
-<div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-size: 12px; color: #75665D">
-<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #AD5137"></span>kochen</span>
-<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; background: #E8B386"></span>aufwärmen</span>
-<span style="display: flex; align-items: center; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 999px; border: 1.5px solid #75665D; box-sizing: border-box"></span>auswärts</span>
-</div>
+<div style="text-align: center; font-size: 12px; color: #75665D">Tippe eine Mahlzeit an, um sie zu tauschen.</div>
 <div style="flex-grow: 1"></div>
-<a href="Korb.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #AD5137; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none">Einkaufskorb erstellen</a>
+<a href="Korb.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; text-decoration: none; cursor: pointer">Einkaufskorb erstellen</a>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
 renderVals() {
 const st = this.props.store, lib = this.props.lib, data = st.data;
-const days = lib.selectedDays();
+const days = lib.selectedDays(), liked = Object.keys(data.prefs).filter(k => data.prefs[k]).length;
 const dot = {
 cook: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #AD5137',
 heat: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #E8B386',
@@ -60,14 +61,19 @@ out: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; border: 1.5
 skip: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #D9CCC2',
 open: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #EADFD6'
 };
+const av = lib.AVOIDS.filter(a => data.avoids.indexOf(a.id) >= 0).map(a => a.label);
 return {
-days: days.map((d, i) => ({
+generated: data.generated, notGenerated: !data.generated,
+note: 'Aus ' + liked + (liked === 1 ? ' gemochtem Gericht' : ' gemochten Gerichten') + (av.length ? ', ohne ' + av.join(', ') : '') + ' · Budget ' + data.budget + '.',
+create: () => st.set({ plan: lib.generate(), generated: true }),
+days: days.map(d => ({
 short: lib.SHORT[d], date: String(5 + d),
-open: () => { st.set({ dayPos: i, slotPos: 0 }); this.props.go(lib.dayDone(d) ? 'TagFertig' : 'Tag'); },
-meals: lib.mealsFor(d).map(s => { const e = (data.plan[d] || {})[s.id]; const k = e ? e.kind : 'open';
-return { slot: s.short, text: lib.entryText(e), dot: dot[k], textStyle: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap; ' + (k === 'open' ? 'color: #75665D; font-style: italic' : '') }; })
-})),
-free: lib.SHORT.map((n, i) => ({ short: n, date: String(5 + i), i: i })).filter(f => days.indexOf(f.i) < 0)
+meals: lib.mealsFor().map(s => { const e = (data.plan[d] || {})[s.id]; const k = e ? e.kind : 'open';
+return { slot: s.short, text: lib.entryText(e), dot: dot[k], flag: e && !e.auto ? 'geändert' : '',
+aria: lib.DAY_NAMES[d] + ' ' + s.label + ': ' + lib.entryText(e) + ' – tauschen',
+edit: () => { st.set({ edit: { day: d, slot: s.id } }); this.props.go('Wischen'); },
+textStyle: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap; ' + (k === 'open' ? 'color: #75665D; font-style: italic' : '') }; })
+}))
 };
 }
 }

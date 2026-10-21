@@ -13,18 +13,19 @@
   DCLogic.prototype.setState = function (patch) { Object.assign(this.state, patch); render(true); };
 
   // ---------- Gemeinsamer Plan über alle Screens (bleibt beim Neuladen erhalten) ----------
-  var KEY = 'sb-app-entwurf-v1';
+  var KEY = 'sb-app-entwurf-v2';
   function initialData() {
     return {
       people: [{ name: 'Anna', kid: false }, { name: 'Alex', kid: false }, { name: 'Mia', kid: true }],
+      budget: '80–110 €', avoids: [],
       standard: { breakfast: true, lunch: true, dinner: true, snack: false },
-      days: [0, 1, 2, 3], events: { bake: true },
-      dayPos: 0, dayMeals: {}, plan: {}, slotPos: 0, offset: {},
+      days: [0, 1, 2, 3, 4], events: { bake: false },
+      prefs: {}, swipePos: 0, plan: {}, generated: false, edit: null,
       extras: { juice: true, milk: true }
     };
   }
   function load() {
-    try { var raw = window.localStorage.getItem(KEY); if (raw) { var d = JSON.parse(raw); if (d && d.people && d.plan) return d; } } catch (e) {}
+    try { var raw = window.localStorage.getItem(KEY); if (raw) { var d = JSON.parse(raw); if (d && d.people && d.plan && d.prefs) return d; } } catch (e) {}
     return initialData();
   }
   var store = {
@@ -37,36 +38,59 @@
   var LIB = window.SB_APP_LIB = (function () {
     var DAY_NAMES = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
     var SHORT = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    var SLOTS = [{ id: 'breakfast', label: 'Frühstück', short: 'Frühstück', q: 'Was gibt es zum Frühstück?' },
-      { id: 'lunch', label: 'Mittagessen', short: 'Mittag', q: 'Was gibt es zum Mittagessen?' },
-      { id: 'dinner', label: 'Abendessen', short: 'Abend', q: 'Was gibt es zum Abendessen?' },
-      { id: 'snack', label: 'Snack', short: 'Snack', q: 'Welcher Snack darf es sein?' }];
-    // Mengen je erwachsene Person; Kinder bekommen 60 %
+    var SLOTS = [{ id: 'breakfast', label: 'Frühstück', short: 'Frühstück' },
+      { id: 'lunch', label: 'Mittagessen', short: 'Mittag' },
+      { id: 'dinner', label: 'Abendessen', short: 'Abend' },
+      { id: 'snack', label: 'Snack', short: 'Snack' }];
+    var AVOIDS = [{ id: 'dairy', label: 'Milchprodukte' }, { id: 'gluten', label: 'Gluten' }, { id: 'egg', label: 'Eier' },
+      { id: 'fish', label: 'Fisch' }, { id: 'nuts', label: 'Nüsse' }, { id: 'meat', label: 'Fleisch' }];
+    var BUDGETS = ['Unter 80 €', '80–110 €', '110–140 €', 'Über 140 €', 'Noch offen'];
+    // Mengen je erwachsene Person; Kinder bekommen 60 %. cost: 1 günstig … 3 teurer
     var DISHES = {
-      oats: { name: 'Haferbrei mit Beeren', parts: 'Haferflocken · Beeren · Banane', img: '../assets/oats.webp', ing: [['Haferflocken', 70, 'g'], ['Beeren', 120, 'g'], ['Bananen', 0.5, 'Stk.']] },
-      toast: { name: 'Ei-Toast mit Hähnchenschinken', parts: 'Eier · Brot · Hähnchenschinken', img: '../assets/hamtoast.webp', ing: [['Vollkornbrot', 2, 'Scheiben'], ['Eier', 1, 'Stk.'], ['Hähnchenschinken', 40, 'g']] },
-      yogurt: { name: 'Joghurt mit Beeren und Hafer', parts: 'Joghurt · Beeren · Haferflocken', img: '../assets/yogurtbowl.webp', ing: [['Joghurt', 200, 'g'], ['Beeren', 80, 'g'], ['Haferflocken', 30, 'g']] },
-      chick: { name: 'Hähnchen mit Kartoffeln und Brokkoli', parts: 'Hähnchen · Kartoffeln · Brokkoli', img: '../assets/chickenpotato.webp', ing: [['Hähnchenbrust', 150, 'g'], ['Kartoffeln', 250, 'g'], ['Brokkoli', 150, 'g']] },
-      tuna: { name: 'Nudeln mit Tomaten-Thunfisch-Soße', parts: 'Nudeln · Tomaten · Thunfisch', img: '../assets/tunapasta.webp', ing: [['Nudeln', 90, 'g'], ['Passierte Tomaten', 150, 'g'], ['Thunfisch', 80, 'g']] },
-      lentil: { name: 'Linsen-Pasta mit Tomaten', parts: 'Linsennudeln · Tomaten', img: '../assets/lentilpasta.webp', ing: [['Linsennudeln', 90, 'g'], ['Passierte Tomaten', 150, 'g']] },
-      salmon: { name: 'Lachs mit Reis und Brokkoli', parts: 'Lachs · Reis · Brokkoli', img: '../assets/salmonrice.webp', ing: [['Lachs', 125, 'g'], ['Reis', 75, 'g'], ['Brokkoli', 150, 'g']] },
-      strog: { name: 'Hähnchen-Geschnetzeltes mit Nudeln', parts: 'Hähnchen · Bandnudeln · Champignons', img: '../assets/stroganoff.webp', ing: [['Hähnchenbrust', 130, 'g'], ['Bandnudeln', 90, 'g'], ['Champignons', 120, 'g']] },
-      eggs: { name: 'Rührei mit Kartoffeln und Spinat', parts: 'Eier · Kartoffeln · Spinat', img: '../assets/scrambled.webp', ing: [['Eier', 2, 'Stk.'], ['Kartoffeln', 200, 'g'], ['Spinat', 80, 'g']] },
-      snackyog: { name: 'Joghurt mit Beeren', parts: 'Joghurt · Beeren', img: '../assets/yogurtbowl.webp', ing: [['Joghurt', 150, 'g'], ['Beeren', 50, 'g']] },
-      apple: { name: 'Apfel und Nüsse', parts: 'Äpfel · Walnüsse', img: '', ing: [['Äpfel', 1, 'Stk.'], ['Walnüsse', 25, 'g']] }
+      oats: { name: 'Haferbrei mit Beeren', parts: 'Haferflocken · Beeren · Banane', img: '../assets/oats.webp', tags: ['gluten'], cost: 1, ing: [['Haferflocken', 70, 'g'], ['Beeren', 120, 'g'], ['Bananen', 0.5, 'Stk.']] },
+      sunny: { name: 'Spiegelei auf Sauerteigbrot', parts: 'Eier · Sauerteigbrot · Tomaten', img: '../assets/entwurf/spiegelei.webp', tags: ['egg', 'gluten'], cost: 1, ing: [['Eier', 2, 'Stk.'], ['Sauerteigbrot', 2, 'Scheiben'], ['Kirschtomaten', 100, 'g']] },
+      yogurt: { name: 'Joghurt mit Beeren und Hafer', parts: 'Joghurt · Beeren · Haferflocken', img: '../assets/yogurtbowl.webp', tags: ['dairy', 'gluten'], cost: 1, ing: [['Joghurt', 200, 'g'], ['Beeren', 80, 'g'], ['Haferflocken', 30, 'g']] },
+      tofu: { name: 'Tofu-Rührei mit Gemüse', parts: 'Tofu · Paprika · Spinat', img: '../assets/entwurf/tofu.webp', tags: [], cost: 2, ing: [['Tofu', 150, 'g'], ['Paprika', 0.5, 'Stk.'], ['Spinat', 50, 'g']] },
+      toast: { name: 'Ei-Toast mit Hähnchenschinken', parts: 'Eier · Brot · Hähnchenschinken', img: '../assets/hamtoast.webp', tags: ['egg', 'gluten', 'meat'], cost: 2, ing: [['Vollkornbrot', 2, 'Scheiben'], ['Eier', 1, 'Stk.'], ['Hähnchenschinken', 40, 'g']] },
+      chick: { name: 'Hähnchen mit Kartoffeln und Brokkoli', parts: 'Hähnchen · Kartoffeln · Brokkoli', img: '../assets/chickenpotato.webp', tags: ['meat'], cost: 2, ing: [['Hähnchenbrust', 150, 'g'], ['Kartoffeln', 250, 'g'], ['Brokkoli', 150, 'g']] },
+      tuna: { name: 'Nudeln mit Tomaten-Thunfisch-Soße', parts: 'Nudeln · Tomaten · Thunfisch', img: '../assets/tunapasta.webp', tags: ['fish', 'gluten'], cost: 1, ing: [['Nudeln', 90, 'g'], ['Passierte Tomaten', 150, 'g'], ['Thunfisch', 80, 'g']] },
+      lentil: { name: 'Linsen-Pasta mit Tomaten', parts: 'Linsennudeln · Tomaten', img: '../assets/lentilpasta.webp', tags: [], cost: 1, ing: [['Linsennudeln', 90, 'g'], ['Passierte Tomaten', 150, 'g']] },
+      salmon: { name: 'Lachs mit Reis und Brokkoli', parts: 'Lachs · Reis · Brokkoli', img: '../assets/salmonrice.webp', tags: ['fish'], cost: 3, ing: [['Lachs', 125, 'g'], ['Reis', 75, 'g'], ['Brokkoli', 150, 'g']] },
+      strog: { name: 'Hähnchen-Geschnetzeltes mit Nudeln', parts: 'Hähnchen · Bandnudeln · Champignons', img: '../assets/stroganoff.webp', tags: ['meat', 'gluten', 'dairy'], cost: 2, ing: [['Hähnchenbrust', 130, 'g'], ['Bandnudeln', 90, 'g'], ['Champignons', 120, 'g']] },
+      eggs: { name: 'Rührei mit Kartoffeln und Spinat', parts: 'Eier · Kartoffeln · Spinat', img: '../assets/scrambled.webp', tags: ['egg'], cost: 1, ing: [['Eier', 2, 'Stk.'], ['Kartoffeln', 200, 'g'], ['Spinat', 80, 'g']] },
+      snackyog: { name: 'Joghurt mit Beeren', parts: 'Joghurt · Beeren', img: '../assets/yogurtbowl.webp', tags: ['dairy'], cost: 1, ing: [['Joghurt', 150, 'g'], ['Beeren', 50, 'g']] },
+      apple: { name: 'Apfel und Nüsse', parts: 'Äpfel · Walnüsse', img: '', tags: ['nuts'], cost: 1, ing: [['Äpfel', 1, 'Stk.'], ['Walnüsse', 25, 'g']] }
     };
-    var CHOICES = { breakfast: ['oats', 'toast', 'yogurt'], lunch: ['chick', 'tuna', 'lentil'], dinner: ['salmon', 'strog', 'eggs'], snack: ['snackyog', 'apple'] };
+    var CHOICES = { breakfast: ['oats', 'sunny', 'yogurt', 'tofu', 'toast'], lunch: ['chick', 'tuna', 'lentil'], dinner: ['salmon', 'strog', 'eggs', 'lentil'], snack: ['snackyog', 'apple'] };
     var MODES = { heat: 'Aufwärmen', out: 'Auswärts essen', skip: 'Ausgelassen' };
     function d() { return store.data; }
     function selectedDays() { return d().days.slice().sort(function (a, b) { return a - b; }); }
-    function currentDay() { var s = selectedDays(); return s.length ? s[Math.min(d().dayPos, s.length - 1)] : 0; }
-    function mealsFor(day) {
-      var o = d().dayMeals[day] || d().standard;
-      return SLOTS.filter(function (s) { return o[s.id]; });
-    }
+    function mealsFor() { var o = d().standard; return SLOTS.filter(function (s) { return o[s.id]; }); }
+    function allowed(id) { var av = d().avoids; return DISHES[id].tags.every(function (t) { return av.indexOf(t) < 0; }); }
+    function candidates(slotId) { return CHOICES[slotId].filter(allowed); }
     function entryText(e) { return !e ? 'noch offen' : e.kind === 'cook' ? DISHES[e.dish].name : MODES[e.kind]; }
-    function dayDone(day) { var p = d().plan[day] || {}; var m = mealsFor(day); return m.length > 0 && m.every(function (s) { return p[s.id]; }); }
     function eaters() { var a = 0, k = 0; d().people.forEach(function (p) { if (p.kid) k++; else a++; }); return { adults: a, kids: k, factor: a + 0.6 * k }; }
+    // Plan automatisch erstellen: gemochte Gerichte zuerst, abgelehnte nur als Notlösung; bei kleinem Budget günstige zuerst; Abwechslung über die Tage
+    function generate() {
+      var prefs = d().prefs, cheap = d().budget === 'Unter 80 €', plan = {};
+      selectedDays().forEach(function (day, di) {
+        plan[day] = {};
+        mealsFor().forEach(function (s, si) {
+          var c = candidates(s.id);
+          var liked = c.filter(function (id) { return prefs[id] === true; });
+          var neutral = c.filter(function (id) { return prefs[id] === undefined; });
+          var pool = liked.length ? liked : neutral.length ? neutral : c;
+          if (cheap) pool = pool.slice().sort(function (a, b) { return DISHES[a].cost - DISHES[b].cost; });
+          var used = Object.keys(plan[day]).map(function (k) { return plan[day][k].dish; });
+          var order = [], start = pool.length ? (di + si) % pool.length : 0;
+          pool.forEach(function (x, i) { order.push(pool[(start + i) % pool.length]); });
+          c.forEach(function (id) { if (order.indexOf(id) < 0 && prefs[id] !== false) order.push(id); });
+          var pick = order.filter(function (id) { return used.indexOf(id) < 0; })[0] || order[0];
+          if (pick) plan[day][s.id] = { kind: 'cook', dish: pick, auto: true };
+        });
+      });
+      return plan;
+    }
     function basket() {
       var f = eaters().factor, items = {}, ready = 0;
       selectedDays().forEach(function (day) {
@@ -85,12 +109,13 @@
       var list = Object.keys(items).map(function (k) {
         var it = items[k], q = it.unit === 'g' ? Math.ceil(it.qty / 10) * 10 : Math.ceil(it.qty);
         var qty = it.unit === 'g' && q >= 1000 ? (q / 1000).toString().replace('.', ',') + ' kg' : q + ' ' + it.unit;
-        return { name: it.name, qty: qty, for: it.uses.join(', ') };
+        var uses = it.uses.length > 3 ? it.uses.slice(0, 3).join(', ') + ' …' : it.uses.join(', ');
+        return { name: it.name, qty: qty, for: uses };
       }).sort(function (a, b) { return a.name.localeCompare(b.name, 'de'); });
       return { items: list, ready: ready };
     }
-    return { DAY_NAMES: DAY_NAMES, SHORT: SHORT, SLOTS: SLOTS, DISHES: DISHES, CHOICES: CHOICES, MODES: MODES,
-      selectedDays: selectedDays, currentDay: currentDay, mealsFor: mealsFor, entryText: entryText, dayDone: dayDone, eaters: eaters, basket: basket };
+    return { DAY_NAMES: DAY_NAMES, SHORT: SHORT, SLOTS: SLOTS, AVOIDS: AVOIDS, BUDGETS: BUDGETS, DISHES: DISHES, CHOICES: CHOICES, MODES: MODES,
+      selectedDays: selectedDays, mealsFor: mealsFor, candidates: candidates, allowed: allowed, entryText: entryText, eaters: eaters, generate: generate, basket: basket };
   })();
 
   var current = null, comp = null, instances = {};

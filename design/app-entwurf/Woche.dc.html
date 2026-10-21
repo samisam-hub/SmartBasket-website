@@ -47,7 +47,7 @@ a{color:#AD5137}a:hover{color:#8A3F2A}
 </sc-if>
 </div>
 <div style="flex-grow: 1"></div>
-<button onClick="{{start}}" style="display: flex; align-items: center; justify-content: center; height: 56px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer">Loslegen</button>
+<button onClick="{{start}}" style="display: flex; align-items: center; justify-content: center; height: 56px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer">Weiter zum Geschmack</button>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
@@ -68,12 +68,12 @@ style: 'min-height: 44px; padding: 0 16px; border-radius: 999px; font: inherit; 
 };
 }),
 summary: count === 0 ? 'Noch kein Tag ausgewählt' : count + (count === 1 ? ' Tag' : ' Tage') + ' ausgewählt · der Rest bleibt frei',
-start: () => { st.set({ dayPos: 0, slotPos: 0 }); this.props.go('Tag'); },
+start: () => { st.set({ swipePos: 0 }); this.props.go('Geschmack'); },
 days: lib.SHORT.map((n, i) => {
 const on = picked.indexOf(i) >= 0;
 return {
 short: n, date: String(5 + i),
-toggle: () => st.set({ days: on ? picked.filter(x => x !== i) : picked.concat([i]), dayPos: 0 }),
+toggle: () => st.set({ days: on ? picked.filter(x => x !== i) : picked.concat([i]), generated: false }),
 style: 'display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 84px; border-radius: 16px; cursor: pointer; font: inherit; ' + (on ? 'background: #AD5137; color: #FFFFFF; border: 1.5px solid #AD5137' : 'background: #FFFFFF; color: #75665D; border: 1.5px solid #EADFD6')
 };
 })

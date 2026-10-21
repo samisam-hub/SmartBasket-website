@@ -50,7 +50,7 @@ slots: defs.map(d => {
 const active = !!on[d.id];
 return {
 label: d.label, hint: d.hint,
-toggle: () => st.set({ standard: Object.assign({}, on, { [d.id]: !active }), dayMeals: {} }),
+toggle: () => st.set({ standard: Object.assign({}, on, { [d.id]: !active }), generated: false, swipePos: 0 }),
 style: 'display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 12px 16px; border-radius: 16px; cursor: pointer; font: inherit; background: ' + (active ? '#FFFFFF' : '#FFFCF8') + '; border: 1.5px solid ' + (active ? '#AD5137' : '#EADFD6'),
 track: 'display: flex; align-items: center; width: 52px; height: 32px; border-radius: 999px; padding: 3px; box-sizing: border-box; justify-content: ' + (active ? 'flex-end' : 'flex-start') + '; background: ' + (active ? '#AD5137' : '#D9CCC2'),
 knob: 'width: 26px; height: 26px; border-radius: 999px; background: #FFFFFF'
