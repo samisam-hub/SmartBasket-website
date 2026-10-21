@@ -57,12 +57,17 @@
 </div>
 </div>
 <div style="flex-grow: 1"></div>
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
-<span style="display: flex; flex-direction: column">
-<span style="font-size: 13px; color: #75665D">Im Korb · {{extraCount}}</span>
-<span style="font-size: 20px; font-weight: 700">{{total}} Artikel</span>
-</span>
-<a href="Wochenplan.dc.html" style="display: flex; align-items: center; height: 54px; padding: 0 22px; border-radius: 999px; background: #AD5137; color: #FFFFFF; font-size: 16px; font-weight: 600; text-decoration: none">Zum Kalender</a>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-if value="{{hasNote}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 12px; background: #FCEEDD; font-size: 13px; line-height: 18px"><span style="color: #AD5137; font-weight: 700">✓</span>{{note}}</div>
+</sc-if>
+<button onClick="{{order}}" style="display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 22px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer">
+<span>Jetzt bestellen</span><span style="font-size: 14px; font-weight: 500; opacity: .85">{{total}} Artikel · {{extraCount}}</span>
+</button>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button onClick="{{download}}" style="display: flex; align-items: center; justify-content: center; gap: 6px; height: 46px; border-radius: 999px; border: 1.5px solid #EADFD6; background: #FFFFFF; color: #362B26; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#362B26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7 10l5 5 5-5"></path><path d="M5 20h14"></path></svg>Liste herunterladen</button>
+<button onClick="{{save}}" aria-pressed="{{savedPressed}}" style="display: flex; align-items: center; justify-content: center; gap: 6px; height: 46px; border-radius: 999px; border: 1.5px solid #EADFD6; background: #FFFFFF; color: #362B26; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#362B26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v16l-6-4-6 4z"></path></svg>{{saveLabel}}</button>
+</div>
 </div>
 </div>
 </x-dc>
@@ -91,6 +96,19 @@ ready: b.ready > 0, readyText: b.ready + (b.ready === 1 ? ' Fertiggericht zum Au
 baking: !!data.events.bake,
 extraCount: n === 0 ? 'ohne Extras' : n + (n === 1 ? ' Extra' : ' Extras'),
 total: b.items.length + (b.ready ? 1 : 0) + (data.events.bake ? 4 : 0) + n,
+hasNote: !!this.state.note, note: this.state.note || '',
+order: () => this.setState({ note: 'Im Entwurf angedeutet: Hier übergibst du den Korb später an einen Händler zum Bestellen.' }),
+download: () => {
+const lines = ['SmartBasket – Einkaufsliste', 'Tage: ' + days.map(d => lib.DAY_NAMES[d]).join(', '), ''];
+b.items.forEach(it => lines.push('[ ] ' + it.name + ' – ' + it.qty));
+if (b.ready) lines.push('[ ] ' + b.ready + ' Fertiggericht(e) zum Aufwärmen');
+if (data.events.bake) ['Mehl', 'Zucker', 'Butter', 'Eier'].forEach(x => lines.push('[ ] ' + x + ' (Backen)'));
+defs.filter(d => on[d.id]).forEach(d => lines.push('[ ] ' + d.label));
+try { const url = URL.createObjectURL(new Blob([lines.join('\n') + '\n'], { type: 'text/plain;charset=utf-8' }));
+const a = document.createElement('a'); a.href = url; a.download = 'smartbasket-einkaufsliste.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); } catch (e) {}
+this.setState({ note: 'Einkaufsliste heruntergeladen.' }); },
+save: () => this.setState({ saved: true, note: 'Korb gespeichert. Im Entwurf nur angedeutet.' }),
+saveLabel: this.state.saved ? 'Gespeichert' : 'Korb speichern', savedPressed: this.state.saved ? 'true' : 'false',
 regulars: defs.map(d => { const active = !!on[d.id];
 return { label: (active ? '✓ ' : '+ ') + d.label, pressed: active ? 'true' : 'false',
 toggle: () => st.set({ extras: Object.assign({}, on, { [d.id]: !active }) }),
