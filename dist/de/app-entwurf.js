@@ -24,8 +24,10 @@
       extras: { juice: true, milk: true }
     };
   }
+  // Zwischenergebnisse gelten nur für den aktuellen Besuch: Jeder Seitenaufruf startet frisch
+  // (Haushalt, Budget, Wischen, Plan). Früher gespeicherte Stände werden entfernt.
   function load() {
-    try { var raw = window.localStorage.getItem(KEY); if (raw) { var d = JSON.parse(raw); if (d && d.people && d.plan && d.prefs) return d; } } catch (e) {}
+    try { window.localStorage.removeItem(KEY); window.localStorage.removeItem('sb-app-entwurf'); } catch (e) {}
     return initialData();
   }
   var store = {
@@ -33,7 +35,7 @@
     set: function (patch) { if (patch.generated === true && !('hintSeen' in patch)) patch.hintSeen = false; Object.assign(store.data, patch); save(); render(true); },
     reset: function () { store.data = initialData(); try { window.localStorage.removeItem(KEY); } catch (e) {} }
   };
-  function save() { try { window.localStorage.setItem(KEY, JSON.stringify(store.data)); } catch (e) {} }
+  function save() {}
 
   var LIB = window.SB_APP_LIB = (function () {
     var DAY_NAMES = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
@@ -204,6 +206,7 @@
     if (!SCREENS[name]) return;
     // Hinweis 'Dienstag antippen' bei jedem neuen Besuch des Plans zeigen (nicht beim Zurückkommen vom Tauschen)
     if (name === 'Wochenplan' && current !== 'Wischen' && current !== 'Wochenplan' && store.data.hintSeen) { store.data.hintSeen = false; save(); }
+    if (name === 'Geschmack' && current !== 'Geschmack') store.data.swipeSlot = null; // immer mit der Übersicht beginnen
     current = name;
     if (!instances[name]) { var C = SCREENS[name].make(DCLogic); instances[name] = new C({ store: store, lib: LIB, go: function (to) { go(to, true); } }); }
     comp = instances[name];
