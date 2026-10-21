@@ -296,3 +296,36 @@
 .b2c .b2c-quotes blockquote{margin:0 0 14px;font-family:var(--ed-serif);font-size:22px;line-height:1.4;color:var(--ed-text)}
 .b2c .b2c-quote-by{font-size:14px;color:var(--ed-muted);margin:0}
 @media (max-width:767px){.b2c .b2c-quotes li,.b2c .b2c-quotes li:first-child{border-left:0;padding:24px 0;border-top:1px solid var(--ed-line)}.b2c .b2c-quotes li:first-child{border-top:0;padding-top:0}}
+
+/* ---------- Interaktiver App-Entwurf ---------- */
+#app-entwurf.b2c{background:var(--ed-ivory);border-top:1px solid var(--ed-line)}
+#app-entwurf.b2c > .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:80px;align-items:center}
+.app-entwurf-text{display:flex;flex-direction:column;gap:16px;max-width:560px}
+.app-entwurf-text .b2c-note{margin:0}
+.app-entwurf-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.app-entwurf-nav button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 6px;border:1px solid var(--ed-line);border-radius:999px;background:#fff;color:var(--ed-text);font:600 14px/1 var(--ed-sans);cursor:pointer}
+.app-entwurf-nav button:hover{border-color:var(--ed-green)}
+.app-entwurf-nr{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#EEF5F0;color:var(--ed-green-deep);font-size:13px}
+.app-entwurf-nav button[aria-current="step"]{background:var(--ed-green-deep);border-color:var(--ed-green-deep);color:#fff}
+.app-entwurf-nav button[aria-current="step"] .app-entwurf-nr{background:#fff;color:var(--ed-green-deep)}
+.app-entwurf-nav button:focus-visible,.app-entwurf-reset:focus-visible{outline:2px solid var(--ed-green);outline-offset:3px}
+.app-entwurf-reset{align-self:flex-start;min-height:44px;padding:0;border:0;background:none;color:var(--ed-green);font:600 15px/1 var(--ed-sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.app-entwurf-phone{display:flex;flex-direction:column;align-items:center;min-width:0}
+.app-entwurf-frame{position:relative;overflow:hidden;border-radius:40px;border:10px solid #111827;box-sizing:content-box;background:#FFF8F0;box-shadow:0 20px 40px -12px rgba(31,41,55,.25)}
+.app-entwurf-screen{position:absolute;top:0;left:0;width:390px;height:844px;transform-origin:0 0;overflow:hidden}
+.app-entwurf-screen button,.app-entwurf-screen a{cursor:pointer}
+.app-entwurf-screen button:focus-visible,.app-entwurf-screen a:focus-visible,.app-entwurf-screen input:focus-visible{outline:3px solid #F3C77A;outline-offset:2px}
+@media (max-width:1023px){#app-entwurf.b2c > .wrap{column-gap:40px}}
+@media (max-width:767px){
+#app-entwurf.b2c > .wrap{grid-template-columns:minmax(0,1fr);row-gap:28px}
+.app-entwurf-phone{order:2}
+.app-entwurf-text{display:contents}
+.app-entwurf-text > .eyebrow,.app-entwurf-text > h2,.app-entwurf-text > .lead,.app-entwurf-text > .b2c-note{order:1}
+.app-entwurf-nav{order:3;flex-wrap:nowrap;overflow-x:auto;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
+.app-entwurf-nav::-webkit-scrollbar{display:none}
+.app-entwurf-nav button{flex:0 0 auto}
+.app-entwurf-reset{order:4;align-self:center}
+}
+#app-entwurf.b2c > .wrap{grid-template-columns:minmax(0,1fr) 380px}
+.app-entwurf-phone{width:100%}
+@media (max-width:767px){#app-entwurf.b2c > .wrap{grid-template-columns:minmax(0,1fr)}}
