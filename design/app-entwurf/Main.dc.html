@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Mahlzeiten-Standard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#AD5137}a:hover{color:#8A3F2A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 24px 32px; display: flex; flex-direction: column; gap: 28px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">EINMAL EINRICHTEN</div>
+<h1 style="margin: 0; font-size: 28px; line-height: 36px; font-weight: 700">Welche Mahlzeiten planst du normalerweise?</h1>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #75665D">Das gilt als Standard für jeden Tag. An einzelnen Tagen kannst du später abweichen.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{slots}}" as="slot" hint-placeholder-count="4">
+<button onClick="{{slot.toggle}}" style="{{slot.style}}">
+<span style="display: flex; flex-direction: column; gap: 2px; text-align: left">
+<span style="font-size: 17px; font-weight: 600; color: #362B26">{{slot.label}}</span>
+<span style="font-size: 14px; color: #75665D">{{slot.hint}}</span>
+</span>
+<span style="{{slot.track}}"><span style="{{slot.knob}}"></span></span>
+</button>
+</sc-for>
+</div>
+<div style="flex-grow: 1"></div>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #75665D; text-align: center">Jederzeit im Profil änderbar</p>
+<a href="Woche.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #AD5137; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none">Weiter</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { on: { breakfast: true, lunch: true, dinner: true, snack: false } };
+}
+renderVals() {
+const defs = [
+{ id: 'breakfast', label: 'Frühstück', hint: 'Morgens' },
+{ id: 'lunch', label: 'Mittagessen', hint: 'Mittags' },
+{ id: 'dinner', label: 'Abendessen', hint: 'Abends' },
+{ id: 'snack', label: 'Snack', hint: 'Zwischendurch' }
+];
+const on = this.state.on;
+return {
+slots: defs.map(d => {
+const active = on[d.id];
+return {
+label: d.label,
+hint: d.hint,
+toggle: () => this.setState({ on: Object.assign({}, on, { [d.id]: !active }) }),
+style: 'display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 12px 16px; border-radius: 16px; cursor: pointer; font: inherit; background: ' + (active ? '#FFFFFF' : '#FFFCF8') + '; border: 1.5px solid ' + (active ? '#AD5137' : '#EADFD6'),
+track: 'display: flex; align-items: center; width: 52px; height: 32px; border-radius: 999px; padding: 3px; box-sizing: border-box; justify-content: ' + (active ? 'flex-end' : 'flex-start') + '; background: ' + (active ? '#AD5137' : '#D9CCC2'),
+knob: 'width: 26px; height: 26px; border-radius: 999px; background: #FFFFFF'
+};
+})
+};
+}
+}
+</script>
+</body>
+</html>

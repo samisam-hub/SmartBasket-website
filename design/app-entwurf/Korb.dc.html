@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Einkaufskorb</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#AD5137}a:hover{color:#8A3F2A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 48px 20px 28px; display: flex; flex-direction: column; gap: 12px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 0 4px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">MO 5. – DO 8. OKTOBER</div>
+<h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 700">Dein Einkauf</h1>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #75665D">6 Gerichte zum Kochen · 1 zum Aufwärmen · Backen</p>
+</div>
+<div style="display: flex; flex-direction: column; border-radius: 16px; background: #FFFFFF; border: 1px solid #EADFD6; overflow: hidden">
+<sc-for list="{{items}}" as="item" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; padding: 4px 14px; box-sizing: border-box; border-bottom: 1px solid #F3EAE2">
+<span style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+<span style="font-size: 15px; font-weight: 600">{{item.name}}</span>
+<span style="font-size: 12px; color: #75665D; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">für {{item.for}}</span>
+</span>
+<span style="font-size: 13px; color: #75665D; flex-shrink: 0">{{item.qty}}</span>
+</div>
+</sc-for>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; padding: 4px 14px; box-sizing: border-box; background: #FCEEDD; border-bottom: 1px solid #F3EAE2">
+<span style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+<span style="font-size: 15px; font-weight: 600">Kuchen backen</span>
+<span style="font-size: 12px; color: #75665D">Mehl · Zucker · Butter · Eier</span>
+</span>
+<span style="font-size: 13px; color: #75665D; flex-shrink: 0">4 Zutaten</span>
+</div>
+<button style="min-height: 44px; border: none; background: #FFFFFF; color: #AD5137; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">5 weitere Zutaten anzeigen</button>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #EADFD6">
+<span style="width: 10px; height: 10px; border-radius: 999px; background: #E8B386; flex-shrink: 0"></span>
+<span style="font-size: 14px; line-height: 20px">Fertiggericht Pasta · Mo Mittag</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid #EADFD6">
+<span style="font-size: 17px; font-weight: 600">Noch etwas dazu?</span>
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #75665D">IMMER DABEI</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{regulars}}" as="r" hint-placeholder-count="5">
+<button onClick="{{r.toggle}}" style="{{r.style}}">{{r.label}}</button>
+</sc-for>
+</div>
+<label for="search" style="position: absolute; width: 1px; height: 1px; overflow: hidden">Produkt suchen</label>
+<div style="display: flex; align-items: center; gap: 8px; height: 46px; padding: 0 14px; border-radius: 12px; background: #FFFCF8; border: 1.5px solid #EADFD6">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#75665D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input id="search" type="text" placeholder="Produkt hinzufügen, z. B. Kaffee" style="flex: 1; min-width: 0; border: none; outline: none; background: none; font: inherit; font-size: 15px; color: #362B26">
+</div>
+</div>
+<div style="flex-grow: 1"></div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
+<span style="display: flex; flex-direction: column">
+<span style="font-size: 13px; color: #75665D">Im Korb · {{extraCount}}</span>
+<span style="font-size: 20px; font-weight: 700">{{total}} Artikel</span>
+</span>
+<button style="height: 56px; padding: 0 28px; border-radius: 999px; border: none; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; cursor: pointer">Korb speichern</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { on: { juice: true, milk: true } };
+}
+renderVals() {
+const on = this.state.on;
+const defs = [
+{ id: 'juice', label: 'Apfelsaft' },
+{ id: 'milk', label: 'Milch' },
+{ id: 'coffee', label: 'Kaffee' },
+{ id: 'bread', label: 'Brot' },
+{ id: 'cheese', label: 'Käse' }
+];
+const n = defs.filter(d => on[d.id]).length;
+return {
+extraCount: n === 0 ? 'ohne Extras' : n + (n === 1 ? ' Extra' : ' Extras'),
+total: 14 + n,
+items: [
+{ name: 'Haferflocken', for: 'Haferbrei · Mo', qty: '500 g' },
+{ name: 'Beeren', for: 'Haferbrei · Mo, Joghurt-Obst · Di', qty: '2 × 250 g' },
+{ name: 'Hähnchenbrust', for: 'Hähnchen-Kartoffel-Bowl · Di', qty: '400 g' },
+{ name: 'Lachs', for: 'Lachs-Reis-Bowl · Di', qty: '250 g' }
+],
+regulars: defs.map(d => {
+const active = !!on[d.id];
+return {
+label: (active ? '✓ ' : '+ ') + d.label,
+toggle: () => this.setState({ on: Object.assign({}, on, { [d.id]: !active }) }),
+style: 'min-height: 40px; padding: 0 14px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer; ' + (active ? 'background: #AD5137; color: #FFFFFF; border: 1.5px solid #AD5137; font-weight: 600' : 'background: #FFFFFF; color: #362B26; border: 1.5px solid #EADFD6')
+};
+})
+};
+}
+}
+</script>
+</body>
+</html>

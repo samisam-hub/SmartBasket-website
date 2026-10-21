@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Tag anpassen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#AD5137}a:hover{color:#8A3F2A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 24px 32px; display: flex; flex-direction: column; gap: 24px; background: #FFFCF8; color: #362B26; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="display: flex; gap: 8px">
+<span style="flex: 1; height: 6px; border-radius: 999px; background: #AD5137"></span>
+<span style="flex: 1; height: 6px; border-radius: 999px; background: #EADFD6"></span>
+<span style="flex: 1; height: 6px; border-radius: 999px; background: #EADFD6"></span>
+<span style="flex: 1; height: 6px; border-radius: 999px; background: #EADFD6"></span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #AD5137">TAG 1 VON 4</div>
+<h1 style="margin: 0; font-size: 28px; line-height: 36px; font-weight: 700">Montag, 5. Oktober</h1>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #75665D">Vorausgewählt nach deinem Standard. Tippe weg, was heute anders ist.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{slots}}" as="slot" hint-placeholder-count="4">
+<button onClick="{{slot.toggle}}" style="{{slot.style}}">
+<span style="{{slot.check}}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>
+</span>
+<span style="font-size: 17px; font-weight: 600">{{slot.label}}</span>
+<span style="font-size: 13px; color: #75665D">{{slot.state}}</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #FCEEDD">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#AD5137" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+<span style="font-size: 15px; line-height: 22px">{{summary}}</span>
+</div>
+<div style="flex-grow: 1"></div>
+<a href="Wischen.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #AD5137; color: #FFFFFF; font-size: 17px; font-weight: 600; text-decoration: none">Gerichte wählen</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { on: { breakfast: true, lunch: true, dinner: true, snack: false } };
+}
+renderVals() {
+const defs = [
+{ id: 'breakfast', label: 'Frühstück' },
+{ id: 'lunch', label: 'Mittagessen' },
+{ id: 'dinner', label: 'Abendessen' },
+{ id: 'snack', label: 'Snack' }
+];
+const on = this.state.on;
+const n = defs.filter(d => on[d.id]).length;
+return {
+summary: n + (n === 1 ? ' Mahlzeit' : ' Mahlzeiten') + ' heute. Für jede wählst du gleich zwischen zwei Gerichten oder entscheidest: nicht kochen.',
+slots: defs.map(d => {
+const active = on[d.id];
+return {
+label: d.label,
+state: active ? 'wird geplant' : 'heute nicht',
+toggle: () => this.setState({ on: Object.assign({}, on, { [d.id]: !active }) }),
+style: 'display: flex; flex-direction: column; align-items: flex-start; gap: 6px; height: 112px; padding: 14px; box-sizing: border-box; border-radius: 16px; cursor: pointer; font: inherit; text-align: left; color: #362B26; ' + (active ? 'background: #FFFFFF; border: 1.5px solid #AD5137' : 'background: #FFFCF8; border: 1.5px dashed #D9CCC2; opacity: 0.7'),
+check: 'display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 999px; margin-bottom: auto; background: ' + (active ? '#AD5137' : '#D9CCC2')
+};
+})
+};
+}
+}
+</script>
+</body>
+</html>
