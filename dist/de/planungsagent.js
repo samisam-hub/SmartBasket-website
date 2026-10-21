@@ -27,7 +27,7 @@ function choose(step,value){const key=step.key,old=answers[key]||[],exclusive=st
 function pill(step,value,selected,onClick){const btn=el('button','sb-agent-option',value);btn.type='button';btn.setAttribute('aria-pressed',String(selected));btn.addEventListener('click',onClick);options.append(btn)}
 function field(labelText,placeholder,key){const wrap=el('label','sb-agent-field'),lbl=el('span','',labelText),input=el('input','sb-agent-input');input.type='text';input.placeholder=placeholder;input.value=answers.styles?.[key]||'';input.addEventListener('input',()=>{answers.styles[key]=input.value;next.disabled=!valid(steps[index])});wrap.append(lbl,input);options.append(wrap)}
 function render(){
- const done=index===steps.length,step=steps[index];demoPanel.hidden=!done;headStep.textContent=done?'Fertig':(index+1)+' von '+steps.length;progress.textContent=done?'Dein Überblick':(index+1)+' von '+steps.length;fill.style.width=((done?steps.length:index+1)/steps.length*100)+'%';
+ const done=index===steps.length,step=steps[index];demoPanel.hidden=!done;headStep.textContent=done?'Fertig':(index+1)+' von '+steps.length;progress.textContent=done?'Dein Überblick':(index+1)+' von '+steps.length;fill.className='sb-agent-fill sb-agent-fill-'+(done?steps.length:index+1);
  conversation.replaceChildren();options.replaceChildren();summary.replaceChildren();
  if(index>0){const prev=steps[index-1];conversation.append(el('div','sb-agent-user-bubble',label(prev)))}
  back.disabled=index===0;next.disabled=!done&&!valid(step);
