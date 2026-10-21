@@ -37,25 +37,20 @@ a{color:#AD5137}a:hover{color:#8A3F2A}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-constructor(props) {
-super(props);
-this.state = { on: { breakfast: true, lunch: true, dinner: true, snack: false } };
-}
 renderVals() {
+const st = this.props.store, on = st.data.standard;
 const defs = [
 { id: 'breakfast', label: 'Frühstück', hint: 'Morgens' },
 { id: 'lunch', label: 'Mittagessen', hint: 'Mittags' },
 { id: 'dinner', label: 'Abendessen', hint: 'Abends' },
 { id: 'snack', label: 'Snack', hint: 'Zwischendurch' }
 ];
-const on = this.state.on;
 return {
 slots: defs.map(d => {
-const active = on[d.id];
+const active = !!on[d.id];
 return {
-label: d.label,
-hint: d.hint,
-toggle: () => this.setState({ on: Object.assign({}, on, { [d.id]: !active }) }),
+label: d.label, hint: d.hint,
+toggle: () => st.set({ standard: Object.assign({}, on, { [d.id]: !active }), dayMeals: {} }),
 style: 'display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 12px 16px; border-radius: 16px; cursor: pointer; font: inherit; background: ' + (active ? '#FFFFFF' : '#FFFCF8') + '; border: 1.5px solid ' + (active ? '#AD5137' : '#EADFD6'),
 track: 'display: flex; align-items: center; width: 52px; height: 32px; border-radius: 999px; padding: 3px; box-sizing: border-box; justify-content: ' + (active ? 'flex-end' : 'flex-start') + '; background: ' + (active ? '#AD5137' : '#D9CCC2'),
 knob: 'width: 26px; height: 26px; border-radius: 999px; background: #FFFFFF'
