@@ -64,7 +64,9 @@
 
   // Inline-Stile und Handler vor dem Parsen in data-Attribute umschreiben (CSP blockiert style-Attribute)
   function prepare(html) {
-    return html.replace(/\sstyle="/g, ' data-s="').replace(/\sonClick="/g, ' data-on-click="');
+    // Screen-Titel sind auf der Webseite Unterüberschriften des Abschnitts (h3 statt h1)
+    return html.replace(/\sstyle="/g, ' data-s="').replace(/\sonClick="/g, ' data-on-click="')
+      .replace(/<h1(\s|>)/g, '<h3$1').replace(/<\/h1>/g, '</h3>');
   }
 
   function focusPath() {
