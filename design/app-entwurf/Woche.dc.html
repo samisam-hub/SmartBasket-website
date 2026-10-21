@@ -68,7 +68,7 @@ style: 'min-height: 44px; padding: 0 16px; border-radius: 999px; font: inherit; 
 };
 }),
 summary: count === 0 ? 'Noch kein Tag ausgewählt' : count + (count === 1 ? ' Tag' : ' Tage') + ' ausgewählt · der Rest bleibt frei',
-start: () => { st.set({ swipePos: 0 }); this.props.go('Geschmack'); },
+start: () => { st.set({ swipeSlot: null, swipePos: 0 }); this.props.go('Geschmack'); },
 days: lib.SHORT.map((n, i) => {
 const on = picked.indexOf(i) >= 0;
 return {

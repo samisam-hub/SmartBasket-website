@@ -337,4 +337,9 @@
 .b2c .b2c-steps li{align-items:flex-start;text-align:left;padding:24px 0;scroll-snap-align:none}
 .b2c .b2c-steps li:first-child{border-top:0;padding-top:0}
 }
+.app-entwurf-screen .ae-glow{animation:ae-glow 1.6s ease-in-out infinite}
+.app-entwurf-screen .ae-hand{animation:ae-hand 1.2s ease-in-out infinite}
+@keyframes ae-glow{0%,100%{box-shadow:0 0 0 0 rgba(15,107,63,.35)}50%{box-shadow:0 0 0 6px rgba(15,107,63,.12)}}
+@keyframes ae-hand{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.app-entwurf-screen .ae-glow,.app-entwurf-screen .ae-hand{animation:none}.app-entwurf-screen .ae-glow{box-shadow:0 0 0 4px rgba(15,107,63,.18)}}
 .app-entwurf-screen h3{font-family:var(--ed-serif);font-weight:600;letter-spacing:-.01em}

@@ -13,6 +13,11 @@
 <h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 700">Mahlzeit tauschen</h1>
 <p style="margin: 0; font-size: 14px; line-height: 20px; color: #75665D">Aktuell: {{currentText}}</p>
 </div>
+<div style="display: flex; gap: 6px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
 <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden">
 <sc-for list="{{dishes}}" as="dish" hint-placeholder-count="3">
 <button onClick="{{dish.pick}}" aria-pressed="{{dish.pressed}}" style="{{dish.style}}">
@@ -48,6 +53,8 @@ const decide = e => { const plan = Object.assign({}, data.plan); const dp = Obje
 return {
 eyebrow: lib.DAY_NAMES[target.day].toUpperCase() + ' · ' + slot.label.toUpperCase(),
 currentText: lib.entryText(entry),
+tabs: meals.map(m => { const on = m.id === slot.id; return { label: m.short, pressed: on ? 'true' : 'false', pick: () => st.set({ edit: { day: target.day, slot: m.id }, hintSeen: true }),
+style: 'flex: 1; height: 38px; border-radius: 999px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (on ? 'background: #362B26; color: #FFFFFF; border: 1.5px solid #362B26' : 'background: #FFFFFF; color: #362B26; border: 1.5px solid #EADFD6') }; }),
 dishes: lib.candidates(slot.id).map(id => {
 const dish = lib.DISHES[id], on = !!entry && entry.kind === 'cook' && entry.dish === id, liked = data.prefs[id] === true, disliked = data.prefs[id] === false;
 return { name: dish.name, img: dish.img || '', pressed: on ? 'true' : 'false',
