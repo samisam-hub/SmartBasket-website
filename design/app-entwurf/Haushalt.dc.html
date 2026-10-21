@@ -37,31 +37,24 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-constructor(props) {
-super(props);
-this.state = { people: [{ name: 'Anna', kid: false }, { name: 'Alex', kid: false }, { name: 'Mia', kid: true }] };
-}
 renderVals() {
-const people = this.state.people;
-const adults = people.filter(p => !p.kid).length;
-const kids = people.length - adults;
+const st = this.props.store, people = st.data.people;
+const adults = people.filter(p => !p.kid).length, kids = people.length - adults;
 const tints = ['#F4D8BF', '#E8DCCB', '#FCEEDD', '#EADFD6'];
 const parts = [];
 if (adults) parts.push(adults + (adults === 1 ? ' erwachsene Person' : ' Erwachsene'));
 if (kids) parts.push(kids + (kids === 1 ? ' Kind' : ' Kinder'));
+const save = list => st.set({ people: list });
 return {
 summary: people.length ? parts.join(' und ') + ' · alle Mengen werden dafür berechnet.' : 'Noch niemand angelegt.',
-add: () => this.setState({ people: people.concat([{ name: 'Person ' + (people.length + 1), kid: false }]) }),
+add: () => save(people.concat([{ name: 'Person ' + (people.length + 1), kid: false }])),
 people: people.map((p, i) => ({
-name: p.name,
-initial: p.name.charAt(0),
-kind: p.kid ? 'Kind' : 'Erwachsen',
+name: p.name, initial: p.name.charAt(0), kind: p.kid ? 'Kind' : 'Erwachsen',
 portion: p.kid ? 'kleine Portion' : 'große Portion',
 toggleLabel: p.name + ': ' + (p.kid ? 'als erwachsen markieren' : 'als Kind markieren'),
-removeLabel: p.name + ' entfernen',
-removeDisplay: people.length > 1 ? 'flex' : 'none',
-toggle: () => this.setState({ people: people.map((q, j) => j === i ? { name: q.name, kid: !q.kid } : q) }),
-remove: () => this.setState({ people: people.filter((_, j) => j !== i) }),
+removeLabel: p.name + ' entfernen', removeDisplay: people.length > 1 ? 'flex' : 'none',
+toggle: () => save(people.map((q, j) => j === i ? { name: q.name, kid: !q.kid } : q)),
+remove: () => save(people.filter((_, j) => j !== i)),
 avatar: 'display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 999px; font-size: 18px; font-weight: 700; color: #362B26; background: ' + tints[i % tints.length],
 chip: 'min-height: 36px; padding: 0 12px; flex-shrink: 0; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (p.kid ? 'background: #FCEEDD; color: #AD5137; border: 1.5px solid #F4D8BF' : 'background: #FFFFFF; color: #362B26; border: 1.5px solid #EADFD6')
 }))
