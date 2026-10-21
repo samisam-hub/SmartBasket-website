@@ -20,7 +20,7 @@
       budget: '80–110 €', avoids: [],
       standard: { breakfast: true, lunch: true, dinner: true, snack: false },
       days: [0, 1, 2, 3, 4], events: { bake: false },
-      prefs: {}, swipePos: 0, plan: {}, generated: false, edit: null,
+      prefs: {}, swipeSlot: null, swipePos: 0, plan: {}, generated: false, edit: null, hintSeen: false,
       extras: { juice: true, milk: true }
     };
   }

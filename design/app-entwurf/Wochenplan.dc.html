@@ -26,11 +26,17 @@
 </sc-if>
 <div style="display: flex; flex-direction: column; gap: 6px; overflow: hidden">
 <sc-for list="{{days}}" as="day" hint-placeholder-count="5">
-<div style="display: flex; gap: 12px; padding: 5px 10px 5px 12px; border-radius: 14px; background: #FFFFFF; border: 1px solid #EADFD6">
-<span style="display: flex; flex-direction: column; align-items: center; width: 30px; flex-shrink: 0; padding-top: 4px">
+<div class="{{day.cls}}" style="{{day.style}}">
+<button onClick="{{day.open}}" aria-label="{{day.aria}}" style="display: flex; flex-direction: column; align-items: center; width: 34px; flex-shrink: 0; padding: 4px 0 0; border: none; border-radius: 10px; background: none; color: #362B26; font: inherit; cursor: pointer">
 <span style="font-size: 12px; font-weight: 600; color: #75665D">{{day.short}}</span>
 <span style="font-size: 19px; font-weight: 700">{{day.date}}</span>
+</button>
+<sc-if value="{{day.hint}}" hint-placeholder-val="{{ false }}">
+<span class="ae-hand" aria-hidden="true" style="position: absolute; left: 2px; top: -24px; display: flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 999px; background: #362B26; color: #FFFFFF; font-size: 12px; font-weight: 600; box-shadow: 0 6px 14px -6px rgba(54,43,38,.5); pointer-events: none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"></path><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"></path><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-4.6-2.2L4 15.6a1.6 1.6 0 0 1 2.4-2.1L9 16V11"></path></svg>
+{{day.hintText}}
 </span>
+</sc-if>
 <span style="display: flex; flex-direction: column; gap: 0; flex: 1; min-width: 0">
 <sc-for list="{{day.meals}}" as="m" hint-placeholder-count="3">
 <button onClick="{{m.edit}}" aria-label="{{m.aria}}" style="display: flex; align-items: center; gap: 8px; min-height: 23px; padding: 1px 4px; border: none; border-radius: 8px; background: none; color: #362B26; font: inherit; font-size: 13px; line-height: 17px; text-align: left; cursor: pointer">
@@ -44,7 +50,7 @@
 </div>
 </sc-for>
 </div>
-<div style="text-align: center; font-size: 12px; color: #75665D">Tippe eine Mahlzeit an, um sie zu tauschen.</div>
+<div style="text-align: center; font-size: 12px; color: #75665D">{{tapHint}}</div>
 <div style="flex-grow: 1"></div>
 <a href="Korb.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border: none; border-radius: 999px; background: #AD5137; color: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; text-decoration: none; cursor: pointer">Einkaufskorb erstellen</a>
 </div>
@@ -61,19 +67,25 @@ out: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; border: 1.5
 skip: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #D9CCC2',
 open: 'width: 8px; height: 8px; flex-shrink: 0; border-radius: 999px; background: #EADFD6'
 };
+const hintDay = days.indexOf(1) >= 0 ? 1 : days[1] !== undefined ? days[1] : days[0];
+const showHint = data.generated && !data.hintSeen;
 const av = lib.AVOIDS.filter(a => data.avoids.indexOf(a.id) >= 0).map(a => a.label);
 return {
 generated: data.generated, notGenerated: !data.generated,
+tapHint: 'Tippe einen Tag oder eine Mahlzeit an, um zu tauschen.',
 note: 'Aus ' + liked + (liked === 1 ? ' gemochtem Gericht' : ' gemochten Gerichten') + (av.length ? ', ohne ' + av.join(', ') : '') + ' · Budget ' + data.budget + '.',
 create: () => st.set({ plan: lib.generate(), generated: true }),
-days: days.map(d => ({
-short: lib.SHORT[d], date: String(5 + d),
+days: days.map(d => { const hint = showHint && d === hintDay; return {
+short: lib.SHORT[d], date: String(5 + d), hint: hint, hintText: lib.DAY_NAMES[d] + ' antippen', cls: hint ? 'ae-glow' : '',
+aria: lib.DAY_NAMES[d] + ' öffnen und Mahlzeiten tauschen',
+open: () => { st.set({ edit: { day: d, slot: lib.mealsFor()[0].id }, hintSeen: true }); this.props.go('Wischen'); },
+style: 'position: relative; display: flex; gap: 10px; padding: 5px 10px 5px 8px; border-radius: 14px; background: #FFFFFF; ' + (hint ? 'border: 2px solid #AD5137; margin: 18px -1px 0' : 'border: 1px solid #EADFD6'),
 meals: lib.mealsFor().map(s => { const e = (data.plan[d] || {})[s.id]; const k = e ? e.kind : 'open';
 return { slot: s.short, text: lib.entryText(e), dot: dot[k], flag: e && !e.auto ? 'geändert' : '',
 aria: lib.DAY_NAMES[d] + ' ' + s.label + ': ' + lib.entryText(e) + ' – tauschen',
-edit: () => { st.set({ edit: { day: d, slot: s.id } }); this.props.go('Wischen'); },
+edit: () => { st.set({ edit: { day: d, slot: s.id }, hintSeen: true }); this.props.go('Wischen'); },
 textStyle: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap; ' + (k === 'open' ? 'color: #75665D; font-style: italic' : '') }; })
-}))
+}; })
 };
 }
 }
