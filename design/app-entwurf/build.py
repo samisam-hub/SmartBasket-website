@@ -6,9 +6,9 @@ D = os.path.dirname(os.path.abspath(__file__)) + '/'
 ORDER = [('Haushalt', 'Haushalt'), ('Budget', 'Budget'), ('Main', 'Mahlzeiten'), ('Woche', 'Woche'), ('Geschmack', 'Geschmack'),
          ('Wochenplan', 'Plan'), ('Wischen', 'Tauschen'), ('Korb', 'Einkauf')]
 # Skizzen-Palette -> Webseiten-Palette
-COLORS = {'#AD5137': '#0F6B3F', '#8A3F2A': '#084B2C', '#FCEEDD': '#EEF5F0', '#362B26': '#1F2937', '#75665D': '#64748B',
-          '#EADFD6': '#E5E7EB', '#FFFCF8': '#FFF8F0', '#D9CCC2': '#CBD5CF', '#F3EAE2': '#F1F1EE', '#B3A69C': '#9CA3AF',
-          '#E8B386': '#F2B866', '#F4D8BF': '#F6E7CF', '#E8DCCB': '#EFE6D6'}
+COLORS = {'#AD5137': '#5B2A6E', '#8A3F2A': '#3A1D47', '#FCEEDD': '#F1EAF2', '#362B26': '#2A2230', '#75665D': '#6B6270',
+          '#EADFD6': '#E7E0E8', '#FFFCF8': '#FDFBF8', '#D9CCC2': '#D6CBDB', '#F3EAE2': '#F2EEF2', '#B3A69C': '#A79DAA',
+          '#E8B386': '#E9A06A', '#F4D8BF': '#F6E7DA', '#E8DCCB': '#EFE6DC'}
 BLOBS = {'/_blob/9bc8692cf3631aa3d17458f7d18d2838': '../assets/oats.webp', '/_blob/2c0ba3c590f91304b33340ac8f682c2c': '../assets/hamtoast.webp'}
 
 def recolor(s):
