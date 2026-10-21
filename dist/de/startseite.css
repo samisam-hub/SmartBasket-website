@@ -343,3 +343,5 @@
 @keyframes ae-hand{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media (prefers-reduced-motion:reduce){.app-entwurf-screen .ae-glow,.app-entwurf-screen .ae-hand{animation:none}.app-entwurf-screen .ae-glow{box-shadow:0 0 0 4px rgba(15,107,63,.18)}}
 .app-entwurf-screen h3{font-family:var(--ed-serif);font-weight:600;letter-spacing:-.01em}
+
+#sb-agent[hidden]{display:none!important}
