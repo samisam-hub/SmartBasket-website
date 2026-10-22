@@ -294,8 +294,8 @@
 .partner-page .phase{border-radius:20px}
 .partner-page .phase-consent{border:1px dashed #B7CDBD;background:#F9FCF8;box-shadow:none}
 .partner-page .phase-consent .phase-tag{background:#E7F0E7;color:#0F6B3F}
-.partner-page .privacy{background:#164A35!important}
-.partner-page .pilot{background:#0F6B3F!important}
+.partner-page .privacy{background:#0F172A!important}
+.partner-page .pilot{background:#0B3D2A!important}
 .partner-page .pill-btn{border-radius:12px;min-height:48px}
 .partner-page .pill-btn.primary{background:#0F6B3F}
 .partner-page .pill-btn.primary:hover{background:#084C2C}
@@ -991,3 +991,71 @@
 .mk-section-gap{height:0}
 @media (max-width:1023px){.mk-tile{grid-template-columns:minmax(0,1fr)}.mk-grid{grid-template-columns:1fr 1fr}.mk-grid > :nth-child(1),.mk-grid > :nth-child(5){grid-column:1/-1}.mk-grid > :nth-child(4){grid-column:auto}}
 @media (max-width:639px){.mk-kpis{grid-template-columns:1fr 1fr;border-left:0}.mk-kpis div{border-right:0;border-top:1px solid var(--sl-line);padding:10px 0}.mk-grid{grid-template-columns:minmax(0,1fr)}.mk-grid > :nth-child(n){grid-column:auto}}
+
+/* ================= Neue Struktur (Oktober 2026) ================= */
+html{scroll-padding-top:72px}
+.sx-nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid #E2E8F0}
+.sx-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.sx-nav ul::-webkit-scrollbar{display:none}
+.sx-nav a{display:inline-flex;align-items:center;min-height:48px;padding:0 14px;font-size:14px;font-weight:600;color:#475569;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent}
+.sx-nav a:hover{color:#0F172A}
+.sx-nav a[aria-current="true"]{color:#0F172A;border-bottom-color:#0F766E}
+.partner-page .sx-section{background:#F5F7FA}
+.partner-page .sx-section.sx-alt{background:#fff}
+.partner-page #personas.ps-section{background:#F5F7FA}
+.sx-card{padding:32px}
+.sx-card > .eyebrow{display:block}
+.partner-page .sx-card h2{margin:10px 0 12px;font-size:clamp(24px,2.6vw,32px);line-height:1.2}
+.sx-card .ps-wrap{margin-top:24px}
+.sx-section .intro + .sx-card{margin-top:28px}
+.sx-alt .sx-card{background:#F5F7FA}
+.nz-panel .nz-get{margin:28px -32px -32px;padding:18px 32px;background:var(--sl-soft);border-top:1px solid var(--sl-line);font-size:14px}
+.nz-panel .nz-get b{color:var(--sl-text)}
+.nz-get a{margin-left:6px;font-weight:600;color:var(--sl-pos);text-decoration:none}
+.nz-get a:hover{text-decoration:underline}
+/* Lieferformen-Tabelle */
+.lf-scroll{overflow-x:auto;margin-top:28px}
+.lf-table{width:100%;min-width:640px;border-collapse:collapse;font-size:14px}
+.lf-table thead th{padding:0 12px 10px 0;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sl-muted);text-align:left;border-bottom:1px solid var(--sl-text)}
+.lf-table tbody th,.lf-table td{padding:13px 12px 13px 0;border-bottom:1px solid var(--sl-line);text-align:left;vertical-align:top;color:var(--sl-muted)}
+.lf-table tbody th{font-weight:600;color:var(--sl-text);white-space:nowrap}
+.lf-table td:nth-child(n+3){white-space:nowrap}
+.nz-panel .lf-who{display:inline-block;padding:2px 8px;border-radius:4px;background:#E6F2F1;color:var(--sl-pos);font-size:12.5px;font-weight:600}
+/* Methodik: Kopf ohne obere Linie */
+#methodik .pi-head{max-width:760px}
+#methodik .pi-grid{margin-top:28px}
+.partner-page #methodik .pi-sub{margin:40px 0 4px}
+/* Zeitstrahl: Perspektive */
+.sx-future{margin-top:40px}
+.sx-future .ab-gate{margin-top:0}
+/* Eine Farbwelt: Petrol/Schiefer für Daten und Akzente, Grün für Logo und Hauptknöpfe */
+.partner-page .eyebrow{color:#0F766E}
+.partner-page h1 em,.partner-page h2 em,.partner-page .pz-hero h1 em,.partner-page .ab-section .intro h2 em,.partner-page .nz-section .intro h2 em{color:#0F766E}
+.partner-page h1,.partner-page h2,.partner-page h3{color:#0F172A}
+.partner-page .dark{background:#0F172A}
+.partner-page .dark h2,.partner-page .dark h3{color:#fff}
+.partner-page .dark .eyebrow{color:#5EEAD4}
+.ab-num{background:#0F766E}
+.s1 .ab-vis,.s2 .ab-vis,.s3 .ab-vis{background:#F1F5F9}
+.s4 .ab-vis{background:linear-gradient(140deg,#E6F2F1,#F1F5F9)}
+.ab-row::before{background:repeating-linear-gradient(90deg,#94A3B8 0 10px,transparent 10px 18px)}
+.ab-pct b,.ab-swap{color:#0F766E}
+.ab-mini .b1{background:#C2410C}.ab-mini .b2{background:#0F766E}.ab-mini .b3{background:#94A3B8}
+.ab-chips .d1{background:#C2410C}.ab-chips .d2{background:#94A3B8}.ab-chips .d3{background:#0F766E}
+.pz-stage{background:linear-gradient(140deg,#E6F2F1 0%,#F1F5F9 100%)}
+.pz-orb.o1{background:#B9DEDA}.pz-orb.o2{background:#E2E8F0}.pz-orb.o3{background:#CCE5E2}
+.pz-top .r1 .pz-rank,.pz-top .r1 i{background:#C2410C}
+.pz-top .r2 .pz-rank,.pz-top .r2 i{background:#0F766E}
+.pz-top .r3 .pz-rank,.pz-top .r3 i{background:#5EADA4}
+.pz-top .r4 .pz-rank,.pz-top .r4 i{background:#94A3B8}
+.pz-dtitle,.pz-kpis b,.pz-top b,.pz-clabel span:last-child{color:#0F172A}
+.pz-chip.c2 .pz-ic{color:#0F172A}
+.ab-order{background:#F8FAFC;border-color:#CBD5E1}
+.ab-order .ab-num{background:#0F766E}
+.ab-switch{background:#0F766E}
+.ab-order > li.ab-o3{background:#0F172A}
+.ab-arrow::before{background:repeating-linear-gradient(90deg,#94A3B8 0 6px,transparent 6px 11px)}
+.ab-arrow::after{border-color:#94A3B8}
+.ab-gate{color:#475569}.ab-gate::before,.ab-gate::after{border-color:#CBD5E1}
+@media (prefers-reduced-motion:no-preference){@keyframes ab-sw-bg{0%,12%{background:#CBD5E1}20%,100%{background:#0F766E}}}
+@media (max-width:639px){.sx-card{padding:18px}.nz-panel .nz-get{margin:24px -18px -18px;padding:16px 18px}.partner-page .sx-nav a{padding:0 10px;font-size:13px}}
