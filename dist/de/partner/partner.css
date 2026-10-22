@@ -517,7 +517,7 @@
 .ab-step p{margin:6px 0 0;font-size:14px;line-height:1.45;color:#4B5563}
 .ab-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;display:inline-grid;place-items:center;font-size:13px;font-weight:700;background:#0F6B3F;color:#fff}
 /* 1 Handy */
-.ab-phone{width:118px;height:170px;margin-top:58px;border-radius:18px 18px 0 0;background:#1E1A22;padding:5px 5px 0;transform:rotate(-4deg);box-shadow:0 14px 26px -12px rgba(0,0,0,.4);overflow:hidden}
+.ab-phone{width:118px;height:170px;margin-top:18px;border-radius:18px 18px 0 0;background:#1E1A22;padding:5px 5px 0;transform:rotate(-4deg);box-shadow:0 14px 26px -12px rgba(0,0,0,.4);overflow:hidden}
 .ab-scroll{height:100%;border-radius:13px 13px 0 0;overflow:hidden}
 .ab-scroll img{display:block;width:100%;height:auto}
 /* 2 Packungen */
@@ -579,3 +579,4 @@
 .ab-future{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:519px){.ab-row{grid-template-columns:minmax(0,1fr)}.ab-fine{text-align:left}}
+.s1 .ab-vis{place-items:start center}
