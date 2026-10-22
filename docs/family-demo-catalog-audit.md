@@ -37,3 +37,38 @@
 
 ## Schutz der bestehenden Demo
 Dieser Audit ändert keine ausführbaren Dateien, keine Preise, keine Einkaufslogik und keine Datenbank.
+
+## Prüfung 22.10.2026 – Bilder und Zutatenreferenzen
+
+### Demo-Bilder
+Alle 12 in `dist/de/familie-demo.js` per `img` referenzierten WebP-Dateien wurden einzeln über die GitHub-Dateischnittstelle unter `dist/assets/` nachgeschlagen: **12/12 vorhanden**.
+
+| Demo-ID | Bilddatei | GitHub-Datei |
+|---|---|---|
+| sunny | breakfast.webp | vorhanden |
+| muesli | yogurtbowl.webp | vorhanden |
+| oat | oats.webp | vorhanden |
+| chickpot | chickenpotato.webp | vorhanden |
+| tunapasta | tunapasta.webp | vorhanden |
+| lentil | lentilpasta.webp | vorhanden |
+| stroganoff | stroganoff.webp | vorhanden |
+| eggs | scrambled.webp | vorhanden |
+| lasagne | heatandeat.webp | vorhanden |
+| toast | hamtoast.webp | vorhanden |
+| salmon | salmonrice.webp | vorhanden |
+| out | eatout.webp | vorhanden |
+
+Dies prüft Dateiexistenz, **nicht** Bildqualität, visuelle Rezepttreue, Lizenzen, Pixelmaße oder HTTP-Auslieferung.
+
+### Alltagsrezepte
+- 64 Gerichte in `data/german-everyday-meals.json`, **319 Zutatenpositionen**.
+- 319/319 Mengen sind positiv und referenzieren definierte Zutaten aus `data/meals.ts`, `data/everyday-ingredients.json` oder kanonischen Alias-Schlüsseln (`wholemeal_bread`, `olive_oil`, `chicken_breast`, `chopped_tomatoes`).
+- Keine doppelten Zutaten-Definitionsschlüssel innerhalb `everyday-ingredients.json` gefunden.
+- Alle 64 besitzen mindestens einen Mahlzeitenslot und Zubereitungshinweise.
+- Alle 64 enthalten im JSON kein `image` oder `imageUrl`; eine externe Bildzuordnung wurde nicht ausgeschlossen.
+
+### Noch offen
+- Echte SKU-Abdeckung je Zutatenkonzept, Allergene und Nährwertplausibilität gesondert prüfen.
+- Hochauflösende Rezeptbilder mit passender Darstellung und Nutzungsrechten erstellen/zuordnen.
+- Für neue Bilder Bildmanifest mit eindeutiger Rezept-ID, Alt-Text, Quellen- und Qualitätsangaben erstellen.
+- Keine ausführbare Demo-Datei ändern, bevor Regressionstests vorliegen.
