@@ -580,3 +580,42 @@
 }
 @media (max-width:519px){.ab-row{grid-template-columns:minmax(0,1fr)}.ab-fine{text-align:left}}
 .s1 .ab-vis{place-items:start center}
+
+/* ================= Ablauf: Bestellung mit Einwilligungs-Schalter ================= */
+.ab-order{list-style:none;margin:0;padding:28px;display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr) 48px minmax(0,1fr);align-items:stretch;border-radius:28px;background:rgba(254,239,229,.55);border:1.5px dashed #E6B999}
+.ab-order > li:not(.ab-arrow){display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border-radius:20px;background:#fff;box-shadow:0 18px 30px -24px rgba(0,0,0,.4)}
+.ab-order .ab-num{background:#D9692A}
+.partner-page .ab-order h3{margin:0;font-family:var(--font-body,Inter,sans-serif);font-size:17px;font-weight:700;color:#084B2C}
+.ab-order p{margin:0}
+.ab-toggle{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:#1F2937}
+.ab-switch{position:relative;width:44px;height:26px;flex-shrink:0;border-radius:999px;background:#0F6B3F;transition:background .3s}
+.ab-switch::after{content:"";position:absolute;top:3px;left:21px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .3s}
+.ab-small{font-size:12.5px;line-height:1.45;color:#5B6B62}
+.ab-ticket{display:flex;flex-direction:column;gap:2px;width:100%;box-sizing:border-box;padding:10px 12px;border-radius:12px;border:1px solid #E3E9DF;font-size:12.5px}
+.ab-ticket b{color:#084B2C}.ab-ticket span{color:#5B6B62}
+.ab-order > li.ab-o3{background:#084B2C}
+.partner-page .ab-order .ab-o3 h3{color:#fff}
+.ab-o3 .ab-small{color:rgba(255,255,255,.82)}
+.ab-future-tag{margin-top:auto;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.15);color:#fff}
+.ab-arrow{position:relative}
+.ab-arrow::before{content:"";position:absolute;left:8px;right:8px;top:50%;height:2px;background:repeating-linear-gradient(90deg,#D9692A 0 6px,transparent 6px 11px)}
+.ab-arrow::after{content:"";position:absolute;right:6px;top:50%;width:9px;height:9px;margin-top:-5px;border-top:2px solid #D9692A;border-right:2px solid #D9692A;transform:rotate(45deg)}
+@media (prefers-reduced-motion:no-preference){
+.ab-in .ab-switch{animation:ab-sw-bg 6s ease-in-out infinite}
+.ab-in .ab-switch::after{animation:ab-sw-knob 6s ease-in-out infinite}
+@keyframes ab-sw-bg{0%,12%{background:#C9D3CC}20%,100%{background:#0F6B3F}}
+@keyframes ab-sw-knob{0%,12%{left:3px}20%,100%{left:21px}}
+.ab-in .ab-ticket{animation:ab-tk 6s ease-in-out infinite}
+@keyframes ab-tk{0%,25%{opacity:0;transform:translateX(-14px)}35%,90%{opacity:1;transform:none}100%{opacity:0}}
+.ab-in .ab-arrow::before{animation:ab-march2 1s linear infinite}
+@keyframes ab-march2{to{background-position:11px 0}}
+.ab-in .ab-order > li.ab-o3{animation:ab-sys 6s ease-in-out infinite}
+@keyframes ab-sys{0%,45%{box-shadow:0 18px 30px -24px rgba(0,0,0,.4)}55%{box-shadow:0 0 0 6px rgba(15,107,63,.25),0 18px 30px -24px rgba(0,0,0,.4)}70%,100%{box-shadow:0 18px 30px -24px rgba(0,0,0,.4)}}
+}
+@media (max-width:899px){
+.ab-order{grid-template-columns:minmax(0,1fr);gap:0;padding:18px}
+.ab-arrow{height:34px}
+.ab-arrow::before{left:50%;right:auto;top:6px;bottom:6px;width:2px;height:auto;background:repeating-linear-gradient(180deg,#D9692A 0 6px,transparent 6px 11px)}
+.ab-arrow::after{left:50%;right:auto;top:auto;bottom:6px;margin:0 0 0 -5px;transform:rotate(135deg)}
+@media (prefers-reduced-motion:no-preference){.ab-in .ab-arrow::before{animation:none}}
+}
