@@ -188,7 +188,7 @@
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:600;font-display:swap;src:url(../../assets/fonts/playfair-display-latin-600-italic.woff2) format('woff2')}
 
 .partner-page{
-  --font-heading:'Playfair Display',Georgia,serif;
+  --font-heading:Verdana,Geneva,'DejaVu Sans',sans-serif;
   --font-body:Verdana,Geneva,'DejaVu Sans',sans-serif;
   --color-primary-green:#0D3B2E;
   --color-text-dark:#111827;
@@ -433,7 +433,7 @@
 .pz-chip{position:relative;left:auto!important;right:auto!important;bottom:auto!important;width:100%;max-width:460px;box-sizing:border-box}
 }
 @media (max-width:420px){.pz-seg{display:none}.pz-top li{grid-template-columns:20px minmax(0,1fr) 70px 28px}.pz-stage{padding:20px 12px;border-radius:28px}}
-.partner-page .pz-hero h1{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(40px,4.4vw,60px);line-height:1.05;letter-spacing:-.01em}
+.partner-page .pz-hero h1{font-family:var(--font-heading);font-weight:700;font-size:clamp(30px,3.3vw,44px);line-height:1.12;letter-spacing:-.01em}
 .partner-page .pz-hero h1 em{font-style:italic;font-weight:600;letter-spacing:0}
 .partner-page h1,.partner-page h2,.partner-page h3,.partner-page .intro h2{letter-spacing:-.005em}
 
@@ -451,7 +451,7 @@
 .ps-g .ps-av{background:#E6F0E8;color:#0F6B3F}.ps-o .ps-av{background:#FEEFE5;color:#D9692A}.ps-s .ps-av{background:#EEF2EC;color:#3F5F4C}
 .ps-tname{display:flex;flex-direction:column;min-width:0}
 .ps-tname b{font-size:16px;color:#084B2C}.ps-tname small{font-size:12.5px;color:#5B6B62}
-.ps-pct{margin-left:auto;font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:600;color:#084B2C;white-space:nowrap}
+.ps-pct{margin-left:auto;font-family:var(--font-heading);font-size:21px;font-weight:700;color:#084B2C;white-space:nowrap}
 .ps-fine{margin:12px 4px 4px;font-size:12px;color:#5B6B62}
 .ps-legend{display:none;align-items:center;gap:6px;margin:0 4px;font-size:12px;color:#5B6B62}
 .ps-legend span{width:12px;height:12px;border-radius:4px;display:inline-block;margin-left:6px}
@@ -615,3 +615,8 @@
 .ab-arrow::after{left:50%;right:auto;top:auto;bottom:6px;margin:0 0 0 -5px;transform:rotate(135deg)}
 @media (prefers-reduced-motion:no-preference){.ab-in .ab-arrow::before{animation:none}}
 }
+
+/* Überschriften in Verdana; Logo bleibt Playfair (Oktober 2026) */
+.partner-page .brand,.partner-page .brand span{font-family:'Playfair Display',Georgia,serif}
+.partner-page h1,.partner-page h2,.partner-page h3{letter-spacing:-.02em}
+.partner-page .intro h2,.partner-page h2{font-size:clamp(26px,3vw,38px);line-height:1.15}
