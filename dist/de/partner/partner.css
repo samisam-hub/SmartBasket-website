@@ -1102,3 +1102,27 @@ html{scroll-padding-top:72px}
 .sx-auto svg{flex-shrink:0;margin-top:3px;color:#4A7C2F}
 .sx-auto b{color:#0F172A}
 .sx-lead{margin:12px 0 0;max-width:720px;font-size:16px;line-height:1.6;color:#475569}
+/* Personas kompakt in "Kaufverhalten verstehen" */
+.ps-mini{margin-top:36px;padding-top:16px;border-top:1px solid var(--sl-line2)}
+.nz-panel .ps-mini-h{display:flex;align-items:center;gap:8px;margin:0;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sl-muted)}
+.nz-panel .ps-mini-h .pi-k::before{content:none}
+.ps-mini .ps-wrap{grid-template-columns:220px minmax(0,1fr);gap:16px;margin-top:16px}
+.ps-mini .ps-tabs{gap:6px}
+.ps-mini .ps-tab{padding:8px 10px;border-radius:10px;gap:10px}
+.ps-mini .ps-tab[aria-selected="true"]{padding:7px 9px}
+.ps-mini .ps-av{width:30px;height:30px;border-radius:8px}
+.ps-mini .ps-av svg{width:18px;height:18px}
+.ps-mini .ps-tname b{font-size:14px}.ps-mini .ps-tname small{font-size:11.5px}
+.ps-mini .ps-pct{font-size:16px}
+.ps-mini .ps-fine{font-size:11px;margin-top:8px}.ps-mini .ps-legend{font-size:11px}
+.ps-mini .ps-panel{padding:16px 18px;gap:18px;border-radius:10px}
+.ps-mini .ps-h{font-size:11px;margin-bottom:6px}
+.ps-mini .ps-week li{padding:5px 0;font-size:11px;border-radius:6px}
+.ps-mini .ps-when{margin:6px 0 12px;font-size:12px}
+.ps-mini .ps-imgs{gap:8px}.ps-mini .ps-imgs li{width:56px;height:56px}
+.ps-mini .ps-text{margin-top:10px;font-size:12.5px}
+.ps-mini .ps-need{gap:6px}.ps-mini .ps-need li{font-size:12.5px;grid-template-columns:minmax(0,1fr) 64px 46px}
+.ps-mini .ps-so{margin-top:12px;font-size:12.5px}
+@media (max-width:899px){.ps-mini .ps-wrap{grid-template-columns:minmax(0,1fr)}.ps-mini .ps-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.ps-mini .ps-tab{flex-direction:row;align-items:center}}
+@media (max-width:599px){.ps-mini .ps-tabs{display:flex}.ps-mini .ps-tab{flex:0 0 150px}}
+.partner-page #personas.ps-mini{background:none}
