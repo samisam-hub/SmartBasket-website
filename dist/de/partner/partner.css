@@ -1,3 +1,7 @@
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../assets/fonts/inter-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(../../assets/fonts/inter-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../assets/fonts/inter-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../assets/fonts/inter-latin-700-normal.woff2) format('woff2')}
 /* Händlerseite (DE): baut auf familie.css auf. Ablaufschema, Vision, Zeitstrahl, Pilot-Aufruf. */
 
 .partner-page .hero h1{font-size:clamp(32px,5.2vw,60px);overflow-wrap:break-word;hyphens:auto}
@@ -620,3 +624,25 @@
 .partner-page .brand,.partner-page .brand span{font-family:'Playfair Display',Georgia,serif}
 .partner-page h1,.partner-page h2,.partner-page h3{letter-spacing:-.02em}
 .partner-page .intro h2,.partner-page h2{font-size:clamp(26px,3vw,38px);line-height:1.15}
+
+/* ================= Design-System „klar & ruhig“ (Oktober 2026) ================= */
+.partner-page{--font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;--font-heading:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#fff}
+.partner-page .site-header{background:#fff}
+.partner-page .brand,.partner-page .brand span{font-family:var(--font-heading);font-style:normal;font-weight:700;letter-spacing:-.02em}
+.partner-page .brand{color:#111827}.partner-page .brand span{color:#0F6B3F}
+.partner-page h1,.partner-page h2,.partner-page h3{color:#111827;letter-spacing:-.025em}
+.partner-page .dark h2,.partner-page .dark h3{color:#fff}
+.partner-page h1 em,.partner-page h2 em,.partner-page .pz-hero h1 em,.partner-page .ps-section .intro h2 em,.partner-page .ab-section .intro h2 em{font-style:normal;color:#0F6B3F}
+.partner-page .pz-hero{background:#fff}
+.partner-page .pz-hero h1{color:#111827;font-weight:700}
+.pz-stage{background:linear-gradient(140deg,#E6F0E9 0%,#F6F1E7 100%)}
+.pz-orb.o1{background:#BFDCC9;opacity:.6}.pz-orb.o2{background:#F6D3B4;opacity:.55}.pz-orb.o3{background:#D6E8DB;opacity:.7}
+.pz-phone{background:#111827}
+.pz-note{background:#fff;font-family:var(--font-body);font-style:normal;font-weight:600;font-size:14px;color:#111827;border:1px solid #E5E7EB;border-radius:12px;transform:none}
+.pz-note::before{display:none}
+.partner-page .ab-section{background:#fff}
+.s1 .ab-vis{background:#EEF5F0}.s2 .ab-vis{background:#FAF5EC}.s3 .ab-vis{background:#F1F6F2}
+.partner-page .ps-section{background:#F1F6F2}
+.partner-page #nutzen{background:#FAF5EC}
+.partner-page #zeitstrahl{background:#fff}
+.partner-page .dark{background:#0B3D2A}
