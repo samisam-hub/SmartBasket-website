@@ -1071,3 +1071,15 @@ html{scroll-padding-top:72px}
 .pz-stage{background:linear-gradient(140deg,#EAF1DE 0%,#F6F1E7 100%)}
 .pz-orb.o2{background:#EBDCC5}
 .ab-row::before{background:repeating-linear-gradient(90deg,#B5ADA3 0 10px,transparent 10px 18px)}
+/* Intensität: viel Bedarf = hell & satt, wenig = blass */
+.nz-bub{fill-opacity:1;stroke:#fff;stroke-width:1.5}
+.nz-bub.v1{fill:#E3F0D5}.nz-bub.v2{fill:#C5E4A3}.nz-bub.v3{fill:#9FD46C}.nz-bub.v4{fill:#79C443}.nz-bub.v5{fill:#55B42A}
+.nz-bub.v4,.nz-bub.v5{fill-opacity:1}
+.nz-map .nz-mt.inv{fill:#1F3512}
+.nz-panel .nz-heat rect[fill="#F1F6F2"]{fill:#F4F6F0}
+.nz-panel .nz-heat rect[fill="#D5E8DB"]{fill:#E3F0D5}
+.nz-panel .nz-heat rect[fill="#A9D1B5"]{fill:#C5E4A3}
+.nz-panel .nz-heat rect[fill="#6FAE85"]{fill:#9FD46C}
+.nz-panel .nz-heat rect[fill="#2F7D52"]{fill:#79C443}
+.nz-panel .nz-heat rect[fill="#0B3D2A"]{fill:#55B42A}
+.nz-bub.v1,.nz-bub.v2{stroke:#A9CF85}
