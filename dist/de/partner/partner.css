@@ -889,3 +889,7 @@
 .partner-page #nutzen.nz-section{background:#F5F7FA}
 .nz-panel .pi-box.total span{color:var(--sl-muted)}
 .nz-panel .nz-fresh{max-width:460px}
+/* Folie 1: Panel-Logik oben (weiß), Personas unten (grau) */
+.nz-slide .pi.pi-top{margin:0;padding:0;background:none;border:0}
+.nz-deliver.ps-part .ps-wrap{margin-top:24px}
+.nz-deliver.ps-part .ps-panel{background:#fff}
