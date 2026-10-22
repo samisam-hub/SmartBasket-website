@@ -1,0 +1,842 @@
+{
+  "version": 1,
+  "source": "samisam-hub/SmartBasket/data/german-everyday-meals.json",
+  "status": "planned",
+  "guidelines": {
+    "format": "webp",
+    "minWidth": 1200,
+    "minHeight": 900,
+    "aspectRatio": "4:3",
+    "visualStyle": "realistic food photography, natural daylight, authentic German home cooking, no text, no branding",
+    "note": "Image files not yet generated; do not display planned paths as existing images."
+  },
+  "images": [
+    {
+      "mealId": "de-kasebrot-mit-gurke",
+      "mealName": "Käsebrot mit Gurke",
+      "mealSlots": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kasebrot-mit-gurke.webp",
+      "status": "missing",
+      "alt": "Käsebrot mit Gurke – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Käsebrot mit Gurke, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-wurstbrot-mit-tomate",
+      "mealName": "Wurstbrot mit Tomate",
+      "mealSlots": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-wurstbrot-mit-tomate.webp",
+      "status": "missing",
+      "alt": "Wurstbrot mit Tomate – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Wurstbrot mit Tomate, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-frischkasebrot-mit-paprika",
+      "mealName": "Frischkäsebrot mit Paprika",
+      "mealSlots": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-frischkasebrot-mit-paprika.webp",
+      "status": "missing",
+      "alt": "Frischkäsebrot mit Paprika – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Frischkäsebrot mit Paprika, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-marmeladenbrot",
+      "mealName": "Marmeladenbrot",
+      "mealSlots": [
+        "breakfast",
+        "lunch"
+      ],
+      "assetPath": "assets/meals/de-marmeladenbrot.webp",
+      "status": "missing",
+      "alt": "Marmeladenbrot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Marmeladenbrot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-honigbrot",
+      "mealName": "Honigbrot",
+      "mealSlots": [
+        "breakfast",
+        "lunch"
+      ],
+      "assetPath": "assets/meals/de-honigbrot.webp",
+      "status": "missing",
+      "alt": "Honigbrot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Honigbrot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-brotchen-mit-kase-und-marmelade",
+      "mealName": "Brötchen mit Käse und Marmelade",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-brotchen-mit-kase-und-marmelade.webp",
+      "status": "missing",
+      "alt": "Brötchen mit Käse und Marmelade – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Brötchen mit Käse und Marmelade, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-aufbackbrotchen-mit-belag",
+      "mealName": "Aufbackbrötchen mit Belag",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-aufbackbrotchen-mit-belag.webp",
+      "status": "missing",
+      "alt": "Aufbackbrötchen mit Belag – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Aufbackbrötchen mit Belag, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-musli-mit-milch-und-apfel",
+      "mealName": "Müsli mit Milch und Apfel",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-musli-mit-milch-und-apfel.webp",
+      "status": "missing",
+      "alt": "Müsli mit Milch und Apfel – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Müsli mit Milch und Apfel, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-naturjoghurt-mit-banane-und-haferflocken",
+      "mealName": "Naturjoghurt mit Banane und Haferflocken",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-naturjoghurt-mit-banane-und-haferflocken.webp",
+      "status": "missing",
+      "alt": "Naturjoghurt mit Banane und Haferflocken – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Naturjoghurt mit Banane und Haferflocken, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-quark-mit-beeren",
+      "mealName": "Quark mit Beeren",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-quark-mit-beeren.webp",
+      "status": "missing",
+      "alt": "Quark mit Beeren – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Quark mit Beeren, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-haferbrei-mit-apfel-und-zimt",
+      "mealName": "Haferbrei mit Apfel und Zimt",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-haferbrei-mit-apfel-und-zimt.webp",
+      "status": "missing",
+      "alt": "Haferbrei mit Apfel und Zimt – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Haferbrei mit Apfel und Zimt, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-ubernacht-haferflocken-mit-banane",
+      "mealName": "Übernacht-Haferflocken mit Banane",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-ubernacht-haferflocken-mit-banane.webp",
+      "status": "missing",
+      "alt": "Übernacht-Haferflocken mit Banane – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Übernacht-Haferflocken mit Banane, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-ruhrei-mit-brot",
+      "mealName": "Rührei mit Brot",
+      "mealSlots": [
+        "breakfast",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-ruhrei-mit-brot.webp",
+      "status": "missing",
+      "alt": "Rührei mit Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Rührei mit Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gekochtes-ei-mit-brot",
+      "mealName": "Gekochtes Ei mit Brot",
+      "mealSlots": [
+        "breakfast",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gekochtes-ei-mit-brot.webp",
+      "status": "missing",
+      "alt": "Gekochtes Ei mit Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gekochtes Ei mit Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-spiegelei-auf-brot",
+      "mealName": "Spiegelei auf Brot",
+      "mealSlots": [
+        "breakfast",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-spiegelei-auf-brot.webp",
+      "status": "missing",
+      "alt": "Spiegelei auf Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Spiegelei auf Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-hummusbrot-mit-gurke",
+      "mealName": "Hummusbrot mit Gurke",
+      "mealSlots": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-hummusbrot-mit-gurke.webp",
+      "status": "missing",
+      "alt": "Hummusbrot mit Gurke – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Hummusbrot mit Gurke, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-pfannkuchen-mit-apfelmus",
+      "mealName": "Pfannkuchen mit Apfelmus",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-pfannkuchen-mit-apfelmus.webp",
+      "status": "missing",
+      "alt": "Pfannkuchen mit Apfelmus – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Pfannkuchen mit Apfelmus, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-arme-ritter-mit-obst",
+      "mealName": "Arme Ritter mit Obst",
+      "mealSlots": [
+        "breakfast"
+      ],
+      "assetPath": "assets/meals/de-arme-ritter-mit-obst.webp",
+      "status": "missing",
+      "alt": "Arme Ritter mit Obst – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Arme Ritter mit Obst, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-spaghetti-mit-tomatensoe",
+      "mealName": "Spaghetti mit Tomatensoße",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-spaghetti-mit-tomatensoe.webp",
+      "status": "missing",
+      "alt": "Spaghetti mit Tomatensoße – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Spaghetti mit Tomatensoße, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-spaghetti-bolognese",
+      "mealName": "Spaghetti Bolognese",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-spaghetti-bolognese.webp",
+      "status": "missing",
+      "alt": "Spaghetti Bolognese – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Spaghetti Bolognese, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-spaghetti-mit-linsenbolognese",
+      "mealName": "Spaghetti mit Linsenbolognese",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-spaghetti-mit-linsenbolognese.webp",
+      "status": "missing",
+      "alt": "Spaghetti mit Linsenbolognese – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Spaghetti mit Linsenbolognese, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-nudeln-mit-pesto-und-tomaten",
+      "mealName": "Nudeln mit Pesto und Tomaten",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-nudeln-mit-pesto-und-tomaten.webp",
+      "status": "missing",
+      "alt": "Nudeln mit Pesto und Tomaten – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Nudeln mit Pesto und Tomaten, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-nudelauflauf-mit-brokkoli",
+      "mealName": "Nudelauflauf mit Brokkoli",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-nudelauflauf-mit-brokkoli.webp",
+      "status": "missing",
+      "alt": "Nudelauflauf mit Brokkoli – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Nudelauflauf mit Brokkoli, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-lasagne-mit-hackfleisch",
+      "mealName": "Lasagne mit Hackfleisch",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-lasagne-mit-hackfleisch.webp",
+      "status": "missing",
+      "alt": "Lasagne mit Hackfleisch – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Lasagne mit Hackfleisch, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kasespatzle-mit-zwiebeln",
+      "mealName": "Käsespätzle mit Zwiebeln",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kasespatzle-mit-zwiebeln.webp",
+      "status": "missing",
+      "alt": "Käsespätzle mit Zwiebeln – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Käsespätzle mit Zwiebeln, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gemusereispfanne",
+      "mealName": "Gemüsereispfanne",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gemusereispfanne.webp",
+      "status": "missing",
+      "alt": "Gemüsereispfanne – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gemüsereispfanne, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-hahnchen-mit-reis-und-gemuse",
+      "mealName": "Hähnchen mit Reis und Gemüse",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-hahnchen-mit-reis-und-gemuse.webp",
+      "status": "missing",
+      "alt": "Hähnchen mit Reis und Gemüse – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Hähnchen mit Reis und Gemüse, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-hahnchengeschnetzeltes-mit-reis",
+      "mealName": "Hähnchengeschnetzeltes mit Reis",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-hahnchengeschnetzeltes-mit-reis.webp",
+      "status": "missing",
+      "alt": "Hähnchengeschnetzeltes mit Reis – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Hähnchengeschnetzeltes mit Reis, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-mildes-gemuse-kichererbsen-curry",
+      "mealName": "Mildes Gemüse-Kichererbsen-Curry",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-mildes-gemuse-kichererbsen-curry.webp",
+      "status": "missing",
+      "alt": "Mildes Gemüse-Kichererbsen-Curry – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Mildes Gemüse-Kichererbsen-Curry, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-chili-con-carne-mit-reis",
+      "mealName": "Chili con Carne mit Reis",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-chili-con-carne-mit-reis.webp",
+      "status": "missing",
+      "alt": "Chili con Carne mit Reis – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Chili con Carne mit Reis, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-chili-sin-carne-mit-reis",
+      "mealName": "Chili sin Carne mit Reis",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-chili-sin-carne-mit-reis.webp",
+      "status": "missing",
+      "alt": "Chili sin Carne mit Reis – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Chili sin Carne mit Reis, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kartoffeln-mit-krauterquark",
+      "mealName": "Kartoffeln mit Kräuterquark",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kartoffeln-mit-krauterquark.webp",
+      "status": "missing",
+      "alt": "Kartoffeln mit Kräuterquark – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Kartoffeln mit Kräuterquark, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kartoffeln-mit-spinat-und-ei",
+      "mealName": "Kartoffeln mit Spinat und Ei",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kartoffeln-mit-spinat-und-ei.webp",
+      "status": "missing",
+      "alt": "Kartoffeln mit Spinat und Ei – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Kartoffeln mit Spinat und Ei, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-bratkartoffeln-mit-ei",
+      "mealName": "Bratkartoffeln mit Ei",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-bratkartoffeln-mit-ei.webp",
+      "status": "missing",
+      "alt": "Bratkartoffeln mit Ei – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Bratkartoffeln mit Ei, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kartoffelgratin-mit-gurkensalat",
+      "mealName": "Kartoffelgratin mit Gurkensalat",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kartoffelgratin-mit-gurkensalat.webp",
+      "status": "missing",
+      "alt": "Kartoffelgratin mit Gurkensalat – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Kartoffelgratin mit Gurkensalat, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-fischstabchen-mit-kartoffelpuree-und-erbsen",
+      "mealName": "Fischstäbchen mit Kartoffelpüree und Erbsen",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-fischstabchen-mit-kartoffelpuree-und-erbsen.webp",
+      "status": "missing",
+      "alt": "Fischstäbchen mit Kartoffelpüree und Erbsen – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Fischstäbchen mit Kartoffelpüree und Erbsen, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-ofenlachs-mit-kartoffeln-und-brokkoli",
+      "mealName": "Ofenlachs mit Kartoffeln und Brokkoli",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-ofenlachs-mit-kartoffeln-und-brokkoli.webp",
+      "status": "missing",
+      "alt": "Ofenlachs mit Kartoffeln und Brokkoli – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Ofenlachs mit Kartoffeln und Brokkoli, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-frikadellen-mit-kartoffeln-und-mohren",
+      "mealName": "Frikadellen mit Kartoffeln und Möhren",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-frikadellen-mit-kartoffeln-und-mohren.webp",
+      "status": "missing",
+      "alt": "Frikadellen mit Kartoffeln und Möhren – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Frikadellen mit Kartoffeln und Möhren, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-bratwurst-mit-kartoffelpuree",
+      "mealName": "Bratwurst mit Kartoffelpüree",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-bratwurst-mit-kartoffelpuree.webp",
+      "status": "missing",
+      "alt": "Bratwurst mit Kartoffelpüree – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Bratwurst mit Kartoffelpüree, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-schnitzel-mit-kartoffeln-und-gurkensalat",
+      "mealName": "Schnitzel mit Kartoffeln und Gurkensalat",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-schnitzel-mit-kartoffeln-und-gurkensalat.webp",
+      "status": "missing",
+      "alt": "Schnitzel mit Kartoffeln und Gurkensalat – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Schnitzel mit Kartoffeln und Gurkensalat, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kartoffelsuppe-mit-brot",
+      "mealName": "Kartoffelsuppe mit Brot",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kartoffelsuppe-mit-brot.webp",
+      "status": "missing",
+      "alt": "Kartoffelsuppe mit Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Kartoffelsuppe mit Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-linseneintopf-mit-wurstchen",
+      "mealName": "Linseneintopf mit Würstchen",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-linseneintopf-mit-wurstchen.webp",
+      "status": "missing",
+      "alt": "Linseneintopf mit Würstchen – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Linseneintopf mit Würstchen, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gemusesuppe-mit-kleinen-nudeln",
+      "mealName": "Gemüsesuppe mit kleinen Nudeln",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gemusesuppe-mit-kleinen-nudeln.webp",
+      "status": "missing",
+      "alt": "Gemüsesuppe mit kleinen Nudeln – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gemüsesuppe mit kleinen Nudeln, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-tortellini-in-tomatensoe",
+      "mealName": "Tortellini in Tomatensoße",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-tortellini-in-tomatensoe.webp",
+      "status": "missing",
+      "alt": "Tortellini in Tomatensoße – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Tortellini in Tomatensoße, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gnocchipfanne-mit-tomate-und-mozzarella",
+      "mealName": "Gnocchipfanne mit Tomate und Mozzarella",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gnocchipfanne-mit-tomate-und-mozzarella.webp",
+      "status": "missing",
+      "alt": "Gnocchipfanne mit Tomate und Mozzarella – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gnocchipfanne mit Tomate und Mozzarella, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gemuseomelett-mit-brot",
+      "mealName": "Gemüseomelett mit Brot",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gemuseomelett-mit-brot.webp",
+      "status": "missing",
+      "alt": "Gemüseomelett mit Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gemüseomelett mit Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-wraps-mit-hahnchen-und-gemuse",
+      "mealName": "Wraps mit Hähnchen und Gemüse",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-wraps-mit-hahnchen-und-gemuse.webp",
+      "status": "missing",
+      "alt": "Wraps mit Hähnchen und Gemüse – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Wraps mit Hähnchen und Gemüse, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-wraps-mit-bohnen-und-gemuse",
+      "mealName": "Wraps mit Bohnen und Gemüse",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-wraps-mit-bohnen-und-gemuse.webp",
+      "status": "missing",
+      "alt": "Wraps mit Bohnen und Gemüse – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Wraps mit Bohnen und Gemüse, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-pizza-mit-gemuse-vom-blech",
+      "mealName": "Pizza mit Gemüse vom Blech",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-pizza-mit-gemuse-vom-blech.webp",
+      "status": "missing",
+      "alt": "Pizza mit Gemüse vom Blech – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Pizza mit Gemüse vom Blech, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-reibekuchen-mit-apfelmus",
+      "mealName": "Reibekuchen mit Apfelmus",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-reibekuchen-mit-apfelmus.webp",
+      "status": "missing",
+      "alt": "Reibekuchen mit Apfelmus – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Reibekuchen mit Apfelmus, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-milchreis-mit-apfelmus",
+      "mealName": "Milchreis mit Apfelmus",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-milchreis-mit-apfelmus.webp",
+      "status": "missing",
+      "alt": "Milchreis mit Apfelmus – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Milchreis mit Apfelmus, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-griebrei-mit-kirschen",
+      "mealName": "Grießbrei mit Kirschen",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-griebrei-mit-kirschen.webp",
+      "status": "missing",
+      "alt": "Grießbrei mit Kirschen – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Grießbrei mit Kirschen, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-ofenhahnchen-mit-kartoffeln-und-mohren",
+      "mealName": "Ofenhähnchen mit Kartoffeln und Möhren",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-ofenhahnchen-mit-kartoffeln-und-mohren.webp",
+      "status": "missing",
+      "alt": "Ofenhähnchen mit Kartoffeln und Möhren – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Ofenhähnchen mit Kartoffeln und Möhren, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-brotzeit-mit-kase-und-rohkost",
+      "mealName": "Brotzeit mit Käse und Rohkost",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-brotzeit-mit-kase-und-rohkost.webp",
+      "status": "missing",
+      "alt": "Brotzeit mit Käse und Rohkost – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Brotzeit mit Käse und Rohkost, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-brotzeit-mit-aufschnitt-und-gewurzgurken",
+      "mealName": "Brotzeit mit Aufschnitt und Gewürzgurken",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-brotzeit-mit-aufschnitt-und-gewurzgurken.webp",
+      "status": "missing",
+      "alt": "Brotzeit mit Aufschnitt und Gewürzgurken – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Brotzeit mit Aufschnitt und Gewürzgurken, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kasebrot-lunchbox-mit-apfel-und-mohre",
+      "mealName": "Käsebrot-Lunchbox mit Apfel und Möhre",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kasebrot-lunchbox-mit-apfel-und-mohre.webp",
+      "status": "missing",
+      "alt": "Käsebrot-Lunchbox mit Apfel und Möhre – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Käsebrot-Lunchbox mit Apfel und Möhre, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-wurstbrot-lunchbox-mit-gurke-und-apfel",
+      "mealName": "Wurstbrot-Lunchbox mit Gurke und Apfel",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-wurstbrot-lunchbox-mit-gurke-und-apfel.webp",
+      "status": "missing",
+      "alt": "Wurstbrot-Lunchbox mit Gurke und Apfel – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Wurstbrot-Lunchbox mit Gurke und Apfel, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-tomate-mozzarella-mit-brot",
+      "mealName": "Tomate-Mozzarella mit Brot",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-tomate-mozzarella-mit-brot.webp",
+      "status": "missing",
+      "alt": "Tomate-Mozzarella mit Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Tomate-Mozzarella mit Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-gemischter-salat-mit-ei-und-brot",
+      "mealName": "Gemischter Salat mit Ei und Brot",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-gemischter-salat-mit-ei-und-brot.webp",
+      "status": "missing",
+      "alt": "Gemischter Salat mit Ei und Brot – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Gemischter Salat mit Ei und Brot, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-nudelsalat-mit-erbsen-und-kase",
+      "mealName": "Nudelsalat mit Erbsen und Käse",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-nudelsalat-mit-erbsen-und-kase.webp",
+      "status": "missing",
+      "alt": "Nudelsalat mit Erbsen und Käse – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Nudelsalat mit Erbsen und Käse, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-kartoffelsalat-mit-wurstchen",
+      "mealName": "Kartoffelsalat mit Würstchen",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-kartoffelsalat-mit-wurstchen.webp",
+      "status": "missing",
+      "alt": "Kartoffelsalat mit Würstchen – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Kartoffelsalat mit Würstchen, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-uberbackener-kasetoast-mit-tomate",
+      "mealName": "Überbackener Käsetoast mit Tomate",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-uberbackener-kasetoast-mit-tomate.webp",
+      "status": "missing",
+      "alt": "Überbackener Käsetoast mit Tomate – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Überbackener Käsetoast mit Tomate, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-flammkuchen-mit-zwiebeln-und-speck",
+      "mealName": "Flammkuchen mit Zwiebeln und Speck",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-flammkuchen-mit-zwiebeln-und-speck.webp",
+      "status": "missing",
+      "alt": "Flammkuchen mit Zwiebeln und Speck – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Flammkuchen mit Zwiebeln und Speck, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    },
+    {
+      "mealId": "de-maultaschen-in-gemusebruhe",
+      "mealName": "Maultaschen in Gemüsebrühe",
+      "mealSlots": [
+        "lunch",
+        "dinner"
+      ],
+      "assetPath": "assets/meals/de-maultaschen-in-gemusebruhe.webp",
+      "status": "missing",
+      "alt": "Maultaschen in Gemüsebrühe – angerichtet auf einem Teller",
+      "prompt": "Photorealistic editorial food photograph of Maultaschen in Gemüsebrühe, accurately matching a typical German home-cooked serving. Natural daylight, authentic food texture, appetizing but realistic plating, warm neutral table, close three-quarter view, no people, no text, no logos, landscape 4:3.",
+      "licenseStatus": "not_created"
+    }
+  ]
+}
