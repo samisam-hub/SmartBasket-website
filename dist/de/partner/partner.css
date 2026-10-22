@@ -189,7 +189,7 @@
 
 .partner-page{
   --font-heading:'Playfair Display',Georgia,serif;
-  --font-body:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-body:Verdana,Geneva,'DejaVu Sans',sans-serif;
   --color-primary-green:#0D3B2E;
   --color-text-dark:#111827;
   --color-accent-amber:#D97706;
