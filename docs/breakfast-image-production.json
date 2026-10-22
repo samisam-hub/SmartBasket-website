@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "batch": "breakfast-01",
+  "note": "Source recipe ids 1-12; this batch does not contain Pfannkuchen, which is recipe 17.",
+  "images": [
+    {
+      "mealId": "de-kasebrot-mit-gurke",
+      "name": "Käsebrot mit Gurke",
+      "ingredients": [
+        "wholemeal_bread",
+        "butter",
+        "cheese",
+        "cucumber"
+      ],
+      "targetPath": "dist/assets/meals/de-kasebrot-mit-gurke.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Käsebrot mit Gurke. Show exactly these core food ingredients: wholemeal bread, butter, cheese, cucumber. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-wurstbrot-mit-tomate",
+      "name": "Wurstbrot mit Tomate",
+      "ingredients": [
+        "wholemeal_bread",
+        "butter",
+        "cold_cuts",
+        "fresh_tomato"
+      ],
+      "targetPath": "dist/assets/meals/de-wurstbrot-mit-tomate.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Wurstbrot mit Tomate. Show exactly these core food ingredients: wholemeal bread, butter, cold cuts, fresh tomato. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-frischkasebrot-mit-paprika",
+      "name": "Frischkäsebrot mit Paprika",
+      "ingredients": [
+        "wholemeal_bread",
+        "cream_cheese",
+        "bell_pepper"
+      ],
+      "targetPath": "dist/assets/meals/de-frischkasebrot-mit-paprika.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Frischkäsebrot mit Paprika. Show exactly these core food ingredients: wholemeal bread, cream cheese, bell pepper. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-marmeladenbrot",
+      "name": "Marmeladenbrot",
+      "ingredients": [
+        "wholemeal_bread",
+        "butter",
+        "jam"
+      ],
+      "targetPath": "dist/assets/meals/de-marmeladenbrot.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Marmeladenbrot. Show exactly these core food ingredients: wholemeal bread, butter, jam. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-honigbrot",
+      "name": "Honigbrot",
+      "ingredients": [
+        "wholemeal_bread",
+        "butter",
+        "honey"
+      ],
+      "targetPath": "dist/assets/meals/de-honigbrot.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Honigbrot. Show exactly these core food ingredients: wholemeal bread, butter, honey. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-brotchen-mit-kase-und-marmelade",
+      "name": "Brötchen mit Käse und Marmelade",
+      "ingredients": [
+        "bread_roll",
+        "butter",
+        "cheese",
+        "jam"
+      ],
+      "targetPath": "dist/assets/meals/de-brotchen-mit-kase-und-marmelade.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Brötchen mit Käse und Marmelade. Show exactly these core food ingredients: bread roll, butter, cheese, jam. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-aufbackbrotchen-mit-belag",
+      "name": "Aufbackbrötchen mit Belag",
+      "ingredients": [
+        "bake_roll",
+        "butter",
+        "cheese",
+        "jam"
+      ],
+      "targetPath": "dist/assets/meals/de-aufbackbrotchen-mit-belag.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Aufbackbrötchen mit Belag. Show exactly these core food ingredients: bake roll, butter, cheese, jam. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-musli-mit-milch-und-apfel",
+      "name": "Müsli mit Milch und Apfel",
+      "ingredients": [
+        "muesli",
+        "milk",
+        "apple"
+      ],
+      "targetPath": "dist/assets/meals/de-musli-mit-milch-und-apfel.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Müsli mit Milch und Apfel. Show exactly these core food ingredients: muesli, milk, apple. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-naturjoghurt-mit-banane-und-haferflocken",
+      "name": "Naturjoghurt mit Banane und Haferflocken",
+      "ingredients": [
+        "plain_yogurt",
+        "banana",
+        "oats"
+      ],
+      "targetPath": "dist/assets/meals/de-naturjoghurt-mit-banane-und-haferflocken.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Naturjoghurt mit Banane und Haferflocken. Show exactly these core food ingredients: plain yogurt, banana, oats. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-quark-mit-beeren",
+      "name": "Quark mit Beeren",
+      "ingredients": [
+        "quark",
+        "milk",
+        "berries"
+      ],
+      "targetPath": "dist/assets/meals/de-quark-mit-beeren.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Quark mit Beeren. Show exactly these core food ingredients: quark, milk, berries. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-haferbrei-mit-apfel-und-zimt",
+      "name": "Haferbrei mit Apfel und Zimt",
+      "ingredients": [
+        "oats",
+        "milk",
+        "apple",
+        "cinnamon"
+      ],
+      "targetPath": "dist/assets/meals/de-haferbrei-mit-apfel-und-zimt.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Haferbrei mit Apfel und Zimt. Show exactly these core food ingredients: oats, milk, apple, cinnamon. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    },
+    {
+      "mealId": "de-ubernacht-haferflocken-mit-banane",
+      "name": "Übernacht-Haferflocken mit Banane",
+      "ingredients": [
+        "oats",
+        "milk",
+        "plain_yogurt",
+        "banana"
+      ],
+      "targetPath": "dist/assets/meals/de-ubernacht-haferflocken-mit-banane.webp",
+      "prompt": "Single photograph only, not a grid or contact sheet. Authentic German home-style dish: Übernacht-Haferflocken mit Banane. Show exactly these core food ingredients: oats, milk, plain yogurt, banana. Camera pulled back, 35–45 degree angle, full plate/bowl entirely visible with generous neutral background, food occupies 60–70% of frame. Warm natural daylight, simple off-white ceramic tableware, tasteful uncluttered styling. Landscape 4:3, minimum 1200x900 pixels, no text, no collage, no branding. "
+    }
+  ]
+}
