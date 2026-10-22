@@ -8,7 +8,7 @@
 .b2c-page{
   --ed-ivory:#FAF7F2;--ed-green-deep:#3A1D47;--ed-green:#5B2A6E;--ed-text:#2A2230;--ed-muted:#6B6270;--ed-line:#E7E0E8;--ed-accent:#D9692A;--ed-tint:#F1EAF2;--ed-tint-line:#DCCDE2;
   --ed-serif:'Playfair Display',Georgia,'Times New Roman',serif;
-  --ed-sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  --ed-sans:Verdana,Geneva,'DejaVu Sans',sans-serif;
   background:var(--ed-ivory);font-family:var(--ed-sans)
 }
 /* Demo unverändert lassen */
