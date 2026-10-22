@@ -1126,3 +1126,24 @@ html{scroll-padding-top:72px}
 @media (max-width:899px){.ps-mini .ps-wrap{grid-template-columns:minmax(0,1fr)}.ps-mini .ps-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.ps-mini .ps-tab{flex-direction:row;align-items:center}}
 @media (max-width:599px){.ps-mini .ps-tabs{display:flex}.ps-mini .ps-tab{flex:0 0 150px}}
 .partner-page #personas.ps-mini{background:none}
+
+/* ================= Kaufverhalten offen + Umschalter Händler/Marken ================= */
+.kv-card .pi-head{max-width:760px}
+.kv-card .pi-grid{grid-template-columns:1.5fr 1fr 1fr;margin-top:28px}
+.partner-page .kv-card .nz-h{font-size:clamp(24px,2.6vw,32px)}
+@media (max-width:1023px){.kv-card .pi-grid{grid-template-columns:1fr 1fr}.kv-card .pi-grid > :first-child{grid-column:1/-1}}
+@media (max-width:639px){.kv-card .pi-grid{grid-template-columns:minmax(0,1fr)}}
+.nz-switch .nz-arrows,.nz-js.nz-switch .nz-arrows{display:none}
+.nz-switch .nz-tabs{padding:4px;border-radius:14px;background:#fff;border:1px solid #E2E8F0;display:inline-flex}
+.nz-switch .nz-tab{border:0;min-height:48px;padding:6px 18px 6px 6px}
+.nz-switch .nz-bar{justify-content:flex-start}
+.partner-page .hd-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:32px 0 0;padding-top:20px;border-top:1px solid var(--sl-line);font-size:17px;font-weight:700;color:var(--sl-text)}
+.hd-row span{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:var(--sl-text);color:#fff;font-size:13px}
+.nz-panel .hd-row small{padding:3px 9px;border-radius:999px;background:#EEF3E4;color:#4A7C2F;font-size:12px;font-weight:600}
+.hd-row + .pi-grid{margin-top:8px}
+.hd-pilot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center;margin-top:32px;padding:22px 24px;border:1px dashed #E3C9AE;border-radius:14px;background:#FCF8F2}
+.nz-panel .hd-tag{display:inline-block;padding:3px 9px;border-radius:999px;background:#F6E3D2;color:#9A4A16;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.partner-page .hd-pilot h4{margin:8px 0 6px;font-size:18px;font-weight:700;color:var(--sl-text)}
+.hd-pilot p{margin:0 0 12px;font-size:14px;line-height:1.55}
+.hd-pilot .nz-fresh{max-width:380px;margin:0 auto}
+@media (max-width:767px){.hd-pilot{grid-template-columns:minmax(0,1fr)}.nz-switch .nz-tabs{display:flex;width:100%}.nz-switch .nz-tab{flex:1}}
