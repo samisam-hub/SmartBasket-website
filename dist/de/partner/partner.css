@@ -1059,3 +1059,9 @@ html{scroll-padding-top:72px}
 .ab-gate{color:#475569}.ab-gate::before,.ab-gate::after{border-color:#CBD5E1}
 @media (prefers-reduced-motion:no-preference){@keyframes ab-sw-bg{0%,12%{background:#CBD5E1}20%,100%{background:#0F766E}}}
 @media (max-width:639px){.sx-card{padding:18px}.nz-panel .nz-get{margin:24px -18px -18px;padding:16px 18px}.partner-page .sx-nav a{padding:0 10px;font-size:13px}}
+/* PLZ-Karte */
+.nz-map{display:block;width:100%;height:auto;border-radius:8px;border:1px solid #E2E8F0}
+.nz-bub{fill:#0F766E;fill-opacity:.55;stroke:#0F766E;stroke-width:1.5}
+.nz-bub.v1{fill-opacity:.3}.nz-bub.v2{fill-opacity:.4}.nz-bub.v4,.nz-bub.v5{fill-opacity:.75;fill:#115E59}
+.nz-mt{font-size:8.5px;font-weight:700;fill:#0F172A;font-family:var(--font-body)}
+.nz-mt.inv{fill:#fff}.nz-mt.mute{fill:#64748B;font-weight:600}.nz-mt.lg{font-weight:500;fill:#475569}
