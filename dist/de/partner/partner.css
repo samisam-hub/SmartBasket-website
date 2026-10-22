@@ -1147,3 +1147,84 @@ html{scroll-padding-top:72px}
 .hd-pilot p{margin:0 0 12px;font-size:14px;line-height:1.55}
 .hd-pilot .nz-fresh{max-width:380px;margin:0 auto}
 @media (max-width:767px){.hd-pilot{grid-template-columns:minmax(0,1fr)}.nz-switch .nz-tabs{display:flex;width:100%}.nz-switch .nz-tab{flex:1}}
+
+/* ================= Mobil-Überarbeitung (≤ 639px) ================= */
+@media (max-width:639px){
+  .partner-page .section{padding-top:48px;padding-bottom:48px}
+  .partner-page h2,.partner-page .sx-card h2,.partner-page .kv-card .nz-h{font-size:24px;line-height:1.2}
+  .partner-page .pz-hero h1{font-size:32px}
+  /* Hero-Dashboard kompakter */
+  .pz-stage{padding:16px 10px;border-radius:22px;gap:10px}
+  .pz-dash{padding:14px}
+  .pz-dhead{flex-wrap:wrap}
+  .pz-kpis{gap:6px;margin:10px 0}
+  .pz-kpis div{padding:8px 6px}
+  .pz-kpis b{font-size:18px}
+  .pz-chart{padding:8px}
+  .pz-top li{grid-template-columns:20px minmax(0,1fr) 70px 28px;font-size:12px}
+  .pz-chip{padding:10px 12px}
+  /* Ablauf als 2×2-Raster */
+  .ab-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
+  .ab-step{min-width:0}
+  .ab-chips li{white-space:nowrap}
+  .lf-table td:nth-child(n+3){white-space:normal}
+  .ab-vis{height:104px;border-radius:16px;margin-bottom:10px}
+  .ab-phone{width:84px;height:120px;margin-top:12px}
+  .ab-chips li{font-size:10px;padding:4px 7px;gap:5px}
+  .ab-chips{gap:4px}
+  .ab-match{transform:none}.ab-swap{display:none}.ab-csv{font-size:8.5px;padding:6px 7px}.s3 .ab-vis{position:relative}.ab-pct{position:absolute;right:6px;bottom:6px;padding:4px 7px}.ab-pct b{font-size:12px}.ab-pct small{font-size:9px}
+  .ab-mini{width:120px;padding:8px}
+  .partner-page .ab-step h3{font-size:13.5px;gap:6px;flex-wrap:wrap}
+  .ab-num{width:22px;height:22px;font-size:11px}
+  .ab-step p{font-size:12px}
+  /* Karten-Innenabstand */
+  .sx-card,.nz-panel{padding:18px}
+  .pi-card{padding-top:14px}
+  .pi-grid{gap:28px}
+  /* Treiber-Zerlegung: 4 kleine Zahlen in einer Zeile */
+  .nz-panel .pi-eq{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+  .nz-panel .pi-box,.nz-panel .pi-box.total{padding:10px 2px;grid-column:auto}
+  .nz-panel .pi-box b{font-size:19px}
+  .nz-panel .pi-box span{font-size:10px}
+  .nz-panel .pi-box small{font-size:9px;letter-spacing:.02em}
+  .nz-panel .pi-op{display:none}
+  .pi-note{font-size:12.5px}
+  /* Personas kompakt: drei Kacheln nebeneinander */
+  .ps-mini .ps-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0;padding:0;overflow:visible}
+  .ps-mini .ps-tab{flex:none;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:8px 4px}
+  .ps-mini .ps-tab[aria-selected="true"]{padding:7px 3px}
+  .ps-mini .ps-tname small{display:none}
+  .ps-mini .ps-tname b{font-size:12.5px;line-height:1.25}
+  .ps-mini .ps-pct{font-size:15px}
+  .ps-mini .ps-av{display:none}
+  .ps-mini .ps-panel{padding:14px}
+  .ps-mini .ps-imgs li{width:30%;height:auto}
+  /* Lieferung: Mockups 2×2, Tabelle als Karten */
+  .pi-formats{grid-template-columns:1fr 1fr;gap:16px 12px}
+  .pi-mock{height:72px;padding:8px}
+  .pi-formats p{display:none}
+  .partner-page .pi-formats h4{font-size:14px}
+  .lf-scroll{overflow:visible}
+  .lf-table{min-width:0}
+  .lf-table thead{display:none}
+  .lf-table,.lf-table tbody,.lf-table tr,.lf-table th,.lf-table td{display:block;width:auto}
+  .lf-table tr{padding:12px 0;border-bottom:1px solid var(--sl-line)}
+  .lf-table tbody th,.lf-table td{padding:0;border:0;white-space:normal}
+  .lf-table tbody th{font-size:15px;margin-bottom:4px}
+  .lf-table td:nth-child(2){font-size:13px;margin-bottom:6px}
+  .lf-table td:nth-child(n+3){display:inline;font-size:12.5px;white-space:nowrap}
+  .lf-table td:nth-child(4)::before,.lf-table td:nth-child(5)::before{content:" · "}
+  /* Händler-Grafiken */
+  .partner-page .hd-row{font-size:15px}
+  .hd-pilot{padding:16px;gap:16px}
+  .hd-pilot .nz-fresh{max-width:300px}
+  /* Marken */
+  .mk-tile{padding:16px;gap:16px}
+  .mk-jar{width:56px}
+  .partner-page .mk-prod h4{font-size:17px}
+  .mk-kpis dd{font-size:22px}
+  .mk-comp{font-size:12px}
+  .mk-comp th{font-size:9.5px}
+  /* Abschluss */
+  .partner-page .pilot p{text-align:left}
+}
