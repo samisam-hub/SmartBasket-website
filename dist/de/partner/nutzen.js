@@ -21,7 +21,7 @@
     cur = i;
     if (count) count.textContent = (i + 1) + ' / ' + tabs.length;
     if (focus) tabs[i].focus();
-    tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    var bar = tabs[i].parentNode, l = tabs[i].offsetLeft - bar.offsetLeft; if (l < bar.scrollLeft || l + tabs[i].offsetWidth > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = l - 16;
   }
   tabs.forEach(function (t, k) {
     t.addEventListener('click', function () { show(k, false, k - cur); });
