@@ -1090,3 +1090,11 @@ html{scroll-padding-top:72px}
 #methodik .pi-rules{margin-top:24px}
 @media (min-width:900px){.nz-tabs{flex-wrap:wrap;overflow:visible}.nz-tab{min-height:46px;padding:6px 14px 6px 6px;font-size:14px}.nz-tab .ico-wrap{width:32px;height:32px}}
 @media (min-width:1100px){.nz-js .nz-arrows{display:none}.nz-tabs{flex-wrap:nowrap}}
+/* Zahlen in Visualisierungen mittig */
+.mk-kpis div{text-align:center}
+.mk-comp th:not(:first-child),.mk-comp td:not(:first-child){text-align:center}
+.pi-donuts{justify-items:center;align-content:center;flex:1;max-width:340px;width:100%;margin:0 auto}
+.pi-donut{width:100%}
+.nz-panel .pi-box,.nz-panel .pi-box.total{text-align:center;align-items:center;padding-left:6px;padding-right:6px}
+.pz-kpis div{align-items:center;text-align:center}
+.mk-kpis dt{min-height:2.8em;display:flex;align-items:flex-end;justify-content:center;line-height:1.4}.mk-kpis small{display:block;line-height:1.4}
