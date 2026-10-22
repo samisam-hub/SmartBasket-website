@@ -711,3 +711,82 @@
 @media (max-width:1023px){.pi-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:639px){.pi-grid{grid-template-columns:minmax(0,1fr)}.pi-eq{display:grid;grid-template-columns:1fr 1fr}}
 .ms-b{flex:0 0 5px;min-height:5px}
+
+/* ================= Nutzen-Karussell ================= */
+.partner-page .nz-section{background:#F1F6F2}
+.partner-page .nz-section .intro h2 em{font-style:normal;color:#0F6B3F}
+.nz-carousel{margin-top:32px}
+.nz-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.nz-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.nz-tabs::-webkit-scrollbar{display:none}
+.nz-tab{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;min-height:52px;padding:8px 18px 8px 8px;border-radius:999px;border:1px solid #D5E5DA;background:#fff;font:inherit;font-size:15px;font-weight:600;color:#111827;cursor:pointer;transition:background .15s,color .15s}
+.nz-tab .ico-wrap{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#EEF5F0}
+.nz-tab .ico{width:22px;height:22px}
+.nz-tab[aria-selected="true"]{background:#0B3D2A;border-color:#0B3D2A;color:#fff}
+.nz-tab[aria-selected="true"] .ico-wrap{background:rgba(255,255,255,.14)}
+.nz-tab[aria-selected="true"] .ico *{stroke:#fff}
+.nz-tab[aria-selected="true"] .ico .f{fill:#fff}
+.nz-tab:focus-visible,.nz-arrows button:focus-visible{outline:3px solid #F3C77A;outline-offset:2px}
+.nz-arrows{display:none;align-items:center;gap:10px;flex-shrink:0}
+.nz-js .nz-arrows{display:flex}
+.nz-arrows button{width:44px;height:44px;border-radius:50%;border:1px solid #D5E5DA;background:#fff;font:inherit;font-size:18px;color:#111827;cursor:pointer}
+.nz-arrows button:hover{background:#0B3D2A;color:#fff}
+.nz-count{min-width:44px;text-align:center;font-size:13px;font-weight:600;color:#5F6670}
+.nz-panel{border-radius:28px;background:#fff;border:1px solid #E3EAE5;padding:32px;box-shadow:0 30px 60px -48px rgba(11,61,42,.5)}
+.nz-panel[hidden]{display:none}
+.nz-panel + .nz-panel{margin-top:20px}
+.nz-js .nz-panel + .nz-panel{margin-top:0}
+@media (prefers-reduced-motion:no-preference){
+.nz-from-right{animation:nz-in-r .35s ease}.nz-from-left{animation:nz-in-l .35s ease}
+@keyframes nz-in-r{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes nz-in-l{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+}
+.partner-page .nz-h{margin:10px 0 12px;font-size:clamp(22px,2.4vw,30px);line-height:1.2;font-weight:700;color:#111827}
+.partner-page .nz-h em{font-style:normal;color:#0F6B3F}
+.nz-slide .eyebrow{display:block}
+.nz-slide.ps-section{background:none}
+.nz-slide .ps-wrap{margin-top:28px}
+.nz-slide .pi{margin-top:48px;padding-top:40px}
+.partner-page .pi-title{font-size:clamp(20px,2.2vw,26px)}
+.nz-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:28px}
+.nz-grid2{grid-template-columns:1.4fr 1fr}
+.nz-heat,.nz-stock,.nz-fresh{display:block;width:100%;height:auto}
+.nz-heat .nz-l,.nz-stock .nz-l{font-size:12.5px;fill:#374151;font-family:var(--font-body)}
+.nz-heat .nz-t,.nz-fresh .nz-t{font-size:11px;fill:#6B7280;font-family:var(--font-body)}
+.nz-stock .nz-v{font-size:11px;font-weight:700;fill:#111827;font-family:var(--font-body)}
+.nz-plz{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.nz-tile{display:flex;flex-direction:column;gap:2px;padding:10px 8px;border-radius:12px;font-size:12px}
+.nz-tile b{font-size:13px}.nz-tile small{font-size:10px;letter-spacing:1px}
+.nz-tile.v0{background:#F3F4F6;color:#9CA3AF}.nz-tile.v1{background:#EEF5F0;color:#0B3D2A}.nz-tile.v2{background:#D5E8DB;color:#0B3D2A}
+.nz-tile.v3{background:#A9D1B5;color:#0B3D2A}.nz-tile.v4{background:#2F7D52;color:#fff}.nz-tile.v5{background:#0B3D2A;color:#fff}
+.nz-lead{display:flex;align-items:center;gap:0;padding:24px 0 8px}
+.nz-dot{position:relative;flex-shrink:0;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;text-align:center}
+.nz-dot small{position:absolute;top:64px;left:50%;transform:translateX(-50%);width:90px;font-size:11px;font-weight:500;color:#5F6670}
+.nz-dot.p{background:#FAF5EC;color:#8A5A2B}.nz-dot.s{background:#0F6B3F;color:#fff}.nz-dot.e{background:#EEF5F0;color:#0B3D2A;font-size:12px}
+.nz-line{flex:1;height:3px;background:repeating-linear-gradient(90deg,#0F6B3F 0 8px,transparent 8px 14px)}
+.nz-lead + .pi-note{margin-top:40px}
+.nz-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font-size:11.5px;color:#5F6670}
+.nz-legend span{width:12px;height:8px;border-radius:3px;display:inline-block}
+.nz-legend .g1{background:#E5E7EB}.nz-legend .g2{background:#0F6B3F}.nz-legend .g3{background:#E07A3F}
+.nz-amp,.nz-gap,.nz-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.nz-amp li{display:grid;grid-template-columns:14px 1fr auto;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:#F9FAFB;font-size:13px}
+.nz-amp i{width:12px;height:12px;border-radius:50%}
+.nz-amp .r i{background:#DC4C3F}.nz-amp .y i{background:#E9B02F}.nz-amp .g i{background:#2F9E5F}
+.nz-amp b{color:#111827}.nz-amp span{color:#5F6670;font-size:12px}
+.nz-gap li{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:12px;border:1px dashed #D5E5DA;font-size:13.5px}
+.nz-gap b{color:#111827}.nz-gap span{color:#0F6B3F;font-weight:600;font-size:12.5px}
+.nz-list li{position:relative;padding-left:18px;font-size:14px;line-height:1.5;color:#374151}
+.nz-list li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:#0F6B3F}
+.nz-formats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.nz-formats li{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:18px;border:1px solid #E3EAE5;background:#fff}
+.nz-formats b{font-size:15px;color:#111827}.nz-formats span{font-size:13px;line-height:1.5;color:#5F6670}
+.nz-formats .pi-tag{margin-top:6px}
+.nz-section .audience{margin-top:28px}
+@media (max-width:1023px){.nz-grid{grid-template-columns:1fr 1fr}.nz-grid > :first-child{grid-column:1/-1}.nz-grid2{grid-template-columns:minmax(0,1fr)}.nz-formats{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:639px){
+.nz-bar{flex-direction:column;align-items:stretch}
+.nz-tabs{margin:0 -16px;padding:2px 16px}
+.nz-arrows{justify-content:space-between}
+.nz-panel{padding:18px;border-radius:22px}
+.nz-grid{grid-template-columns:minmax(0,1fr)}
+}
