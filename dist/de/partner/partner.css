@@ -893,3 +893,101 @@
 .nz-slide .pi.pi-top{margin:0;padding:0;background:none;border:0}
 .nz-deliver.ps-part .ps-wrap{margin-top:24px}
 .nz-deliver.ps-part .ps-panel{background:#fff}
+
+/* ================= Für Marken: Produktkachel ================= */
+.mk-tile{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr);gap:28px;align-items:center;margin-top:24px;padding:22px 24px;border:1px solid var(--sl-line);border-radius:14px;background:#fff}
+.mk-prod{display:flex;align-items:center;gap:18px}
+.mk-jar{width:84px;height:auto;flex-shrink:0}
+.mk-cat{display:block;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sl-pos)}
+.partner-page .mk-prod h4{margin:4px 0;font-size:20px;font-weight:700;color:var(--sl-text)}
+.mk-meta{font-size:12px;color:var(--sl-muted)}
+.mk-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;border-left:1px solid var(--sl-line)}
+.mk-kpis div{padding:4px 16px;border-right:1px solid var(--sl-line)}
+.mk-kpis div:last-child{border-right:0}
+.mk-kpis dt{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--sl-muted)}
+.mk-kpis dd{margin:6px 0 2px;font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--sl-text)}
+.mk-kpis small{font-size:11.5px;color:var(--sl-muted)}
+.mk-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+.mk-line{display:block;width:100%;height:auto}
+.mk-line .mk-t{font-size:10.5px;fill:var(--sl-muted);font-family:var(--font-body)}
+.mk-line .mk-v{font-size:12px;font-weight:700;fill:var(--sl-text);font-family:var(--font-body)}
+.mk-idx{display:grid;gap:12px}
+.mk-idx div{display:grid;grid-template-columns:1fr;gap:4px;font-size:13px}
+.mk-idx div{grid-template-columns:minmax(0,1fr) 36px}
+.mk-idx div > span:first-child{grid-column:1/-1;color:var(--sl-muted)}
+.mk-track{position:relative;height:6px;background:var(--sl-line)}
+.mk-track i{position:absolute;left:0;top:0;bottom:0;background:var(--sl-neu)}
+.mk-track i.pos{background:var(--sl-pos)}.mk-track i.neg{background:var(--sl-neg)}
+.mk-track em{position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--sl-text);opacity:.5}
+.mk-track .w162{width:81%}.mk-track .w88{width:44%}.mk-track .w71{width:35.5%}
+.mk-idx b{text-align:right;color:var(--sl-text)}
+.mk-stack{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mk-stack li{position:relative;display:flex;justify-content:space-between;padding:10px 12px;font-size:13px;color:var(--sl-text);background:var(--sl-soft);overflow:hidden;isolation:isolate}
+.mk-stack li::before{content:"";position:absolute;inset:0 auto 0 0;z-index:-1;background:#CCE5E2}
+.mk-stack .a::before{width:71%;background:#9CCFC8}.mk-stack .b::before{width:18%}.mk-stack .c::before{width:11%}
+.mk-stack b{order:2}
+.mk-share{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mk-share li{display:grid;grid-template-columns:minmax(0,1fr) 44px;grid-template-rows:auto 6px;gap:4px 8px;font-size:13px}
+.mk-share span{color:var(--sl-muted)}.mk-share b{grid-row:1/3;grid-column:2;align-self:center;text-align:right;color:var(--sl-text)}
+.mk-share i{display:block;height:6px;background:var(--sl-line)}
+.mk-share .s1{background:linear-gradient(90deg,var(--sl-pos) 38%,var(--sl-line) 38%)}
+.mk-share .s2{background:linear-gradient(90deg,var(--sl-neu) 34%,var(--sl-line) 34%)}
+.mk-share .s3{background:linear-gradient(90deg,#CBD5E1 28%,var(--sl-line) 28%)}
+@media (max-width:1023px){.mk-tile{grid-template-columns:minmax(0,1fr)}.mk-grid{grid-template-columns:1fr 1fr}.mk-grid > :first-child{grid-column:1/-1}}
+@media (max-width:639px){.mk-kpis{grid-template-columns:1fr 1fr;border-left:0}.mk-kpis div{border-right:0;border-top:1px solid var(--sl-line);padding:10px 0}.mk-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ================= Für Marken: Produktkachel ================= */
+.mk-tile{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr);gap:28px;align-items:center;margin-top:24px;padding:22px 24px;border:1px solid var(--sl-line);border-radius:14px;background:#fff}
+.mk-prod{display:flex;align-items:center;gap:18px}
+.mk-jar{width:84px;height:auto;flex-shrink:0}
+.nz-panel .mk-cat{display:block;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sl-pos)}
+.partner-page .mk-prod h4{margin:4px 0;font-size:20px;font-weight:700;color:var(--sl-text)}
+.mk-meta{font-size:12px}
+.mk-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;border-left:1px solid var(--sl-line)}
+.mk-kpis div{padding:4px 16px;border-right:1px solid var(--sl-line)}
+.mk-kpis div:last-child{border-right:0}
+.mk-kpis dt{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--sl-muted)}
+.mk-kpis dd{margin:6px 0 2px;font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--sl-text)}
+.mk-kpis small{font-size:11.5px;color:var(--sl-muted)}
+.mk-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.mk-grid > :nth-child(1){grid-column:span 3}.mk-grid > :nth-child(2),.mk-grid > :nth-child(3){grid-column:span 3}
+.mk-grid > :nth-child(2){grid-column:span 2}.mk-grid > :nth-child(3){grid-column:span 1}
+.mk-grid > :nth-child(1){grid-column:1 / 4}.mk-grid > :nth-child(2){grid-column:4 / 6}.mk-grid > :nth-child(3){grid-column:6 / 7}
+.mk-grid{grid-template-columns:1.4fr 1fr 1fr}
+.mk-grid > :nth-child(n){grid-column:auto}
+.mk-grid > :nth-child(4){grid-column:1 / 2}.mk-grid > :nth-child(5){grid-column:2 / 4}
+.mk-line{display:block;width:100%;height:auto}
+.mk-line .mk-t{font-size:10.5px;fill:var(--sl-muted);font-family:var(--font-body)}
+.mk-line .mk-v{font-size:12px;font-weight:700;fill:var(--sl-text);font-family:var(--font-body)}
+.mk-idx{display:grid;gap:12px}
+.mk-idx div{display:grid;grid-template-columns:minmax(0,1fr) 36px;gap:4px;font-size:13px}
+.mk-idx div > span:first-child{grid-column:1/-1}
+.mk-track{position:relative;align-self:center;height:6px;background:var(--sl-line)}
+.mk-track i{position:absolute;left:0;top:0;bottom:0}
+.mk-track i.pos{background:var(--sl-pos)}.mk-track i.neg{background:var(--sl-neg)}
+.mk-track em{position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--sl-text);opacity:.5}
+.mk-track .w162{width:81%}.mk-track .w88{width:44%}.mk-track .w71{width:35.5%}
+.mk-idx b{text-align:right}
+.mk-stack{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mk-stack li{position:relative;display:flex;justify-content:space-between;padding:10px 12px;font-size:13px;color:var(--sl-text);background:var(--sl-soft);isolation:isolate;overflow:hidden}
+.mk-stack li::before{content:"";position:absolute;inset:0 auto 0 0;z-index:-1;background:#CCE5E2}
+.mk-stack .a::before{width:71%;background:#9CCFC8}.mk-stack .b::before{width:18%}.mk-stack .c::before{width:11%}
+.mk-stack b{order:2}
+.mk-co{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mk-co li{display:grid;grid-template-columns:minmax(0,1fr) 46px 56px;grid-template-rows:auto 6px;gap:4px 8px;align-items:center;font-size:13px}
+.nz-panel .mk-co-n{color:var(--sl-text)}
+.mk-co-b{grid-row:2;grid-column:1;height:6px;background:var(--sl-line)}
+.mk-co-b i{display:block;height:100%;background:var(--sl-pos)}
+.mk-co b{grid-row:1/3;grid-column:2;text-align:right}
+.nz-panel .mk-co small{grid-row:1/3;grid-column:3;font-size:11.5px;color:var(--sl-muted);text-align:right}
+.mk-co .w64{width:64%}.mk-co .w52{width:52%}.mk-co .w41{width:41%}.mk-co .w23{width:23%}.mk-co .w18{width:18%}
+.mk-comp{width:100%;border-collapse:collapse;font-size:13px}
+.mk-comp th{padding:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sl-muted);text-align:right}
+.mk-comp th:first-child,.mk-comp td:first-child{text-align:left}
+.mk-comp td{padding:9px 0;border-top:1px solid var(--sl-line);text-align:right;color:var(--sl-text)}
+.mk-comp tr.own td{font-weight:700;color:var(--sl-pos)}
+.mk-comp td.up{color:var(--sl-pos)}.mk-comp td.dn{color:var(--sl-neg)}
+.nz-panel .mk-switch{margin:12px 0 0;padding:10px 0 0 12px;border-left:2px solid var(--sl-neg);font-size:13px;line-height:1.5}
+.mk-section-gap{height:0}
+@media (max-width:1023px){.mk-tile{grid-template-columns:minmax(0,1fr)}.mk-grid{grid-template-columns:1fr 1fr}.mk-grid > :nth-child(1),.mk-grid > :nth-child(5){grid-column:1/-1}.mk-grid > :nth-child(4){grid-column:auto}}
+@media (max-width:639px){.mk-kpis{grid-template-columns:1fr 1fr;border-left:0}.mk-kpis div{border-right:0;border-top:1px solid var(--sl-line);padding:10px 0}.mk-grid{grid-template-columns:minmax(0,1fr)}.mk-grid > :nth-child(n){grid-column:auto}}
