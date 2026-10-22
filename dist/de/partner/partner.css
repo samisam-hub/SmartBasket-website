@@ -1083,3 +1083,10 @@ html{scroll-padding-top:72px}
 .nz-panel .nz-heat rect[fill="#2F7D52"]{fill:#79C443}
 .nz-panel .nz-heat rect[fill="#0B3D2A"]{fill:#55B42A}
 .nz-bub.v1,.nz-bub.v2{stroke:#A9CF85}
+#nz-panel-erkenntnisse .pi-head{max-width:760px}
+#nz-panel-erkenntnisse .pi-grid{grid-template-columns:1.5fr 1fr 1fr;margin-top:28px}
+@media (max-width:1023px){#nz-panel-erkenntnisse .pi-grid{grid-template-columns:1fr 1fr}#nz-panel-erkenntnisse .pi-grid > :first-child{grid-column:1/-1}}
+@media (max-width:639px){#nz-panel-erkenntnisse .pi-grid{grid-template-columns:minmax(0,1fr)}}
+#methodik .pi-rules{margin-top:24px}
+@media (min-width:900px){.nz-tabs{flex-wrap:wrap;overflow:visible}.nz-tab{min-height:46px;padding:6px 14px 6px 6px;font-size:14px}.nz-tab .ico-wrap{width:32px;height:32px}}
+@media (min-width:1100px){.nz-js .nz-arrows{display:none}.nz-tabs{flex-wrap:nowrap}}
