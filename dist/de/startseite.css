@@ -1,3 +1,7 @@
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../assets/fonts/inter-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(../assets/fonts/inter-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../assets/fonts/inter-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../assets/fonts/inter-latin-700-normal.woff2) format('woff2')}
 /* Startseite (DE) – Editorial-Design nach Issue #16.
    Gilt nur für Kopfzeile (.b2c-header) und Abschnitte mit .b2c.
    Die Demo (#demo / #sb-demo) behält Schrift, Farben und Hintergrund von vorher. */
@@ -286,7 +290,7 @@
 /* Sprach-Hinweis als Badge */
 .hero.b2c .b2c-avail{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0}
 .b2c-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--ed-tint-line);border-radius:999px;background:var(--ed-tint);color:var(--ed-green-deep);font-size:12px;font-weight:600;line-height:1.4}
-.b2c-chip::before{content:"";width:14px;height:14px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A1D47' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z'/%3E%3C/svg%3E")}
+.b2c-chip::before{content:"";width:14px;height:14px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F6B3F' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z'/%3E%3C/svg%3E")}
 
 /* Stimmen aus der Beta (nur sichtbar mit echten, freigegebenen Einträgen) */
 #stimmen[hidden]{display:none}
@@ -400,3 +404,40 @@
 .b2c .b2c-benefits h3,.b2c .b2c-steps h3{font-size:20px;font-weight:700}
 .hero-zettel.b2c h1{font-size:clamp(34px,4.3vw,54px);line-height:1.08}
 .b2c .app-entwurf-cta .app-entwurf-cta-h{font-size:21px;font-weight:700}
+
+/* ================= Design-System „klar & ruhig“ (Oktober 2026) =================
+   Eine Schrift (Inter), Dunkelgrün als Markenfarbe, Schwarz für Überschriften,
+   wechselnde Flächen (Weiß, Salbei, Sand, Dunkelgrün), Orange nur als kleiner Akzent. */
+.b2c-page{--ed-ivory:#FFFFFF;--ed-green-deep:#0B3D2A;--ed-green:#0F6B3F;--ed-text:#111827;--ed-muted:#5F6670;--ed-line:#E5E7EB;--ed-accent:#E07A3F;--ed-tint:#EEF5F0;--ed-tint-line:#D5E5DA;--ed-sage:#F1F6F2;--ed-sand:#FAF5EC;
+  --ed-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;--ed-head:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;--ed-serif:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif}
+.b2c h1,.b2c h2{font-weight:700;letter-spacing:-.025em;color:var(--ed-text)}
+.b2c h1 em,.b2c h2 em{font-style:normal;color:var(--ed-green)}
+.hero-zettel.b2c h1{color:var(--ed-text)}
+.b2c-header{background:#fff}
+.b2c-header .brand,.b2c-header .brand span{font-style:normal;font-weight:700;letter-spacing:-.02em}
+.b2c-header .brand{color:var(--ed-text)}.b2c-header .brand span{color:var(--ed-green)}
+.b2c .eyebrow{color:var(--ed-green)}
+.b2c .pill-btn.primary{background:var(--ed-green)}.b2c .pill-btn.primary:hover{background:var(--ed-green-deep)}
+.b2c .pill-btn.secondary{border-color:var(--ed-text);color:var(--ed-text)}
+/* Flächen-Rhythmus */
+.hero-zettel.b2c{background:#fff}
+#vorteile.b2c{background:var(--ed-sage);border-top:0}
+#app-entwurf.b2c{background:#fff;border-top:0}
+#alltag.b2c{background:var(--ed-sand)}
+#fragen.b2c{background:#fff}
+.android.b2c{background:var(--ed-green-deep)}
+.android.b2c .pill-btn.primary{background:#fff;color:var(--ed-green-deep)}
+/* Hero-Bühne */
+.hero-buehne::before{background:linear-gradient(140deg,#E6F0E9 0%,#F6F1E7 100%)}
+.hero-phone{background:#111827}
+.hero-zettel-note{background:#fff;font-family:var(--ed-sans);font-style:normal;font-weight:600;font-size:2.7cqw;line-height:1.45;color:var(--ed-text);border:1px solid var(--ed-line);border-radius:2.4cqw;transform:none;box-shadow:0 18px 30px -22px rgba(17,24,39,.4)}
+.hero-zettel-note::before{display:none}
+.hero-zettel-note.n2{background:#FFF4E8;border-color:#F6D9BF}
+.hero-pfeil{display:none}
+.hero-plant li{color:var(--ed-text)}
+@media (max-width:599px){.hero-zettel-note.n1{transform:none;font-size:3.2cqw}}
+/* App-Entwurf */
+.app-entwurf-screen h3{letter-spacing:-.02em}
+.app-entwurf-frame{border-color:#111827}
+.b2c .app-entwurf-cta{background:var(--ed-sage);border-color:var(--ed-tint-line)}
+#fragen.b2c details,#fragen.b2c details:last-child{border-color:var(--ed-line)}
