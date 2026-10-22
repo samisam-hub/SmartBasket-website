@@ -183,17 +183,13 @@
 .partner-page .hero .lead{max-width:44ch}
 
 /* ================= Editorial B2B (Konzept 1) – nur Händlerseite ================= */
-@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(../../assets/fonts/inter-latin-400-normal.woff2) format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(../../assets/fonts/inter-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../../assets/fonts/inter-latin-600-normal.woff2) format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(../../assets/fonts/inter-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:600;font-display:swap;src:url(../../assets/fonts/playfair-display-latin-600-normal.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:normal;font-weight:700;font-display:swap;src:url(../../assets/fonts/playfair-display-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Playfair Display';font-style:italic;font-weight:600;font-display:swap;src:url(../../assets/fonts/playfair-display-latin-600-italic.woff2) format('woff2')}
 
 .partner-page{
   --font-heading:'Playfair Display',Georgia,serif;
-  --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-body:'Helvetica Neue',Helvetica,Arial,sans-serif;
   --color-primary-green:#0D3B2E;
   --color-text-dark:#111827;
   --color-accent-amber:#D97706;
@@ -397,7 +393,7 @@
 .pz-note::before{content:"";position:absolute;top:-10px;left:50%;width:64px;height:20px;margin-left:-32px;background:rgba(255,255,255,.7);transform:rotate(-3deg)}
 .pz-glass{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,.75);box-shadow:0 30px 60px -30px rgba(8,75,44,.45),inset 0 1px 0 rgba(255,255,255,.8)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.pz-glass{background:rgba(255,255,255,.92)}}
-.pz-dash{position:absolute;right:4%;top:9%;width:min(400px,64%);margin:0;padding:20px 20px 16px;border-radius:24px;z-index:4;font-family:var(--font-body,Inter,sans-serif);color:#1F2937}
+.pz-dash{position:absolute;right:4%;top:9%;width:min(400px,64%);margin:0;padding:20px 20px 16px;border-radius:24px;z-index:4;font-family:var(--font-body);color:#1F2937}
 .pz-dash p{margin:0}
 .pz-dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .pz-dtitle{font-size:14px;font-weight:700;color:#084B2C}
@@ -500,7 +496,7 @@
 .ps-imgs li{width:30%;height:auto;aspect-ratio:1}
 .ps-panel{padding:18px;border-radius:22px}
 }
-.partner-page .ps-panel .ps-h{font-family:var(--font-body,Inter,Helvetica,Arial,sans-serif);font-size:12px;font-weight:700;letter-spacing:1.4px;color:#5B6B62;text-transform:uppercase}
+.partner-page .ps-panel .ps-h{font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:1.4px;color:#5B6B62;text-transform:uppercase}
 
 /* ================= Ablauf: bewegtes Storyboard ================= */
 .partner-page .ab-section{background:#FFF8F0}
@@ -513,7 +509,7 @@
 .ab-vis{position:relative;height:150px;border-radius:24px;margin-bottom:16px;display:grid;place-items:center;overflow:hidden}
 .s1 .ab-vis{background:#E6F0E8}.s2 .ab-vis{background:#FEEFE5}.s3 .ab-vis{background:#EEF2EC}
 .s4 .ab-vis{background:linear-gradient(135deg,#E6F0E8,#F6F0E6);border:1px solid rgba(255,255,255,.85)}
-.partner-page .ab-step h3{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;font-family:var(--font-body,Inter,sans-serif);font-size:16px;font-weight:700;color:#084B2C}
+.partner-page .ab-step h3{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;font-family:var(--font-body);font-size:16px;font-weight:700;color:#084B2C}
 .ab-step p{margin:6px 0 0;font-size:14px;line-height:1.45;color:#4B5563}
 .ab-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;display:inline-grid;place-items:center;font-size:13px;font-weight:700;background:#0F6B3F;color:#fff}
 /* 1 Handy */
@@ -543,7 +539,7 @@
 .ab-future{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .ab-future li{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:20px;border:1.5px dashed #E6B999;background:rgba(254,239,229,.5);opacity:.85}
 .ab-future .ab-num{background:#D9692A}
-.partner-page .ab-future h3{margin:0;font-family:var(--font-body,Inter,sans-serif);font-size:16px;font-weight:700;color:#084B2C}
+.partner-page .ab-future h3{margin:0;font-family:var(--font-body);font-size:16px;font-weight:700;color:#084B2C}
 .ab-future p{margin:2px 0 0;font-size:13px;color:#5B6B62}
 .ab-section .inline-cta{margin-top:24px}
 
@@ -585,7 +581,7 @@
 .ab-order{list-style:none;margin:0;padding:28px;display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr) 48px minmax(0,1fr);align-items:stretch;border-radius:28px;background:rgba(254,239,229,.55);border:1.5px dashed #E6B999}
 .ab-order > li:not(.ab-arrow){display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border-radius:20px;background:#fff;box-shadow:0 18px 30px -24px rgba(0,0,0,.4)}
 .ab-order .ab-num{background:#D9692A}
-.partner-page .ab-order h3{margin:0;font-family:var(--font-body,Inter,sans-serif);font-size:17px;font-weight:700;color:#084B2C}
+.partner-page .ab-order h3{margin:0;font-family:var(--font-body);font-size:17px;font-weight:700;color:#084B2C}
 .ab-order p{margin:0}
 .ab-toggle{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:#1F2937}
 .ab-switch{position:relative;width:44px;height:26px;flex-shrink:0;border-radius:999px;background:#0F6B3F;transition:background .3s}
