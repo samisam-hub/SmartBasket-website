@@ -261,3 +261,15 @@ details.calc p{margin-top:10px;font-size:15px;line-height:1.6}
 .b2c-features h3{font-size:18px;font-weight:800}
 .b2c-features p{font-size:16px;line-height:1.55;color:var(--muted)}
 .faq details p a{display:inline-flex;align-items:center;min-height:44px;color:var(--brand);font-weight:700}
+/* Ernaehrungscoach: Portraet links, Text rechts. Rund wird das Bild per Radius,
+   damit die Datei ohne Alphakanal auskommt. */
+.b2c-coach{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.b2c-coach figure{margin:0;flex:0 0 auto;text-align:center;width:168px}
+.b2c-coach img{width:168px;height:168px;border-radius:50%;object-fit:cover;box-shadow:var(--sh-sm)}
+.b2c-coach figcaption{margin-top:12px;font-size:14px;line-height:1.4;color:var(--muted)}
+.b2c-coach figcaption b{display:block;color:var(--ink);font-weight:700}
+.b2c-coach .b2c-coach-text{flex:1 1 320px;display:flex;flex-direction:column;gap:12px}
+@media (max-width:640px){
+ .b2c-coach{flex-direction:column;align-items:flex-start;gap:20px}
+ .b2c-coach figure{width:auto;text-align:left}
+}
