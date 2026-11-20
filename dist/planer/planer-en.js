@@ -91,8 +91,8 @@
     '<section class="sp-card" aria-labelledby="sp-h3" id="sp-plan"><div class="sp-plan-head"><div><div class="sp-step" style="margin-bottom:6px"><span class="sp-nr">3</span><h2 id="sp-h3">Your weekly plan</h2></div><p class="sp-status" id="sp-count"></p></div></div>' +
     '<div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div>' +
     '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Download weekly plan as PDF</button><button class="sp-btn sp-sec" id="sp-fill">Fill empty slots automatically</button><button class="sp-btn sp-sec" id="sp-clear">Clear plan</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
-    '<aside class="sp-teaser"><div><h3>Even easier in the app</h3><p>SmartBasket plans the week for your household and turns the shopping list into whole packs.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Try the free beta ↗</a></aside>' +
-    '<footer class="sp-foot"><span>© 2026 SmartBasket</span><a href="/">Home</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
+    '<aside class="sp-teaser"><div><h3>Even easier in the app</h3><p>Prepello plans the week for your household and turns the shopping list into whole packs.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Try the free beta ↗</a></aside>' +
+    '<footer class="sp-foot"><span>© 2026 Prepello</span><a href="/">Home</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
     '</div><div class="sp-modal" id="sp-modal" hidden><div class="sp-dialog" role="dialog" aria-modal="true" aria-labelledby="sp-mt" id="sp-dialog"></div></div><div class="sp-toast" role="status" aria-live="polite"></div>';
   toastEl = root.querySelector('.sp-toast');
   var $ = function (id) { return document.getElementById(id); };
