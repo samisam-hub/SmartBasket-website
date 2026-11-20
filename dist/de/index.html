@@ -5,7 +5,7 @@
 <header class="site-header b2c-header"><div class="wrap">
 <a class="brand" href="./">Smart<span>Basket</span></a>
 <nav class="site-nav" aria-label="Hauptnavigation">
-<a href="#app-entwurf">So funktioniert's</a>
+<a href="#app-entwurf">Wochenplan erstellen</a>
 <a href="#fragen">FAQ</a>
 <a href="partner/">Für Händler</a>
 <a class="lang" href="../" hreflang="en" lang="en">English</a>
@@ -18,7 +18,7 @@
 <h1>Schluss mit<br><em>„Was essen wir heute?“</em></h1>
 <p class="lead">Einmal Geschmack wischen, fertig ist der Wochenplan – samt Einkaufsliste für die ganze Familie.</p>
 <div class="actions">
-<a class="pill-btn primary" href="#app-entwurf">Wochenplanung ausprobieren ↓</a>
+<a class="pill-btn primary" href="#app-entwurf">Wochenplan erstellen ↓</a>
 </div>
 <ul class="hero-plant" aria-label="SmartBasket plant mit">
 <li class="hero-plant-label" aria-hidden="true">Plant mit:</li>
@@ -48,9 +48,9 @@
 
 <section class="section b2c" id="app-entwurf" aria-labelledby="app-entwurf-h"><div class="wrap">
 <div class="app-entwurf-text">
-<span class="eyebrow">APP-ENTWURF ZUM AUSPROBIEREN</span>
-<h2 id="app-entwurf-h">Klick dich durch die Wochenplanung.</h2>
-<p class="lead">Haushalt anlegen, Budget und Unverträglichkeiten angeben und Gerichte nach Geschmack wischen. SmartBasket plant die Woche dann automatisch – du schaust rein, tauschst, was nicht passt, und bekommst den Einkaufskorb. Probier es direkt im Handy aus.</p>
+<span class="eyebrow">WOCHENPLAN ERSTELLEN</span>
+<h2 id="app-entwurf-h">Erstelle deinen Meal Prep Wochenplan.</h2>
+<p class="lead">Haushalt anlegen, Budget und Unverträglichkeiten angeben und Gerichte nach Geschmack wischen. SmartBasket plant die Woche dann automatisch – du schaust rein, tauschst, was nicht passt, und bekommst den Einkaufskorb. Am Ende lädst du Wochenplan und Einkaufsliste als PDF herunter.</p>
 <p class="b2c-note">Interaktiver Entwurf. Die Oberfläche der Android-Beta kann abweichen.</p>
 <div class="app-entwurf-nav" id="app-entwurf-nav" role="group" aria-label="Screen auswählen"></div>
 <button type="button" class="app-entwurf-reset" id="app-entwurf-reset">Entwurf zurücksetzen</button>
@@ -64,6 +64,10 @@
 <div class="app-entwurf-phone">
 <div class="app-entwurf-frame" id="app-entwurf-frame"><div class="app-entwurf-screen" id="app-entwurf-screen" role="region" aria-label="Interaktiver App-Entwurf"></div></div>
 <p class="b2c-sr" id="app-entwurf-live" aria-live="polite"></p>
+<div class="app-entwurf-pdf">
+<button type="button" class="pill-btn primary" id="app-entwurf-pdf">Wochenplan als PDF herunterladen</button>
+<p class="app-entwurf-pdf-note" id="app-entwurf-pdf-status" aria-live="polite">Mit Einkaufsliste und Mengen für deinen Haushalt.</p>
+</div>
 <noscript><p class="b2c-note">Der interaktive Entwurf braucht JavaScript.</p></noscript>
 </div>
 </div></section>
@@ -174,6 +178,7 @@
 <script src="familie-demo.js"></script>
 <script src="app-entwurf-screens.js"></script>
 <script src="app-entwurf.js"></script>
+<script src="wochenplan-pdf.js"></script>
 <script src="schritte.js"></script>
 <script src="hero.js" defer></script>
 <script src="stimmen.js"></script>

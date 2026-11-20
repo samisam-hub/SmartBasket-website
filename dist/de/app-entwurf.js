@@ -36,6 +36,7 @@
     reset: function () { store.data = initialData(); try { window.localStorage.removeItem(KEY); } catch (e) {} }
   };
   function save() {}
+  window.SB_APP_STORE = store; // für den PDF-Export (wochenplan-pdf.js)
 
   var LIB = window.SB_APP_LIB = (function () {
     var DAY_NAMES = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];

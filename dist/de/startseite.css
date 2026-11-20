@@ -441,3 +441,9 @@
 .app-entwurf-frame{border-color:#111827}
 .b2c .app-entwurf-cta{background:var(--ed-sage);border-color:var(--ed-tint-line)}
 #fragen.b2c details,#fragen.b2c details:last-child{border-color:var(--ed-line)}
+/* PDF-Download unter dem App-Entwurf */
+.app-entwurf-pdf{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:20px;width:100%;max-width:380px}
+.app-entwurf-pdf .pill-btn{width:100%;cursor:pointer}
+.app-entwurf-pdf .pill-btn[disabled]{opacity:.7;cursor:progress}
+.app-entwurf-pdf .pill-btn:focus-visible{outline:2px solid var(--ed-green);outline-offset:3px}
+.app-entwurf-pdf-note{margin:0;font:400 14px/1.4 var(--ed-sans);color:var(--ed-muted);text-align:center}
