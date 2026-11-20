@@ -112,3 +112,19 @@ font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tx);
 @media (max-width:560px){#sb-planer .sp-wrap{padding:28px 14px 48px}#sb-planer .sp-card{padding:18px;border-radius:16px}#sb-planer .sp-sc img,#sb-planer .sp-sc .sp-noimg{height:230px}#sb-planer .sp-deck{height:470px}}
 @media (prefers-reduced-motion:reduce){#sb-planer .sp-sc,#sb-planer .sp-toast{transition:none}}
 #sb-planer .sp-foot{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:28px;font-size:14px;color:var(--mu)}#sb-planer .sp-foot a{color:var(--mu);font-weight:500}
+#sb-planer button,#sb-planer input{text-transform:none;letter-spacing:normal;font-family:inherit;box-shadow:none;margin:0;line-height:1.2;text-shadow:none}
+#sb-planer .sp-chip:hover,#sb-planer .sp-chip:focus{background:#fff;color:var(--tx)}
+#sb-planer .sp-chip[aria-pressed="true"]:hover,#sb-planer .sp-chip[aria-pressed="true"]:focus{background:var(--gd);color:#fff}
+#sb-planer .sp-round:hover,#sb-planer .sp-round:focus{background:#fff;color:var(--gd)}
+#sb-planer .sp-tab:hover,#sb-planer .sp-tab:focus{background:var(--ti);color:var(--gd)}
+#sb-planer .sp-tab[aria-selected="true"]:hover,#sb-planer .sp-tab[aria-selected="true"]:focus{background:var(--gd);color:#fff}
+#sb-planer .sp-btn:focus{color:#fff}
+#sb-planer .sp-btn.sp-sec:focus{color:var(--gd)}
+#sb-planer .sp-have button:hover{background:var(--tl);color:var(--gd)}
+#sb-planer .sp-sugg button:hover{background:var(--ti);color:var(--tx)}
+#sb-planer .sp-rc .sp-rn:focus,#sb-planer .sp-cell .sp-cn:hover,#sb-planer .sp-cell .sp-cn:focus{background:none;color:var(--tx)}
+#sb-planer .sp-cell .sp-x:hover{background:#fff;color:#B42318}
+#sb-planer .sp-act.sp-no:hover{background:#fff;color:#B42318}#sb-planer .sp-act.sp-yes:hover{background:var(--gd);color:#fff}#sb-planer .sp-act.sp-info:hover{background:#fff;color:var(--gd)}
+#sb-planer .sp-close:hover{background:#fff;color:var(--tx)}
+#sb-planer .sp-input{box-shadow:none;height:48px;margin:0}
+#sb-planer h1,#sb-planer h2,#sb-planer h3{text-transform:none}
