@@ -96,7 +96,7 @@
     });
     var labels = ['Breakfast', 'Lunch', 'Dinner'];
     weekEl.innerHTML = '<div><span class="sbe-k">CW 41 · Planned automatically</span><strong class="sbe-st">Your week</strong></div>' +
-      '<span class="sbe-pill"><span style="color:var(--g);font-weight:800">✦</span>From ' + added + ' liked dishes · Budget €80–110</span>' +
+      '<span class="sbe-pill"><span style="color:var(--g);font-weight:800">✦</span>From ' + added + ' liked dishes · €80–110</span>' +
       base.map(function (d, di) {
         var k = 0, p = 0;
         d[2].forEach(function (nm) { if (NUT[nm]) { k += NUT[nm][0]; p += NUT[nm][1]; } });
