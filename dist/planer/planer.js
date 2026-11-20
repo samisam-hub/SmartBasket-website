@@ -82,8 +82,8 @@
   // ---------- Grundgerüst ----------
   root.innerHTML =
     '<div class="sp-wrap">' +
-    '<header class="sp-head"><span class="sp-eyebrow">Kostenlos · ohne Anmeldung</span><h1>Meal Prep Wochenplaner</h1>' +
-    '<p class="sp-lead">Suche Rezepte nach Zutaten, die du zu Hause hast, oder wisch dich durch Frühstück, Mittag- und Abendessen. Jedes Gericht landet automatisch in deiner Wochenplan-Vorlage – mit Einkaufsliste als PDF zum Herunterladen.</p></header>' +
+    '<header class="sp-head"><span class="sp-eyebrow">Kostenlos · ohne Anmeldung</span><h1>Meal Prep Wochenplan Vorlage</h1>' +
+    '<p class="sp-lead">Stell dir deinen Wochenplan kostenlos zusammen: Suche Rezepte nach Zutaten, die du zu Hause hast, oder wisch dich durch Frühstück, Mittag- und Abendessen. Jedes Gericht landet automatisch in deiner Wochenplan-Vorlage – mit Einkaufsliste als PDF zum Herunterladen.</p></header>' +
     '<section class="sp-card" aria-labelledby="sp-h1"><div class="sp-step"><span class="sp-nr">1</span><h2 id="sp-h1">Für wen und wann?</h2></div><div class="sp-setup" id="sp-setup"></div></section>' +
     '<section class="sp-card" aria-labelledby="sp-h2"><div class="sp-step"><span class="sp-nr">2</span><h2 id="sp-h2">Rezepte finden</h2></div>' +
     '<div class="sp-tabs" role="tablist"><button class="sp-tab" role="tab" id="sp-t-search" aria-controls="sp-p-search">Mit Zutaten suchen</button><button class="sp-tab" role="tab" id="sp-t-swipe" aria-controls="sp-p-swipe">Nach Kategorie wischen</button></div>' +
