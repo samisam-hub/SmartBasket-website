@@ -128,3 +128,6 @@ font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tx);
 #sb-planer .sp-close:hover{background:#fff;color:var(--tx)}
 #sb-planer .sp-input{box-shadow:none;height:48px;margin:0}
 #sb-planer h1,#sb-planer h2,#sb-planer h3{text-transform:none}
+#sb-planer table.sp-grid,#sb-planer .sp-grid th,#sb-planer .sp-grid td{border:0;margin:0}
+#sb-planer .sp-grid th.sp-sl{background:transparent!important;color:var(--gd);box-shadow:none}
+#sb-planer .sp-cell .sp-x,#sb-planer .sp-round,#sb-planer .sp-act,#sb-planer .sp-close{padding:0;min-width:0}
