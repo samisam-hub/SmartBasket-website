@@ -7,7 +7,8 @@
   if (!btn) return;
 
   // Pfade relativ zu dieser Datei auflösen, damit es auch eingebettet (z. B. im WordPress-Plugin) funktioniert
-  var self = document.currentScript && document.currentScript.src;
+  // window.SB_PDF_ASSET_BASE kann auf einen anderen Ort zeigen (z. B. jsDelivr im WordPress-Plugin, Pfad bis einschließlich /dist/de/)
+  var self = window.SB_PDF_ASSET_BASE || (document.currentScript && document.currentScript.src);
   function url(rel) { return new URL(rel, self || document.baseURI).href; }
   var FONTS = [
     ['Inter', 'normal', '../assets/fonts/pdf/inter-latin-400-normal.ttf'],
