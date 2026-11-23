@@ -228,3 +228,5 @@ body.page-id-2260 .elementor-2260 .lf-who{white-space:nowrap;padding:3px 10px!im
 }
 body.page-id-2260 .elementor-2260 .audience > ul{flex:1 1 0!important;min-width:0!important;margin:0!important;display:flex!important;flex-wrap:wrap;gap:10px!important}
 @media (max-width:640px){body.page-id-2260 .elementor-2260 .audience > ul{flex-basis:100%!important}}
+body.page-id-2260 .elementor-2260 .audience{align-items:flex-start!important}
+body.page-id-2260 .elementor-2260 .audience-label{margin-top:12px!important;min-width:110px}
