@@ -3,7 +3,7 @@
   if (!root) return;
   var IMG = root.getAttribute('data-img') || '';
   var PLAN_URL = root.getAttribute('data-planner') || '/weekly-planner/';
-  function img(f) { return IMG + f; }
+  function img(f) { return /^https?:/.test(f) ? f : IMG + f; }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   var HEART = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 4.2 2.6C11.6 6.1 13.2 5 15.2 5c3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z"/></svg>';
   var TICK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
@@ -11,13 +11,17 @@
   var NUT = {
     'Overnight oats with berries': [423, 12], 'Cottage cheese bowl': [479, 33], 'Mild lentil curry': [623, 31],
     'Baked salmon with potatoes': [608, 40], 'Salmon with potatoes': [608, 40], 'Chicken wraps with vegetables': [666, 48],
-    'Pirozhki with potato & mushroom': [663, 16], 'Borscht with beef': [500, 38], 'Lentil pasta': [527, 25], 'Lentil pasta with tomatoes': [527, 25]
+    'Pirozhki with potato & mushroom': [663, 16], 'Borscht with beef': [500, 38], 'Lentil pasta': [527, 25], 'Lentil pasta with tomatoes': [527, 25],
+    'Scrambled eggs with vegetables': [465, 30], 'Bread roll with cheese & jam': [555, 18], 'Chili sin carne with rice': [721, 24], 'Cheese spaetzle with onions': [728, 31],
+    'Greek yogurt with berries': [140, 16], 'Banana with dark chocolate': [113, 1], 'Hummus bread with cucumber': [396, 15], 'Broccoli cheese bites': [210, 14]
   };
 
   /* ---------- recipes ---------- */
   var ALL = {
     Breakfast: [
       { name: 'Overnight oats with berries', img: 'oat-berries.webp', meta: 'Breakfast · vegetarian', info: '10 min · 3–4 days in the fridge', isNew: true },
+      { name: 'Scrambled eggs with vegetables', img: 'scrambled-eggs.webp', meta: 'Breakfast · high protein', info: '15 min' },
+      { name: 'Bread roll with cheese & jam', img: 'de-brotchen-mit-kase-und-marmelade.webp', meta: 'Breakfast · classic', info: '5 min' },
       { name: 'Cottage cheese bowl', img: 'cottage-bowl.webp', meta: 'Breakfast · high protein', info: '5 min' }
     ],
     Lunch: [
@@ -28,10 +32,15 @@
     ],
     Dinner: [
       { name: 'Borscht with beef', img: 'borschtsch-rind-ohne-bohnen.webp', meta: 'Dinner · Eastern European', info: '2 h · better on day two', isNew: true },
-      { name: 'Lentil pasta', img: 'lentil-pasta.webp', meta: 'Dinner · vegetarian', info: '25 min' }
+      { name: 'Lentil pasta', img: 'lentil-pasta.webp', meta: 'Dinner · vegetarian', info: '25 min' },
+      { name: 'Chili sin carne with rice', img: 'de-chili-sin-carne-mit-reis.webp', meta: 'Dinner · vegan', info: '40 min · freezes well' },
+      { name: 'Cheese spaetzle with onions', img: 'de-kasespatzle-mit-zwiebeln.webp', meta: 'Dinner · vegetarian', info: '30 min' }
     ],
     Snacks: [
-      { name: 'Cottage cheese bowl', img: 'cottage-bowl.webp', meta: 'Snack', info: '5 min' }
+      { name: 'Greek yogurt with berries', img: 'snack-yogurt.webp', meta: 'Snack · high protein', info: '2 min' },
+      { name: 'Banana with dark chocolate', img: 'snack-banana-chocolate.webp', meta: 'Snack · sweet', info: '2 min' },
+      { name: 'Hummus bread with cucumber', img: 'de-hummusbrot-mit-gurke.webp', meta: 'Snack · vegan', info: '5 min' },
+      { name: 'Broccoli cheese bites', img: 'https://meal-prep.tech/wp-content/uploads/2026/10/cheesy-roasted-broccoli-bites-1024x683.webp', meta: 'Snack · low carb', info: '25 min', isNew: true }
     ]
   };
   var tab = 'Lunch';

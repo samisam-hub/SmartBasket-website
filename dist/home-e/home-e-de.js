@@ -3,7 +3,7 @@
   if (!root) return;
   var IMG = root.getAttribute('data-img') || '';
   var PLAN_URL = root.getAttribute('data-planner') || '/de/wochenplaner/';
-  function img(f) { return IMG + f; }
+  function img(f) { return /^https?:/.test(f) ? f : IMG + f; }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   var HEART = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.6 1.1 4.2 2.6C11.6 6.1 13.2 5 15.2 5c3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z"/></svg>';
   var TICK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
@@ -11,13 +11,17 @@
   var NUT = {
     'Overnight Oats mit Beeren': [423, 12], 'Hüttenkäse-Bowl': [479, 33], 'Mildes Linsencurry': [623, 31],
     'Ofenlachs mit Kartoffeln': [608, 40], 'Lachs mit Kartoffeln': [608, 40], 'Hähnchen-Wraps mit Gemüse': [666, 48],
-    'Piroggen mit Kartoffel & Pilzen': [663, 16], 'Borschtsch mit Rind': [500, 38], 'Linsennudeln': [527, 25], 'Linsennudeln mit Tomaten': [527, 25]
+    'Piroggen mit Kartoffel & Pilzen': [663, 16], 'Borschtsch mit Rind': [500, 38], 'Linsennudeln': [527, 25], 'Linsennudeln mit Tomaten': [527, 25],
+    'Rührei mit Gemüse': [465, 30], 'Brötchen mit Käse und Marmelade': [555, 18], 'Chili sin Carne mit Reis': [721, 24], 'Käsespätzle mit Zwiebeln': [728, 31],
+    'Griechischer Joghurt mit Beeren': [140, 16], 'Banane mit dunkler Schokolade': [113, 1], 'Hummusbrot mit Gurke': [396, 15], 'Brokkoli-Käse-Bites': [210, 14]
   };
 
   /* ---------- recipes ---------- */
   var ALL = {
     'Frühstück': [
       { name: 'Overnight Oats mit Beeren', img: 'oat-berries.webp', meta: 'Frühstück · vegetarisch', info: '10 Min. · 3–4 Tage im Kühlschrank', isNew: true },
+      { name: 'Rührei mit Gemüse', img: 'scrambled-eggs.webp', meta: 'Frühstück · proteinreich', info: '15 Min.' },
+      { name: 'Brötchen mit Käse und Marmelade', img: 'de-brotchen-mit-kase-und-marmelade.webp', meta: 'Frühstück · klassisch', info: '5 Min.' },
       { name: 'Hüttenkäse-Bowl', img: 'cottage-bowl.webp', meta: 'Frühstück · proteinreich', info: '5 Min.' }
     ],
     'Mittag': [
@@ -28,10 +32,15 @@
     ],
     'Abend': [
       { name: 'Borschtsch mit Rind', img: 'borschtsch-rind-ohne-bohnen.webp', meta: 'Abend · osteuropäisch', info: '2 Std. · am zweiten Tag noch besser', isNew: true },
-      { name: 'Linsennudeln', img: 'lentil-pasta.webp', meta: 'Abend · vegetarisch', info: '25 Min.' }
+      { name: 'Linsennudeln', img: 'lentil-pasta.webp', meta: 'Abend · vegetarisch', info: '25 Min.' },
+      { name: 'Chili sin Carne mit Reis', img: 'de-chili-sin-carne-mit-reis.webp', meta: 'Abend · vegan', info: '40 Min. · gut einzufrieren' },
+      { name: 'Käsespätzle mit Zwiebeln', img: 'de-kasespatzle-mit-zwiebeln.webp', meta: 'Abend · vegetarisch', info: '30 Min.' }
     ],
     Snacks: [
-      { name: 'Hüttenkäse-Bowl', img: 'cottage-bowl.webp', meta: 'Snack', info: '5 Min.' }
+      { name: 'Griechischer Joghurt mit Beeren', img: 'snack-yogurt.webp', meta: 'Snack · proteinreich', info: '2 Min.' },
+      { name: 'Banane mit dunkler Schokolade', img: 'snack-banana-chocolate.webp', meta: 'Snack · süß', info: '2 Min.' },
+      { name: 'Hummusbrot mit Gurke', img: 'de-hummusbrot-mit-gurke.webp', meta: 'Snack · vegan', info: '5 Min.' },
+      { name: 'Brokkoli-Käse-Bites', img: 'https://meal-prep.tech/wp-content/uploads/2026/10/cheesy-roasted-broccoli-bites-1024x683.webp', meta: 'Snack · Low Carb', info: '25 Min.', isNew: true }
     ]
   };
   var tab = 'Mittag';
