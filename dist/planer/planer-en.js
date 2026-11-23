@@ -48,7 +48,7 @@
     favAdd: '♥ Save', favOn: '♥ Saved', favToast: ' saved', favOff: ' removed', planBtn: 'Plan my week automatically',
     tagP: 'from ', tagF: 'fresh', tagQ: 'quick', cookTitle: 'Your cooking plan', cookOn: 'cooking', fresh: 'Fresh', meals: ' meals', meal: ' meal',
     sumA: 'You cook ', sumB: '× for ', sumC: ' main meals', freeze: 'freezes well', moreCook: 'Tip: add another cooking day – otherwise some portions would be older than they keep.',
-    planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', mpP: 'Good for meal prep', mpQ: 'quick to make fresh', mpF: 'best fresh', keepT: ' days in the fridge', autoT: 'estimated automatically', onlyMix: 'fresh – in Mixed mode', fill: 'Empty slots are filled with suitable dishes.' };
+    planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', dockT: 'Drag into your plan', dockHint: 'Drop a dish on a slot = replace · drag slots onto each other = swap · drag a slot onto this list = remove. On mobile: tap ⠿, then tap the target.', dockNone: 'Save dishes (♥) and they show up here.', swapped: 'Swapped', placed: ' added', removedT: 'Removed from plan', tooOld: 'kept longer than recommended', grip: 'Move', dropOut: 'Drop here to remove', mpP: 'Good for meal prep', mpQ: 'quick to make fresh', mpF: 'best fresh', keepT: ' days in the fridge', autoT: 'estimated automatically', onlyMix: 'fresh – in Mixed mode', fill: 'Empty slots are filled with suitable dishes.' };
   function typ(r) { return (r && r.mp) || 'f'; }
   function keepD(r) { return (r && r.k) || 0; }
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
@@ -106,6 +106,60 @@
     toast(byId[id].n + ' → ' + DAYS[d] + ', ' + slot(s).s);
     return true;
   }
+  // ---------- Plan bearbeiten: Leiste + Ziehen/Tauschen ----------
+  var dnd = { sel: null };
+  function srcCook(d, s) { var best = null, bo = 99; (st.cook.length ? st.cook : [6]).forEach(function (c) { var o = age(d, c, s); if (o < bo) { bo = o; best = c; } }); return best; }
+  function metaFor(id, k) { var r = byId[id], p = k.split('-'), d = +p[0], s = p[1]; return typ(r) === 'p' && (s === 'm' || s === 'a' || s === 'f' || s === 's') ? { t: 'p', c: srcCook(d, s) } : { t: typ(r) }; }
+  function applyDrop(src, key) {
+    if (!src) return;
+    if (key === 'out') { if (src.cell && st.plan[src.cell]) { delete st.plan[src.cell]; delete st.meta[src.cell]; toast(T.removedT); } }
+    else if (src.cell) { if (src.cell === key) return; var a = st.plan[src.cell], am = st.meta[src.cell], b = st.plan[key], bm = st.meta[key];
+      if (b) { st.plan[src.cell] = b; st.meta[src.cell] = bm || {}; } else { delete st.plan[src.cell]; delete st.meta[src.cell]; }
+      st.plan[key] = a; st.meta[key] = am || {}; toast(T.swapped); }
+    else if (src.id) { st.plan[key] = src.id; st.meta[key] = metaFor(src.id, key); toast(byId[src.id].n + T.placed); }
+    dnd.sel = null; save(); renderPlan();
+  }
+  function renderDock() {
+    var el = $('sp-dock'); if (!el) return;
+    el.innerHTML = '<h3>' + T.dockT + '</h3><div class="sp-dock-list" data-drop="out" title="' + T.dropOut + '">' + (st.fav.length ? st.fav.map(function (id) { var r = byId[id]; if (!r) return '';
+      return '<div class="sp-di' + (dnd.sel && dnd.sel.id === id ? ' sp-sel' : '') + '" data-drag-id="' + id + '">' + imgTag(r, 'sp-dimg') + '<span class="sp-dn">' + esc(r.n) + '</span><span class="sp-grip" role="button" tabindex="0" aria-label="' + esc(r.n) + ': ' + T.grip + '">⠿</span></div>'; }).join('') : '<p class="sp-mini">' + T.dockNone + '</p>') + '</div><p class="sp-mini">' + T.dockHint + '</p>';
+  }
+  (function () {
+    var drag = null, ghost = null, over = null, suppress = false;
+    root.addEventListener('click', function (e) { if (suppress) { e.stopPropagation(); e.preventDefault(); suppress = false; } }, true);
+    function srcOf(el) { var c = el.closest('[data-drag-cell]'), i = el.closest('[data-drag-id]'); return c ? { cell: c.dataset.dragCell, el: c } : i ? { id: i.dataset.dragId, el: i } : null; }
+    function targetAt(x, y) { var e = document.elementFromPoint(x, y); if (!e) return null; var td = e.closest('#sp-grid td[data-cell]'); if (td) return td; var o = e.closest('[data-drop="out"]'); return o || null; }
+    function mark(t) { if (over === t) return; if (over) over.classList.remove('sp-over'); over = t; if (over) over.classList.add('sp-over'); }
+    function end() { if (ghost) ghost.remove(); ghost = null; mark(null); document.body.classList.remove('sp-dragging'); drag = null; }
+    root.addEventListener('pointerdown', function (e) {
+      if (e.button) return; var grip = e.target.closest('.sp-grip'); var s = srcOf(e.target); if (!s) return;
+      if (!grip && (e.pointerType !== 'mouse' || e.target.closest('.sp-x,.sp-favb'))) return; // Touch: nur über ⠿ ziehen, damit Scrollen geht
+      drag = { s: s, x: e.clientX, y: e.clientY, moved: false, grip: !!grip, pid: e.pointerId };
+      if (grip) e.preventDefault();
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.pid) return;
+      if (!drag.moved) { if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) < 6) return; drag.moved = true;
+        var r = byId[drag.s.cell ? st.plan[drag.s.cell] : drag.s.id]; ghost = document.createElement('div'); ghost.className = 'sp-ghost'; ghost.textContent = r ? r.n : ''; document.body.appendChild(ghost); document.body.classList.add('sp-dragging'); }
+      e.preventDefault(); ghost.style.left = e.clientX + 12 + 'px'; ghost.style.top = e.clientY + 12 + 'px'; mark(targetAt(e.clientX, e.clientY));
+    }, { passive: false });
+    window.addEventListener('pointerup', function (e) {
+      if (!drag || e.pointerId !== drag.pid) return; var d = drag, t = d.moved ? targetAt(e.clientX, e.clientY) : null; end();
+      if (d.moved) { suppress = true; setTimeout(function () { suppress = false; }, 0); if (t) applyDrop(d.s, t.dataset.cell || 'out'); return; }
+      if (d.grip) { // Antippen: auswählen, dann Ziel antippen
+        var cur = dnd.sel; if (cur && ((cur.cell && cur.cell === d.s.cell) || (cur.id && cur.id === d.s.id))) dnd.sel = null; else if (cur && d.s.cell) { applyDrop(cur, d.s.cell); return; } else dnd.sel = d.s.cell ? { cell: d.s.cell } : { id: d.s.id };
+        renderPlan();
+      }
+    });
+    window.addEventListener('pointercancel', end);
+    root.addEventListener('click', function (e) { // ausgewähltes Gericht in freies/anderes Feld setzen
+      if (!dnd.sel) return; var td = e.target.closest('#sp-grid td[data-cell]'); if (!td || e.target.closest('.sp-grip,.sp-x,.sp-cn')) return;
+      applyDrop(dnd.sel, td.dataset.cell);
+    });
+    root.addEventListener('keydown', function (e) { var g = e.target.closest && e.target.closest('.sp-grip'); if (!g || (e.key !== 'Enter' && e.key !== ' ')) return; e.preventDefault();
+      var s = srcOf(g); if (!s) return; if (dnd.sel && s.cell && !(dnd.sel.cell === s.cell)) { applyDrop(dnd.sel, s.cell); return; } dnd.sel = dnd.sel ? null : (s.cell ? { cell: s.cell } : { id: s.id }); renderPlan(); });
+  })();
+
   function planWeek(quiet) {
     var ds = days(), cooks = (st.cook.length ? st.cook : [6]).slice(), plan = {}, meta = {}, used = {}, chosenIng = {}, warn = false;
     var mainS = ['m', 'a'].filter(function (x) { return st.slots.indexOf(x) >= 0; });
@@ -202,7 +256,7 @@
     '<div id="sp-p-search" role="tabpanel" aria-labelledby="sp-t-search"></div><div id="sp-p-swipe" role="tabpanel" aria-labelledby="sp-t-swipe"></div></section>' +
     '<section class="sp-card" aria-labelledby="sp-h3" id="sp-plan"><div class="sp-plan-head"><div><div class="sp-step" style="margin-bottom:6px"><span class="sp-nr">3</span><h2 id="sp-h3">Your weekly plan</h2></div><p class="sp-status" id="sp-count"></p></div></div>' +
     '<div class="sp-favs" id="sp-favs"></div><div class="sp-plan-go"><button class="sp-btn" id="sp-go">' + T.planBtn + '</button></div><div class="sp-cook" id="sp-cook"></div>' +
-    '<div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div>' +
+    '<div class="sp-board"><div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div><aside class="sp-dock" id="sp-dock" aria-label="Favourites"></aside></div>' +
     '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Download weekly plan as PDF</button><button class="sp-btn sp-sec" id="sp-clear">Clear plan</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
     '<aside class="sp-teaser"><div><h3>Even easier in the app</h3><p>Prepello plans the week for your household and turns the shopping list into whole packs.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Try the free beta ↗</a></aside>' +
     '<footer class="sp-foot"><span>© 2026 Prepello</span><a href="/">Home</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
@@ -367,12 +421,13 @@
       h += '<tr><th class="sp-sl" scope="row">' + s.l + '</th>';
       ds.forEach(function (d) {
         var id = st.plan[cellKey(d, s.id)], r = id && byId[id];
-        var mt = st.meta[cellKey(d, s.id)] || {}, tag = mt.t === 'p' ? '<span class="sp-tag sp-tp">' + T.tagP + SHORT[mt.c] + '</span>' : mt.t === 'f' ? '<span class="sp-tag sp-tf">' + T.tagF + '</span>' : mt.t === 'q' ? '<span class="sp-tag sp-tq">' + T.tagQ + '</span>' : '';
-        h += '<td>' + (r ? '<div class="sp-cell">' + tag + '<button class="sp-cn" data-open="' + r.id + '">' + esc(r.n) + '</button><button class="sp-x" data-del="' + cellKey(d, s.id) + '" aria-label="' + esc(r.n) + ' am ' + DAYS[d] + ' remove">×</button></div>' : '<span class="sp-free">free</span>') + '</td>';
+        var ck = cellKey(d, s.id), mt = st.meta[ck] || {}, old = mt.t === 'p' && r && age(d, mt.c, s.id) > keepD(r);
+        var tag = mt.t === 'p' ? '<span class="sp-tag ' + (old ? 'sp-twarn" title="' + T.tooOld : 'sp-tp') + '">' + T.tagP + SHORT[mt.c] + (old ? ' ⚠' : '') + '</span>' : mt.t === 'f' ? '<span class="sp-tag sp-tf">' + T.tagF + '</span>' : mt.t === 'q' ? '<span class="sp-tag sp-tq">' + T.tagQ + '</span>' : '';
+        h += '<td data-cell="' + ck + '"' + (dnd.sel && dnd.sel.cell === ck ? ' class="sp-sel"' : '') + '>' + (r ? '<div class="sp-cell" data-drag-cell="' + ck + '"><span class="sp-grip" role="button" tabindex="0" aria-label="' + esc(r.n) + ': ' + T.grip + '">⠿</span>' + tag + '<button class="sp-cn" data-open="' + r.id + '">' + esc(r.n) + '</button><button class="sp-x" data-del="' + cellKey(d, s.id) + '" aria-label="' + esc(r.n) + ' am ' + DAYS[d] + ' remove">×</button></div>' : '<span class="sp-free">free</span>') + '</td>';
       });
       h += '</tr>';
     });
-    $('sp-grid').innerHTML = h + '</tbody>'; renderFavs(); renderCook();
+    $('sp-grid').innerHTML = h + '</tbody>'; renderFavs(); renderCook(); renderDock();
     var n = planCount(), t = totalCells();
     $('sp-count').textContent = n + ' of ' + t + ' slots planned · for ' + who();
   }
@@ -538,6 +593,12 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
+    '#sb-planer .sp-board{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:14px;align-items:start}#sb-planer .sp-dock{position:sticky;top:12px;background:#fff;border:1px solid var(--li);border-radius:14px;padding:12px;max-height:80vh;overflow:auto}#sb-planer .sp-dock h3{margin:0 0 8px;font-size:15px}' +
+    '#sb-planer .sp-dock-list{display:flex;flex-direction:column;gap:6px;min-height:60px;border-radius:10px;padding:2px}#sb-planer .sp-di{display:flex;align-items:center;gap:8px;padding:6px;border:1px solid var(--li);border-radius:10px;background:var(--iv);cursor:grab;user-select:none}#sb-planer .sp-di .sp-dimg{width:34px;height:34px;border-radius:8px;object-fit:cover;flex:0 0 34px}#sb-planer .sp-dn{flex:1;font-size:13px;font-weight:600;line-height:1.25}' +
+    '#sb-planer .sp-grip{cursor:grab;touch-action:none;user-select:none;color:var(--mu);font-size:16px;line-height:1;padding:4px;border-radius:6px}#sb-planer .sp-grip:hover{background:var(--ti);color:var(--gd)}#sb-planer .sp-cell{position:relative;cursor:grab;user-select:none;-webkit-user-select:none}#sb-planer .sp-cell .sp-grip{position:absolute;bottom:2px;right:2px}' +
+    '#sb-planer td.sp-over,#sb-planer .sp-dock-list.sp-over{outline:2px dashed var(--g);outline-offset:-2px;background:var(--ti)}#sb-planer .sp-sel,#sb-planer td.sp-sel{outline:2px solid var(--ac);outline-offset:-2px}#sb-planer .sp-twarn{background:#FEF3C7;color:#92400E}' +
+    '.sp-ghost{position:fixed;z-index:99999;pointer-events:none;padding:8px 12px;border-radius:10px;background:#111827;color:#fff;font:600 13px/1.3 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:220px}body.sp-dragging{cursor:grabbing;user-select:none}' +
+    '@media (max-width:900px){#sb-planer .sp-board{grid-template-columns:1fr}#sb-planer .sp-dock{position:static;max-height:none}#sb-planer .sp-dock-list{flex-direction:row;overflow-x:auto}#sb-planer .sp-di{flex:0 0 190px}}' +
     '#sb-planer .sp-mpinfo{margin:8px 0 0;font-size:13.5px;color:var(--mu);display:flex;flex-wrap:wrap;gap:6px;align-items:center}#sb-planer .sp-favb[aria-pressed=true]{background:var(--g);color:#fff;border-color:var(--g)}';
     var el = document.createElement('style'); el.textContent = css; document.head.appendChild(el); })();
   renderSetup(); renderTab(); renderPlan();
