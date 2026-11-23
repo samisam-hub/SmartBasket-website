@@ -89,7 +89,7 @@ body.page-id-2260 .elementor-2260 :is(.nz-panel.sx-card,.sx-card,.pi-card,.ab-vi
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 body.page-id-2260 .elementor-2260 :is(.nz-panel.sx-card,.sx-card,.hd-pilot,.sbwp-contact,.ab-order){border-radius:28px!important}
 body.page-id-2260 .elementor-2260 :is(.pi-card,.ab-vis,.kv-card){border-radius:20px!important}
-body.page-id-2260 .elementor-2260 .nz-panel:not(.sx-card){background:transparent!important;box-shadow:none!important;border:0!important}
+body.page-id-2260 .elementor-2260 .nz-panel{background:var(--pe-glass)!important;border:1px solid var(--pe-line)!important;box-shadow:var(--pe-shadow)!important;border-radius:28px!important;overflow:hidden}
 /* dezente Leuchtkante oben */
 body.page-id-2260 .elementor-2260 :is(.sx-card,.hd-pilot,.sbwp-contact){position:relative}
 body.page-id-2260 .elementor-2260 :is(.sx-card,.hd-pilot,.sbwp-contact)::before{content:"";position:absolute;left:12%;right:12%;top:-1px;height:1px;
@@ -101,7 +101,7 @@ body.page-id-2260 .elementor-2260 :is(dd,.kv b,.kv-card b,.pz-dash b,.counter b,
   background:var(--pe-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
 
 /* Badges, Chips, Pills */
-body.page-id-2260 .elementor-2260 :is(.pill,.badges span,.audience a,.audience span,.hd-row small,.phase-tag){
+body.page-id-2260 .elementor-2260 :is(.pill,.badges span,.audience li,.hd-row small,.phase-tag){
   border-radius:999px!important;border:1px solid var(--pe-line)!important;background:rgba(255,255,255,.8)!important;color:#4A3FD9!important;
   font-family:Sora,Poppins,sans-serif!important;font-weight:500!important}
 body.page-id-2260 .elementor-2260 .hd-row > span:not(.ez-toc-section):not(.ez-toc-section-end){
@@ -186,3 +186,33 @@ body.page-id-2260 .elementor-2260 .sbwp-contact :is(input,textarea):focus{outlin
 body.page-id-2260 .elementor-2260 a:not(.pill-btn):not([class*=tab]){text-decoration-color:rgba(124,92,255,.4)}
 body.page-id-2260 .elementor-2260 .section.dark li svg,body.page-id-2260 .elementor-2260 .section.dark li svg *{stroke:#5B4FF0!important;color:#5B4FF0!important}
 body.page-id-2260 .elementor-2260 .sbwp-contact button{letter-spacing:.01em!important;font-weight:600!important}
+
+/* ---------- Ausrichtung & Abstände ---------- */
+body.page-id-2260 .elementor-2260 .section{padding-top:clamp(40px,5vw,76px)!important;padding-bottom:clamp(40px,5vw,76px)!important}
+/* "Sie erhalten"-Leiste als Kartenfuß, bündig mit dem Karteninhalt */
+body.page-id-2260 .elementor-2260 .nz-get{background:rgba(124,92,255,.05)!important;border-top:1px solid var(--pe-line)!important;
+  margin:28px -32px -32px!important;padding:18px 32px!important;border-radius:0!important;color:var(--pe-text)!important}
+/* "Gedacht für": schlichtes Label auf Höhe der Chips */
+body.page-id-2260 .elementor-2260 .audience{display:flex!important;flex-wrap:wrap;align-items:center;gap:10px 14px}
+body.page-id-2260 .elementor-2260 .audience-label{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;
+  font:600 13px/1 Sora,Poppins,sans-serif!important;letter-spacing:.08em!important;text-transform:uppercase;color:#5B4FF0!important;-webkit-text-fill-color:currentColor}
+body.page-id-2260 .elementor-2260 .audience li{padding:9px 16px!important;font-size:15px!important;color:var(--pe-ink)!important}
+
+/* ---------- Tabelle Lieferformen: luftiger ---------- */
+body.page-id-2260 .elementor-2260 .lf-table{border:0!important;border-collapse:separate!important;border-spacing:0!important;width:100%}
+body.page-id-2260 .elementor-2260 .lf-table :is(th,td){border:0!important;border-bottom:1px solid rgba(86,80,220,.10)!important;padding:16px 18px!important;vertical-align:top;line-height:1.5}
+body.page-id-2260 .elementor-2260 .lf-table thead th{padding:12px 18px!important;background:rgba(124,92,255,.06)!important;border-bottom:1px solid rgba(86,80,220,.18)!important;
+  font:600 11.5px/1.3 Sora,Poppins,sans-serif!important;letter-spacing:.08em!important;text-transform:uppercase;color:#5B4FF0!important}
+body.page-id-2260 .elementor-2260 .lf-table thead th:first-child{border-top-left-radius:14px}
+body.page-id-2260 .elementor-2260 .lf-table thead th:last-child{border-top-right-radius:14px}
+body.page-id-2260 .elementor-2260 .lf-table tbody th{font-weight:600!important;color:var(--pe-ink)!important;white-space:nowrap}
+body.page-id-2260 .elementor-2260 .lf-table tbody tr:hover :is(th,td){background:rgba(124,92,255,.035)}
+body.page-id-2260 .elementor-2260 .lf-table tbody tr:last-child :is(th,td){border-bottom:0!important}
+body.page-id-2260 .elementor-2260 .lf-who{white-space:nowrap;padding:3px 10px!important;border-radius:999px!important;font-size:12.5px!important}
+@media (max-width:640px){
+  body.page-id-2260 .elementor-2260 .lf-table thead{display:none}
+  body.page-id-2260 .elementor-2260 .lf-table :is(th,td){padding:4px 0!important;border:0!important}
+  body.page-id-2260 .elementor-2260 .lf-table tbody tr{display:block;padding:14px 0;border-bottom:1px solid rgba(86,80,220,.12)}
+  body.page-id-2260 .elementor-2260 .lf-table tbody th{white-space:normal}
+  body.page-id-2260 .elementor-2260 .nz-get{margin:22px -20px -20px!important;padding:16px 20px!important}
+}
