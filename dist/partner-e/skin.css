@@ -1,0 +1,136 @@
+/* Prepello Händlerseite – heller Tech-Stil (inspiriert von enqode.framer.website)
+   Typo: Poppins (Headlines, Text) + Sora (Labels). Glas-Karten, Spotlight-Glows, Verlaufsakzente. */
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/latin-300.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/latin-400.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/latin-500.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/poppins@5/latin-600.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/sora@5/latin-400.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/sora@5/latin-500.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/sora@5/latin-600.css");
+
+body.page-id-2260{
+  --pe-ink:#12143A;--pe-text:#4C5072;--pe-mute:#7A7E9E;--pe-line:rgba(86,80,220,.14);
+  --pe-blue:#4F5BFF;--pe-violet:#7C5CFF;--pe-pink:#E255C9;
+  --pe-grad:linear-gradient(92deg,#4F5BFF 0%,#7C5CFF 48%,#E255C9 100%);
+  --pe-glass:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.72));
+  --pe-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(30,30,90,.05),0 24px 60px -28px rgba(79,70,229,.35);
+  background:#F6F7FC!important;
+}
+body.page-id-2260 .elementor-2260{
+  font-family:Poppins,system-ui,sans-serif!important;color:var(--pe-text);
+  background:
+    radial-gradient(900px 520px at 50% -120px,rgba(108,124,255,.30),transparent 70%),
+    radial-gradient(700px 500px at 100% 28%,rgba(226,85,201,.08),transparent 70%),
+    radial-gradient(800px 600px at 0% 55%,rgba(79,91,255,.08),transparent 70%),
+    radial-gradient(800px 600px at 100% 85%,rgba(124,92,255,.08),transparent 70%),
+    #F6F7FC!important;
+}
+body.page-id-2260 .elementor-2260 :where(p,li,span,small,dd,dt,figcaption,label,input,textarea,button,a,td,th){font-family:Poppins,system-ui,sans-serif!important}
+body.page-id-2260 .ez-toc-section,body.page-id-2260 .ez-toc-section-end,body.page-id-2260 #ez-toc-container{display:none!important}
+
+/* ---------- Typografie ---------- */
+body.page-id-2260 .elementor-2260 h1{
+  font-family:Poppins,system-ui,sans-serif!important;font-weight:400!important;
+  font-size:clamp(40px,5vw,66px)!important;line-height:1.08!important;letter-spacing:-.04em!important;color:var(--pe-ink)!important}
+body.page-id-2260 .elementor-2260 h2{
+  font-family:Poppins,system-ui,sans-serif!important;font-weight:400!important;
+  font-size:clamp(34px,4.2vw,56px)!important;line-height:1.1!important;letter-spacing:-.035em!important;color:var(--pe-ink)!important}
+body.page-id-2260 .elementor-2260 h3:not(.ps-h){
+  font-family:Poppins,system-ui,sans-serif!important;font-weight:500!important;letter-spacing:-.025em!important;color:var(--pe-ink)!important;line-height:1.2!important}
+body.page-id-2260 .elementor-2260 h3.nz-h{font-size:clamp(26px,2.6vw,34px)!important;font-weight:400!important}
+body.page-id-2260 .elementor-2260 h4{font-family:Poppins,system-ui,sans-serif!important;font-weight:500!important;letter-spacing:-.02em!important;color:var(--pe-ink)!important}
+body.page-id-2260 .elementor-2260 :is(h1,h2,h3,h4) :is(em,i,.accent,span[class*=accent]),
+body.page-id-2260 .elementor-2260 .hero h1 span{
+  font-family:inherit!important;font-style:normal!important;font-weight:inherit!important;
+  background:var(--pe-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
+body.page-id-2260 .elementor-2260 :is(.lead,.pi-lead,.intro p,.section p){color:var(--pe-text)}
+
+/* Eyebrow im Enqode-Stil: Linie • Label • Linie */
+body.page-id-2260 .elementor-2260 .eyebrow{
+  display:inline-flex!important;align-items:center;gap:12px;padding:0!important;background:none!important;border:0!important;
+  font-family:Sora,Poppins,sans-serif!important;font-weight:500!important;font-size:14px!important;letter-spacing:.01em!important;
+  text-transform:none!important;color:#5B4FF0!important}
+body.page-id-2260 .elementor-2260 .eyebrow::first-letter{text-transform:uppercase}
+body.page-id-2260 .elementor-2260 .eyebrow::before,
+body.page-id-2260 .elementor-2260 .eyebrow::after{content:"";display:block;width:44px;height:1px;flex:0 0 44px;
+  background:linear-gradient(90deg,rgba(124,92,255,0),#7C5CFF);mask:none}
+body.page-id-2260 .elementor-2260 .eyebrow::after{background:linear-gradient(90deg,#7C5CFF,rgba(124,92,255,0))}
+
+/* ---------- Buttons & Tabs ---------- */
+body.page-id-2260 .elementor-2260 .pill-btn{border-radius:12px!important;font-family:Poppins,sans-serif!important;font-weight:500!important;letter-spacing:0!important;transition:transform .2s,box-shadow .2s}
+body.page-id-2260 .elementor-2260 .pill-btn.primary,
+body.page-id-2260 .elementor-2260 .sbwp-contact button,
+body.page-id-2260 .elementor-2260 button[type=submit]{
+  background:linear-gradient(135deg,#4F5BFF,#7C5CFF)!important;color:#fff!important;border:0!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 30px -10px rgba(79,91,255,.65)!important;text-transform:none!important;border-radius:12px!important}
+body.page-id-2260 .elementor-2260 .pill-btn.primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 16px 36px -10px rgba(79,91,255,.75)!important}
+body.page-id-2260 .elementor-2260 .pill-btn.secondary{
+  background:rgba(255,255,255,.75)!important;color:var(--pe-ink)!important;border:1px solid var(--pe-line)!important;
+  box-shadow:0 8px 24px -14px rgba(79,70,229,.35)!important;backdrop-filter:blur(8px)}
+body.page-id-2260 .elementor-2260 :is(.nz-tabs,.ps-tabs){background:rgba(255,255,255,.7)!important;border:1px solid var(--pe-line)!important;border-radius:14px!important;backdrop-filter:blur(10px);box-shadow:var(--pe-shadow)!important}
+body.page-id-2260 .elementor-2260 :is(.nz-tab,.ps-tab){border-radius:10px!important;font-family:Sora,Poppins,sans-serif!important;letter-spacing:.02em!important}
+body.page-id-2260 .elementor-2260 :is(.nz-tab,.ps-tab)[aria-selected=true],
+body.page-id-2260 .elementor-2260 :is(.nz-tab,.ps-tab).on,
+body.page-id-2260 .elementor-2260 :is(.nz-tab,.ps-tab).is-active{
+  background:linear-gradient(135deg,#4F5BFF,#7C5CFF)!important;color:#fff!important;border-color:transparent!important;
+  box-shadow:0 10px 24px -12px rgba(79,91,255,.7)!important}
+
+/* ---------- Glas-Karten ---------- */
+body.page-id-2260 .elementor-2260 :is(.nz-panel.sx-card,.sx-card,.pi-card,.ab-vis,.hd-pilot,.ab-order,.sbwp-contact,.phase,.flow li,.tl li,.kv-card,.pz-dash,.pz-chart,.pz-chip){
+  background:var(--pe-glass)!important;border:1px solid var(--pe-line)!important;box-shadow:var(--pe-shadow)!important;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+body.page-id-2260 .elementor-2260 :is(.nz-panel.sx-card,.sx-card,.hd-pilot,.sbwp-contact,.ab-order){border-radius:28px!important}
+body.page-id-2260 .elementor-2260 :is(.pi-card,.ab-vis,.kv-card){border-radius:20px!important}
+body.page-id-2260 .elementor-2260 .nz-panel:not(.sx-card){background:transparent!important;box-shadow:none!important;border:0!important}
+/* dezente Leuchtkante oben */
+body.page-id-2260 .elementor-2260 :is(.sx-card,.hd-pilot,.sbwp-contact){position:relative}
+body.page-id-2260 .elementor-2260 :is(.sx-card,.hd-pilot,.sbwp-contact)::before{content:"";position:absolute;left:12%;right:12%;top:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,92,255,.8),rgba(226,85,201,.6),transparent);pointer-events:none}
+
+/* Kennzahlen als Verlaufszahlen */
+body.page-id-2260 .elementor-2260 :is(dd,.kv b,.kv-card b,.pz-dash b,.counter b,.stat b,.pz-kpi b){
+  font-family:Poppins,sans-serif!important;font-weight:400!important;letter-spacing:-.03em!important;
+  background:var(--pe-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
+
+/* Badges, Chips, Pills */
+body.page-id-2260 .elementor-2260 :is(.pill,.badges span,.audience a,.audience span,.hd-row small,.phase-tag){
+  border-radius:999px!important;border:1px solid var(--pe-line)!important;background:rgba(255,255,255,.8)!important;color:#4A3FD9!important;
+  font-family:Sora,Poppins,sans-serif!important;font-weight:500!important}
+body.page-id-2260 .elementor-2260 .hd-row > span:not(.ez-toc-section):not(.ez-toc-section-end){
+  background:var(--pe-grad)!important;color:#fff!important;border-radius:8px!important;box-shadow:0 6px 16px -6px rgba(124,92,255,.7)}
+body.page-id-2260 .elementor-2260 :is(.pi-k,.num,.step-num){background:var(--pe-grad)!important;color:#fff!important;border:0!important;box-shadow:0 6px 16px -6px rgba(124,92,255,.7)}
+
+/* Diagramme: weichere Linien mit Leuchten */
+body.page-id-2260 .elementor-2260 svg :is(path,polyline,line)[stroke]:not([stroke=none]){filter:drop-shadow(0 4px 8px rgba(79,91,255,.25))}
+body.page-id-2260 .elementor-2260 svg circle[fill]:not([fill=none]):not([fill="#fff"]):not([fill="#FFF"]){filter:drop-shadow(0 4px 10px rgba(124,92,255,.35))}
+
+/* ---------- Hero: Spotlight + Raster-Boden (hell) ---------- */
+body.page-id-2260 .elementor-2260 .hero{position:relative;overflow:hidden;isolation:isolate}
+body.page-id-2260 .elementor-2260 .hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60% 55% at 72% 30%,rgba(106,123,255,.38),transparent 70%),
+    radial-gradient(40% 45% at 85% 65%,rgba(226,85,201,.18),transparent 70%),
+    radial-gradient(45% 50% at 15% 20%,rgba(124,92,255,.14),transparent 70%)}
+body.page-id-2260 .elementor-2260 .hero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:0;height:46%;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(91,79,240,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(91,79,240,.13) 1px,transparent 1px);
+  background-size:64px 64px;transform:perspective(700px) rotateX(62deg);transform-origin:bottom;
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 85%);mask-image:linear-gradient(to top,#000 0%,transparent 85%)}
+body.page-id-2260 .elementor-2260 .pz-orb{filter:blur(40px);opacity:.75}
+body.page-id-2260 .elementor-2260 .pz-orb.o1{background:radial-gradient(circle,#8B93FF,transparent 70%)!important}
+body.page-id-2260 .elementor-2260 .pz-orb.o2{background:radial-gradient(circle,#F2A5E3,transparent 70%)!important}
+body.page-id-2260 .elementor-2260 .pz-phone{background:#14163A!important;box-shadow:0 30px 70px -25px rgba(40,36,140,.55),0 0 0 1px rgba(255,255,255,.15) inset!important}
+
+/* Abschnittsnavigation */
+body.page-id-2260 .elementor-2260 .sx-na{background:rgba(255,255,255,.7)!important;backdrop-filter:blur(14px);border-bottom:1px solid var(--pe-line)!important;border-top:1px solid var(--pe-line)!important}
+body.page-id-2260 .elementor-2260 .sx-na a{font-family:Sora,Poppins,sans-serif!important;color:var(--pe-text)!important}
+body.page-id-2260 .elementor-2260 .sx-na a:is(.on,[aria-current=true],.is-active){color:#4A3FD9!important;border-color:#7C5CFF!important}
+
+/* Dunkle Flächen (Zeitstrahl etc.) als tiefes Indigo mit Glow */
+body.page-id-2260 .elementor-2260 :is(.dark,.inv,.ab-o3){background:radial-gradient(120% 140% at 50% 0%,#2B2F8F 0%,#14163A 60%)!important;border-color:rgba(124,92,255,.35)!important}
+
+/* Formular */
+body.page-id-2260 .elementor-2260 .sbwp-contact :is(input,textarea){border-radius:12px!important;border:1px solid rgba(86,80,220,.2)!important;background:rgba(255,255,255,.9)!important}
+body.page-id-2260 .elementor-2260 .sbwp-contact :is(input,textarea):focus{outline:none!important;border-color:#7C5CFF!important;box-shadow:0 0 0 4px rgba(124,92,255,.15)!important}
+
+/* Footer/ Links */
+body.page-id-2260 .elementor-2260 a:not(.pill-btn):not([class*=tab]){text-decoration-color:rgba(124,92,255,.4)}
