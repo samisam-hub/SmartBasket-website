@@ -45,7 +45,7 @@ body.page-id-2260 .elementor-2260 .hero h1 span{
   background:var(--pe-grad);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
 body.page-id-2260 .elementor-2260 :is(.lead,.pi-lead,.intro p,.section p){color:var(--pe-text)}
 
-body.page-id-2260.elementor-page-2260 .elementor-2260 .hero h1{font-family:Poppins,system-ui,sans-serif!important;font-weight:400!important;font-size:clamp(36px,3.5vw,54px)!important;line-height:1.1!important;letter-spacing:-.035em!important}
+body.page-id-2260.elementor-page-2260 .elementor-2260 .hero h1{font-family:Poppins,system-ui,sans-serif!important;font-weight:400!important;font-size:clamp(36px,3.5vw,54px)!important;line-height:1.1!important;letter-spacing:-.035em!important;max-width:13em!important}
 body.page-id-2260.elementor-page-2260 .elementor-2260 .hero{background:
     radial-gradient(55% 70% at 75% 35%,rgba(106,123,255,.28),transparent 70%),
     radial-gradient(35% 50% at 90% 80%,rgba(226,85,201,.12),transparent 70%),
@@ -119,7 +119,7 @@ body.page-id-2260 .elementor-2260 .hero::before{content:"";position:absolute;ins
     radial-gradient(60% 55% at 72% 30%,rgba(106,123,255,.38),transparent 70%),
     radial-gradient(40% 45% at 85% 65%,rgba(226,85,201,.18),transparent 70%),
     radial-gradient(45% 50% at 15% 20%,rgba(124,92,255,.14),transparent 70%)}
-body.page-id-2260 .elementor-2260 .hero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:0;height:46%;z-index:-1;pointer-events:none;
+body.page-id-2260 .elementor-2260 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;z-index:-1;pointer-events:none;
   background-image:linear-gradient(rgba(91,79,240,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(91,79,240,.13) 1px,transparent 1px);
   background-size:64px 64px;transform:perspective(700px) rotateX(62deg);transform-origin:bottom;
   -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 85%);mask-image:linear-gradient(to top,#000 0%,transparent 85%)}
