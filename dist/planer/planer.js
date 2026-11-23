@@ -19,9 +19,26 @@
   var SUGGEST = ['Kartoffeln', 'Eier', 'Nudeln', 'Reis', 'Hähnchenbrust', 'Linsen', 'Brokkoli', 'Spinat', 'Haferflocken', 'Tomate', 'Lachsfilet', 'Naturtofu'];
 
   var byId = {}; R.forEach(function (r) { byId[r.id] = r; });
+  var T = { modeL: 'Planungsmodus', modes: [{ id: 'prep', l: 'Meal Prep', h: 'Wenige Kochtage, Gerichte reichen für 2–3 Mahlzeiten.' }, { id: 'mix', l: 'Gemischt', h: 'Mittags Meal Prep, an 2–3 Abenden frisch kochen.' }],
+    cookL: 'Kochtage', cookH: 'An diesen Tagen wird vorgekocht.', favL: 'Deine Favoriten', favNone: 'Noch keine Favoriten. Wisch nach rechts oder tippe ♥ – der Planer nimmt dann passende Gerichte für dich.',
+    favAdd: '♥ Merken', favOn: '♥ Gemerkt', favToast: ' gemerkt', favOff: ' entfernt', planBtn: 'Woche automatisch planen',
+    tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
+    sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
+    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+  function typ(r) { return (r && r.mp) || 'f'; }
+  function keepD(r) { return (r && r.k) || 0; }
+  function isFav(id) { return st.fav.indexOf(id) >= 0; }
+  function setFav(id, on) { var i = st.fav.indexOf(id); if (on && i < 0) st.fav.push(id); if (!on && i >= 0) st.fav.splice(i, 1); save(); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function ingSet(r) { var o = {}; r.i.forEach(function (i) { if (!isBasic(i[0])) o[i[0].toLowerCase()] = 1; }); return o; }
+  function overlap(r, pool) { var a = ingSet(r), n = 0; Object.keys(pool).forEach(function (k) { if (a[k]) n++; }); return n; }
+  // Tage seit dem Kochtag c bis zum Tag d (0 = am Kochtag selbst)
+  function since(d, c) { return ((d - c) % 7 + 7) % 7; }
+  function cpos(c) { return c === 6 ? -1 : c; } // Sonntag kocht für die kommende Woche
+  function age(d, c, s) { var o = d - cpos(c); if (o < 0 || (o === 0 && s !== 'a')) o += 7; return o; }
   var ING = []; (function () { var seen = {}; R.forEach(function (r) { r.i.forEach(function (i) { var k = i[0].toLowerCase(); if (!seen[k]) { seen[k] = 1; ING.push(i[0]); } }); }); ING.sort(function (a, b) { return a.localeCompare(b, 'de'); }); })();
 
-  function defaults() { return { adults: 2, kids: 0, days: [0, 1, 2, 3, 4], slots: ['f', 'm', 'a'], diets: [], plan: {}, have: [], q: '', tab: 'search', fslot: '', swipeSlot: 'm', queue: {}, shown: 12 }; }
+  function defaults() { return { adults: 2, kids: 0, days: [0, 1, 2, 3, 4], slots: ['f', 'm', 'a'], diets: [], plan: {}, meta: {}, fav: [], mode: 'prep', cook: [6, 2], have: [], q: '', tab: 'swipe', fslot: '', swipeSlot: 'm', queue: {}, shown: 12 }; }
   var st = defaults();
   try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) Object.keys(st).forEach(function (k) { if (k in saved) st[k] = saved[k]; }); } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
@@ -59,38 +76,101 @@
     if (st.slots.indexOf(s) < 0) { st.slots.push(s); }
     var d = freeCell(s);
     if (d < 0) { toast('Alle ' + slot(s).s + '-Plätze sind belegt. Entferne ein Gericht oder wähle mehr Tage.'); return false; }
-    st.plan[cellKey(d, s)] = id; save(); renderPlan(); renderSetup();
+    st.plan[cellKey(d, s)] = id; st.meta[cellKey(d, s)] = typ(byId[id]) === 'p' ? {} : { t: typ(byId[id]) }; save(); renderPlan(); renderSetup();
     toast(byId[id].n + ' → ' + DAYS[d] + ', ' + slot(s).s);
     return true;
   }
-  function autoFill() {
-    var used = {}; Object.keys(st.plan).forEach(function (k) { used[st.plan[k]] = (used[st.plan[k]] || 0) + 1; });
-    var filled = 0;
-    days().forEach(function (d) {
-      slots().forEach(function (s) {
-        var k = cellKey(d, s.id); if (st.plan[k]) return;
-        var pool = R.filter(function (r) { return allowed(r) && r.s.indexOf(s.id) >= 0; });
-        if (!pool.length) return;
-        pool.sort(function (a, b) { return (used[a.id] || 0) - (used[b.id] || 0) || matches(b).length - matches(a).length || Math.random() - 0.5; });
-        st.plan[k] = pool[0].id; used[pool[0].id] = (used[pool[0].id] || 0) + 1; filled++;
+  function planWeek() {
+    var ds = days(), cooks = (st.cook.length ? st.cook : [6]).slice(), plan = {}, meta = {}, used = {}, chosenIng = {}, warn = false;
+    var mainS = ['m', 'a'].filter(function (x) { return st.slots.indexOf(x) >= 0; });
+    function src(d, s) { // zuständiger Kochtag: Mittag nur aus vorher Gekochtem, Abend auch frisch vom selben Tag
+      var best = null, bo = 99; cooks.forEach(function (c) { var o = age(d, c, s); if (o < bo) { bo = o; best = c; } }); return { c: best, o: bo };
+    }
+    function note(r) { Object.keys(ingSet(r)).forEach(function (k) { chosenIng[k] = 1; }); }
+    function pool(slotIds, types) { return R.filter(function (r) { return allowed(r) && types.indexOf(typ(r)) >= 0 && r.s.some(function (x) { return slotIds.indexOf(x) >= 0; }); }); }
+    function ranked(list) { // Favoriten zuerst (in Reihenfolge), dann passende Zutaten, dann Zufall
+      var fav = st.fav.map(function (id) { return byId[id]; }).filter(function (r) { return r && list.indexOf(r) >= 0; });
+      var rest = shuffle(list.filter(function (r) { return fav.indexOf(r) < 0; })).sort(function (a, b) { return ((a.t || 30) > 90) - ((b.t || 30) > 90) || overlap(b, chosenIng) - overlap(a, chosenIng) || matches(b).length - matches(a).length; });
+      return fav.concat(rest);
+    }
+    function byFresh(list) { var f = list.filter(function (r) { return isFav(r.id); }).sort(function (a, b) { return (typ(a) === 'f' ? 0 : 1) - (typ(b) === 'f' ? 0 : 1) || st.fav.indexOf(a.id) - st.fav.indexOf(b.id); });
+      var rest = shuffle(list.filter(function (r) { return !isFav(r.id); })).sort(function (a, b) { return (typ(a) === 'q' ? 0 : 1) - (typ(b) === 'q' ? 0 : 1) || (a.t || 30) - (b.t || 30); });
+      return f.concat(rest.filter(function (r) { return (r.t || 30) <= 60; }), rest.filter(function (r) { return (r.t || 30) > 60; })); }
+    // 1) Frische Abende im Modus „Gemischt“
+    var freshCells = {};
+    if (st.mode === 'mix' && mainS.indexOf('a') >= 0) {
+      var n = Math.min(3, Math.max(1, Math.round(ds.length / 2.5))), fp = byFresh(pool(['a'], ['f', 'q']).filter(function (r) { return r.s.indexOf('a') >= 0; }));
+      for (var i = 0; i < n && i < fp.length; i++) { var d = ds[Math.min(ds.length - 1, Math.floor((i + 0.5) * ds.length / n))], k = cellKey(d, 'a'); if (freshCells[k]) continue; freshCells[k] = 1; plan[k] = fp[i].id; meta[k] = { t: 'f' }; used[fp[i].id] = 1; note(fp[i]); }
+    }
+    // 2) Meal Prep für Mittag/Abend je Kochtag
+    var blocks = {};
+    ds.forEach(function (d) { mainS.forEach(function (s) { var k = cellKey(d, s); if (plan[k]) return; var b = src(d, s); (blocks[b.c] = blocks[b.c] || []).push({ d: d, s: s, k: k, o: b.o }); }); });
+    var prepPool = pool(['m', 'a'], ['p']);
+    cooks.slice().sort(function (a, b) { return cpos(a) - cpos(b); }).forEach(function (c) {
+      var cells = (blocks[c] || []).sort(function (a, b) { return a.o - b.o || 'fmas'.indexOf(a.s) - 'fmas'.indexOf(b.s); }); if (!cells.length) return;
+      var fit = cells.filter(function (x) { return x.o <= 4; }).length || 1, need = Math.max(1, Math.ceil(fit / 3)), cap = Math.ceil(fit / need), maxO = Math.min(4, cells[cells.length - 1].o);
+      var cand = ranked(prepPool.filter(function (r) { return !used[r.id]; })), picks = [];
+      if (maxO > 3) cand = cand.filter(function (r) { return isFav(r.id); }).concat(cand.filter(function (r) { return !isFav(r.id) && keepD(r) >= 4; }), cand.filter(function (r) { return !isFav(r.id) && keepD(r) < 4; }));
+      for (var i = 0; i < cand.length && picks.length < need; i++) { if (keepD(cand[i]) >= Math.min(maxO, 2)) { picks.push({ r: cand[i], left: cap }); used[cand[i].id] = 1; note(cand[i]); } }
+      picks.sort(function (a, b) { return keepD(a.r) - keepD(b.r); }); // Verderbliches zuerst essen
+      cells.forEach(function (cell) {
+        var sameDay = cells.filter(function (x) { return x.d === cell.d && plan[x.k]; }).map(function (x) { return plan[x.k]; });
+        var ok = picks.filter(function (p) { return p.left > 0 && keepD(p.r) >= cell.o && sameDay.indexOf(p.r.id) < 0; });
+        if (!ok.length) ok = picks.filter(function (p) { return p.left > 0 && keepD(p.r) >= cell.o; });
+        if (ok.length) { var p = ok[0]; p.left--; plan[cell.k] = p.r.id; meta[cell.k] = { t: 'p', c: c }; return; }
+        warn = warn || picks.some(function (p) { return p.left > 0; });
+        var fb = byFresh(pool([cell.s], ['q', 'f']).filter(function (r) { return r.s.indexOf(cell.s) >= 0 && !used[r.id]; }))[0];
+        if (fb) { plan[cell.k] = fb.id; meta[cell.k] = { t: typ(fb) }; used[fb.id] = 1; }
       });
     });
-    save(); renderPlan();
-    toast(filled ? filled + (filled === 1 ? ' Platz' : ' Plätze') + ' automatisch gefüllt.' : 'Dein Plan ist schon voll.');
+    // 3) Frühstück & Snacks: dürfen sich wiederholen, Vorbereitetes (z. B. Overnight Oats) nur innerhalb der Haltbarkeit
+    ['f', 's'].forEach(function (s) {
+      if (st.slots.indexOf(s) < 0) return;
+      var list = ranked(pool([s], st.mode === 'mix' ? ['p', 'q', 'f'] : ['p', 'q']).filter(function (r) { return r.s.indexOf(s) >= 0; }));
+      if (s === 'f') list.sort(function (a, b) { return (isFav(b.id) - isFav(a.id)) || (/oat|hafer|overnight/i.test(b.id) - /oat|hafer|overnight/i.test(a.id)); });
+      var favs = list.filter(function (r) { return isFav(r.id); }), opts = favs.slice(0, 3);
+      if (opts.length < 2) ['p', 'q'].forEach(function (t) { if (opts.length >= 2 || opts.some(function (o) { return typ(o) === t; })) return; var x = list.filter(function (r) { return opts.indexOf(r) < 0 && typ(r) === t; })[0]; if (x) opts.push(x); });
+      if (opts.length < 2) opts = opts.concat(list.filter(function (r) { return opts.indexOf(r) < 0 && typ(r) !== 'f'; }).slice(0, 2 - opts.length));
+      opts.sort(function (a, b) { return (typ(a) === 'p' ? 0 : 1) - (typ(b) === 'p' ? 0 : 1); });
+      if (!opts.length) return;
+      var run = Math.max(2, Math.ceil(ds.length / opts.length)), freshUsed = false;
+      ds.forEach(function (d, i) {
+        var k = cellKey(d, s), r = opts[Math.floor(i / run) % opts.length], b = src(d, 'm');
+        if (typ(r) === 'f' && (freshUsed || d < 5)) r = opts.filter(function (x) { return typ(x) !== 'f'; })[0] || r;
+        if (typ(r) === 'p' && b.o > keepD(r)) r = opts.filter(function (x) { return typ(x) === 'q'; })[0] || list.filter(function (x) { return typ(x) === 'q'; })[0] || r;
+        if (typ(r) === 'f') freshUsed = true;
+        plan[k] = r.id; meta[k] = typ(r) === 'p' ? { t: 'p', c: b.c } : { t: typ(r) };
+      });
+    });
+    st.plan = plan; st.meta = meta; st.warn = warn; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe();
+    toast(T.planned + planCount() + ' / ' + totalCells());
+    var pl = $('sp-plan'); if (pl && pl.scrollIntoView) pl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function autoFill() { planWeek(); }
+  function cookPlan() {
+    var by = {}, fresh = [], mains = 0, cooked = {};
+    days().forEach(function (d) { st.slots.forEach(function (s) {
+      var k = cellKey(d, s), id = st.plan[k], m = st.meta[k] || {}; if (!id) return;
+      if (s === 'm' || s === 'a') mains++;
+      if (m.t === 'p') { var c = m.c; by[c] = by[c] || {}; by[c][id] = (by[c][id] || 0) + 1; if (s === 'm' || s === 'a') cooked[c + '|' + id] = 1; }
+      else if (m.t === 'f' && (s === 'm' || s === 'a')) { fresh.push({ d: d, s: s, id: id }); }
+    }); });
+    return { by: by, fresh: fresh, mains: mains, n: Object.keys(cooked).length + fresh.length };
   }
 
   // ---------- Grundgerüst ----------
   root.innerHTML =
     '<div class="sp-wrap">' +
     '<header class="sp-head"><span class="sp-eyebrow">Kostenlos · ohne Anmeldung</span><h1>Meal Prep Wochenplan Vorlage</h1>' +
-    '<p class="sp-lead">Stell dir deinen Wochenplan kostenlos zusammen: Suche Rezepte nach Zutaten, die du zu Hause hast, oder wisch dich durch Frühstück, Mittag- und Abendessen. Jedes Gericht landet automatisch in deiner Wochenplan-Vorlage – mit Einkaufsliste als PDF zum Herunterladen.</p></header>' +
+    '<p class="sp-lead">Stell dir deinen Wochenplan kostenlos zusammen: Merk dir deine Lieblingsgerichte per Wischen oder Zutatensuche – der Planer macht daraus eine Meal-Prep-Woche mit wenigen Kochtagen, inklusive Einkaufsliste als PDF zum Herunterladen.</p></header>' +
     '<section class="sp-card" aria-labelledby="sp-h1"><div class="sp-step"><span class="sp-nr">1</span><h2 id="sp-h1">Für wen und wann?</h2></div><div class="sp-setup" id="sp-setup"></div></section>' +
     '<section class="sp-card" aria-labelledby="sp-h2"><div class="sp-step"><span class="sp-nr">2</span><h2 id="sp-h2">Rezepte finden</h2></div>' +
     '<div class="sp-tabs" role="tablist"><button class="sp-tab" role="tab" id="sp-t-search" aria-controls="sp-p-search">Mit Zutaten suchen</button><button class="sp-tab" role="tab" id="sp-t-swipe" aria-controls="sp-p-swipe">Nach Kategorie wischen</button></div>' +
     '<div id="sp-p-search" role="tabpanel" aria-labelledby="sp-t-search"></div><div id="sp-p-swipe" role="tabpanel" aria-labelledby="sp-t-swipe"></div></section>' +
     '<section class="sp-card" aria-labelledby="sp-h3" id="sp-plan"><div class="sp-plan-head"><div><div class="sp-step" style="margin-bottom:6px"><span class="sp-nr">3</span><h2 id="sp-h3">Deine Wochenplan-Vorlage</h2></div><p class="sp-status" id="sp-count"></p></div></div>' +
+    '<div class="sp-favs" id="sp-favs"></div><div class="sp-plan-go"><button class="sp-btn" id="sp-go">' + T.planBtn + '</button></div><div class="sp-cook" id="sp-cook"></div>' +
     '<div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div>' +
-    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Wochenplan als PDF herunterladen</button><button class="sp-btn sp-sec" id="sp-fill">Leere Plätze automatisch füllen</button><button class="sp-btn sp-sec" id="sp-clear">Plan leeren</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
+    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Wochenplan als PDF herunterladen</button><button class="sp-btn sp-sec" id="sp-clear">Plan leeren</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
     '<aside class="sp-teaser"><div><h3>Noch einfacher in der App</h3><p>Prepello plant die Woche für deinen Haushalt und rechnet die Einkaufsliste in ganze Packungen um.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Kostenlos Beta testen ↗</a></aside>' +
     '<footer class="sp-foot"><span>© 2026 Prepello</span><a href="/">Startseite</a><a href="/category/rezepte/">Rezepte</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
     '</div><div class="sp-modal" id="sp-modal" hidden><div class="sp-dialog" role="dialog" aria-modal="true" aria-labelledby="sp-mt" id="sp-dialog"></div></div><div class="sp-toast" role="status" aria-live="polite"></div>';
@@ -104,6 +184,8 @@
       '<div class="sp-counter"><span class="sp-cname">Kinder</span><button class="sp-round" data-c="kids" data-v="-1" aria-label="Weniger Kinder"' + (st.kids <= 0 || st.adults + st.kids <= 1 ? ' disabled' : '') + '>−</button><output>' + st.kids + '</output><button class="sp-round" data-c="kids" data-v="1" aria-label="Mehr Kinder"' + (st.kids >= 8 ? ' disabled' : '') + '>+</button></div></div>';
     h += '<div><span class="sp-label">Welche Tage?</span><div class="sp-row">' + SHORT.map(function (s, i) { return '<button class="sp-chip" data-day="' + i + '" aria-pressed="' + (st.days.indexOf(i) >= 0) + '" aria-label="' + DAYS[i] + '">' + s + '</button>'; }).join('') + '</div></div>';
     h += '<div><span class="sp-label">Welche Mahlzeiten?</span><div class="sp-row">' + SLOTS.map(function (s) { return '<button class="sp-chip" data-slot="' + s.id + '" aria-pressed="' + (st.slots.indexOf(s.id) >= 0) + '">' + s.l + '</button>'; }).join('') + '</div></div>';
+    h += '<div><span class="sp-label">' + T.modeL + '</span><div class="sp-row">' + T.modes.map(function (m) { return '<button class="sp-chip" data-mode="' + m.id + '" aria-pressed="' + (st.mode === m.id) + '">' + m.l + '</button>'; }).join('') + '</div><p class="sp-mini">' + T.modes.filter(function (m) { return m.id === st.mode; })[0].h + '</p></div>';
+    h += '<div><span class="sp-label">' + T.cookL + '</span><div class="sp-row">' + SHORT.map(function (s, i) { return '<button class="sp-chip" data-cook="' + i + '" aria-pressed="' + (st.cook.indexOf(i) >= 0) + '" aria-label="' + DAYS[i] + '">' + s + '</button>'; }).join('') + '</div><p class="sp-mini">' + T.cookH + '</p></div>';
     h += '<div><span class="sp-label">Ernährung</span><div class="sp-row">' + DIETS.map(function (d) { return '<button class="sp-chip" data-diet="' + d.id + '" aria-pressed="' + (st.diets.indexOf(d.id) >= 0) + '">' + d.l + '</button>'; }).join('') + '</div></div>';
     $('sp-setup').innerHTML = h;
   }
@@ -112,6 +194,8 @@
     if (b.dataset.c) { st[b.dataset.c] = Math.max(0, Math.min(8, st[b.dataset.c] + +b.dataset.v)); }
     else if (b.dataset.day) { var d = +b.dataset.day, i = st.days.indexOf(d); if (i >= 0) { if (st.days.length > 1) st.days.splice(i, 1); } else st.days.push(d); }
     else if (b.dataset.slot) { var s = b.dataset.slot, j = st.slots.indexOf(s); if (j >= 0) { if (st.slots.length > 1) st.slots.splice(j, 1); } else st.slots.push(s); st.slots.sort(function (a, c) { return 'fmas'.indexOf(a) - 'fmas'.indexOf(c); }); if (st.slots.indexOf(st.swipeSlot) < 0) st.swipeSlot = st.slots[0]; }
+    else if (b.dataset.mode) { st.mode = b.dataset.mode; }
+    else if (b.dataset.cook) { var cd = +b.dataset.cook, ci = st.cook.indexOf(cd); if (ci >= 0) { if (st.cook.length > 1) st.cook.splice(ci, 1); } else st.cook.push(cd); }
     else if (b.dataset.diet) { var x = b.dataset.diet, k = st.diets.indexOf(x); if (k >= 0) st.diets.splice(k, 1); else st.diets.push(x); st.queue = {}; }
     save(); renderSetup(); renderTab(); renderPlan();
   });
@@ -141,7 +225,7 @@
       (scored.length > st.shown ? '<div class="sp-more"><button class="sp-btn sp-sec" id="sp-more">Weitere Rezepte anzeigen</button></div>' : '');
   }
   function card(r, m, x) {
-    var add = r.s.map(function (s) { return '<button data-add="' + r.id + '" data-s="' + s + '">+ ' + slot(s).s + '</button>'; }).join('');
+    var add = '<button data-fav="' + r.id + '" aria-pressed="' + isFav(r.id) + '" class="sp-favb">' + (isFav(r.id) ? T.favOn : T.favAdd) + '</button>';
     var meta = [r.s.map(function (s) { return slot(s).s; }).join(' · ')]; if (r.t) meta.push(r.t + ' Min.'); if (r.kcal) meta.push(r.kcal + ' kcal');
     return '<article class="sp-rc">' + imgTag(r) + '<div class="sp-rb">' + (r.src === 'blog' ? '<span class="sp-blog">Aus dem Blog</span>' : '') +
       '<button class="sp-rn" data-open="' + r.id + '">' + esc(r.n) + '</button><span class="sp-meta">' + esc(meta.join(' · ')) + '</span>' +
@@ -191,21 +275,21 @@
     var deck = top ? (next ? swipeCard(next, 'sp-back') : '') + swipeCard(top, '') : '<div class="sp-empty">Keine Rezepte für diese Auswahl.</div>';
     $('sp-p-swipe').innerHTML = '<div class="sp-swipe"><div><div class="sp-deck" id="sp-deck">' + deck + '</div>' +
       '<div class="sp-actions"><button class="sp-act sp-no" id="sp-nope" aria-label="Überspringen">✕</button><button class="sp-act sp-info" id="sp-info" aria-label="Rezept ansehen">i</button><button class="sp-act sp-yes" id="sp-like" aria-label="In den Wochenplan">♥</button></div>' +
-      '<p class="sp-hint">Nach rechts wischen = in den Plan · nach links = überspringen · Pfeiltasten gehen auch</p></div>' +
+      '<p class="sp-hint">' + T.likeHint + '</p></div>' +
       '<div class="sp-side"><h3>Kategorie</h3><p>Wähle, wofür du gerade Gerichte suchst.</p><div class="sp-row" id="sp-sw-slots">' +
       slots().map(function (x) { return '<button class="sp-chip" data-sw="' + x.id + '" aria-pressed="' + (x.id === s) + '">' + x.l + '</button>'; }).join('') + '</div>' +
-      '<p style="margin-top:16px">' + (free ? 'Noch <strong>' + free + '</strong> freie ' + slot(s).s + '-Plätze in deiner Woche.' : 'Alle ' + slot(s).s + '-Plätze sind belegt.') + '</p></div></div>';
+      '<p style="margin-top:16px"><strong>' + st.fav.length + '</strong>' + T.favCount + '</p></div></div>';
     bindDrag();
   }
   function swipeCard(r, cls) {
     var meta = []; if (r.t) meta.push(r.t + ' Min.'); if (r.kcal) meta.push(r.kcal + ' kcal pro Portion'); if (r.src === 'blog') meta.unshift('Aus dem Blog');
     return '<div class="sp-sc ' + cls + '"' + (cls ? ' aria-hidden="true"' : ' data-id="' + r.id + '"') + '>' + imgTag(r) + '<div class="sp-sb"><h3>' + esc(r.n) + '</h3><span class="sp-meta">' + esc(meta.join(' · ')) + '</span>' +
       '<p class="sp-ing">' + esc(r.i.filter(function (i) { return !isBasic(i[0]); }).map(function (i) { return i[0]; }).join(' · ')) + '</p></div>' +
-      '<span class="sp-stamp sp-yes">IN DEN PLAN</span><span class="sp-stamp sp-no">NÄCHSTES</span></div>';
+      '<span class="sp-stamp sp-yes">' + T.stamp + '</span><span class="sp-stamp sp-no">NÄCHSTES</span></div>';
   }
   function decide(like) {
     var s = st.swipeSlot, q = queue(s), id = q[0]; if (!id) return;
-    if (like && !addToPlan(id, s)) return;
+    if (like) { setFav(id, true); renderFavs(); toast(byId[id].n + T.favToast); }
     q.push(q.shift()); st.queue[s] = q; save();
     var el = root.querySelector('.sp-sc[data-id]');
     if (el && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -250,20 +334,36 @@
       h += '<tr><th class="sp-sl" scope="row">' + s.l + '</th>';
       ds.forEach(function (d) {
         var id = st.plan[cellKey(d, s.id)], r = id && byId[id];
-        h += '<td>' + (r ? '<div class="sp-cell"><button class="sp-cn" data-open="' + r.id + '">' + esc(r.n) + '</button><button class="sp-x" data-del="' + cellKey(d, s.id) + '" aria-label="' + esc(r.n) + ' am ' + DAYS[d] + ' entfernen">×</button></div>' : '<span class="sp-free">frei</span>') + '</td>';
+        var mt = st.meta[cellKey(d, s.id)] || {}, tag = mt.t === 'p' ? '<span class="sp-tag sp-tp">' + T.tagP + SHORT[mt.c] + '</span>' : mt.t === 'f' ? '<span class="sp-tag sp-tf">' + T.tagF + '</span>' : mt.t === 'q' ? '<span class="sp-tag sp-tq">' + T.tagQ + '</span>' : '';
+        h += '<td>' + (r ? '<div class="sp-cell">' + tag + '<button class="sp-cn" data-open="' + r.id + '">' + esc(r.n) + '</button><button class="sp-x" data-del="' + cellKey(d, s.id) + '" aria-label="' + esc(r.n) + ' am ' + DAYS[d] + ' entfernen">×</button></div>' : '<span class="sp-free">frei</span>') + '</td>';
       });
       h += '</tr>';
     });
-    $('sp-grid').innerHTML = h + '</tbody>';
+    $('sp-grid').innerHTML = h + '</tbody>'; renderFavs(); renderCook();
     var n = planCount(), t = totalCells();
     $('sp-count').textContent = n + ' von ' + t + ' Plätzen geplant · für ' + who();
   }
   $('sp-grid').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.del) { delete st.plan[b.dataset.del]; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe(); }
+    if (b.dataset.del) { delete st.plan[b.dataset.del]; delete st.meta[b.dataset.del]; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe(); }
   });
-  $('sp-fill').addEventListener('click', function () { autoFill(); if (st.tab === 'swipe') renderSwipe(); });
-  $('sp-clear').addEventListener('click', function () { st.plan = {}; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe(); toast('Plan geleert.'); });
+  $('sp-go').addEventListener('click', function () { planWeek(); });
+  function renderFavs() {
+    var el = $('sp-favs'); if (!el) return;
+    el.innerHTML = '<span class="sp-label">' + T.favL + ' (' + st.fav.length + ')</span>' + (st.fav.length ? '<div class="sp-have">' + st.fav.map(function (id) { var r = byId[id]; return r ? '<button data-unfav="' + id + '" aria-label="' + esc(r.n) + T.favOff + '">♥ ' + esc(r.n) + ' ✕</button>' : ''; }).join('') + '</div>' : '<p class="sp-mini">' + T.favNone + '</p>');
+  }
+  function renderCook() {
+    var el = $('sp-cook'); if (!el) return; var cp = cookPlan(), keys = Object.keys(cp.by);
+    if (!keys.length && !cp.fresh.length) { el.innerHTML = ''; return; }
+    keys.sort(function (a, b) { return cpos(+a) - cpos(+b); });
+    var h = '<h3>' + T.cookTitle + '</h3><ul>';
+    keys.forEach(function (c) { h += '<li><strong>' + DAYS[c] + ' ' + T.cookOn + ':</strong> ' + Object.keys(cp.by[c]).map(function (id) { var r = byId[id], n = cp.by[c][id]; return esc(r.n) + ' <span class="sp-x3">×' + n + '</span>' + (r.fz ? ' <span class="sp-fz" title="' + T.freeze + '">❄</span>' : ''); }).join(' · ') + '</li>'; });
+    if (cp.fresh.length) h += '<li><strong>' + T.fresh + ':</strong> ' + cp.fresh.map(function (f) { return SHORT[f.d] + ' ' + slot(f.s).s + ' – ' + esc(byId[f.id].n); }).join(' · ') + '</li>';
+    h += '</ul><p class="sp-sum">' + T.sumA + cp.n + T.sumB + cp.mains + T.sumC + '</p>' + (st.warn ? '<p class="sp-mini">' + T.moreCook + '</p>' : '');
+    el.innerHTML = h;
+  }
+  $('sp-favs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b && b.dataset.unfav) { setFav(b.dataset.unfav, false); renderFavs(); if (st.tab === 'search') renderResults(); else renderSwipe(); } });
+  $('sp-clear').addEventListener('click', function () { st.plan = {}; st.meta = {}; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe(); toast('Plan geleert.'); });
 
   // ---------- Rezept-Details ----------
   var lastFocus = null;
@@ -276,7 +376,7 @@
       '<h3>Zutaten für ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { return '<li><strong>' + esc(fmtQty(i[1] * f, i[2])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
       (r.z ? '<h3>Zubereitung</h3><p>' + esc(r.z) + '</p>' : '') +
       (r.url ? '<p><a href="' + esc(r.url) + '">Zum ausführlichen Rezept im Blog →</a></p>' : '') +
-      '<div class="sp-add">' + r.s.map(function (s) { return '<button data-add="' + r.id + '" data-s="' + s + '">+ ' + slot(s).l + '</button>'; }).join('') + '</div></div>';
+      '<div class="sp-add"><button data-fav="' + r.id + '" aria-pressed="' + isFav(r.id) + '" class="sp-favb">' + (isFav(r.id) ? T.favOn : T.favAdd) + '</button>' + r.s.map(function (s) { return '<button data-add="' + r.id + '" data-s="' + s + '">+ ' + slot(s).l + '</button>'; }).join('') + '</div></div>';
     $('sp-modal').hidden = false; $('sp-close').focus();
   }
   function closeModal() { $('sp-modal').hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
@@ -284,7 +384,8 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('sp-modal').hidden) closeModal(); });
   root.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.open) openRecipe(b.dataset.open);
+    if (b.dataset.fav) { var on = !isFav(b.dataset.fav); setFav(b.dataset.fav, on); b.setAttribute('aria-pressed', on); b.textContent = on ? T.favOn : T.favAdd; renderFavs(); toast(byId[b.dataset.fav].n + (on ? T.favToast : T.favOff)); if (st.tab === 'swipe') renderSwipe(); }
+    else if (b.dataset.open) openRecipe(b.dataset.open);
     else if (b.dataset.add) { if (addToPlan(b.dataset.add, b.dataset.s) && !$('sp-modal').hidden) closeModal(); if (st.tab === 'swipe') renderSwipe(); }
   });
 
@@ -329,7 +430,7 @@
     // Seite 1: Wochenplan
     bg(); var ds = days(), ss = slots();
     title('Mein Meal Prep Wochenplan', 'für ' + who() + (st.diets.length ? '  ·  ' + DIETS.filter(function (d) { return st.diets.indexOf(d.id) >= 0; }).map(function (d) { return d.l.toLowerCase(); }).join(', ') : ''), 36);
-    font('Inter', 'normal', 11.5); color(C.text); doc.text('Woche vom ____________ bis ____________', W() - 36, 60, { align: 'right' }); doc.text('Vorkochen am: ____________', W() - 36, 80, { align: 'right' });
+    font('Inter', 'normal', 11.5); color(C.text); doc.text('Woche vom ____________ bis ____________', W() - 36, 60, { align: 'right' }); var cpp = cookPlan(); doc.text('Vorkochen am: ' + (Object.keys(cpp.by).length ? Object.keys(cpp.by).sort(function (a, b) { return cpos(+a) - cpos(+b); }).map(function (c) { return DAYS[c]; }).join(', ') : '____________'), W() - 36, 80, { align: 'right' });
     var left = 36, top = 104, labelW = 92, colW = (W() - 2 * left - labelW) / ds.length, headH = 28, rowH = Math.min(120, (H() - top - 90 - headH) / ss.length);
     ds.forEach(function (d, i) { var x = left + labelW + i * colW; fill(d < 5 ? C.green : C.deep); doc.rect(x + 1, top, colW - 2, headH, 'F'); font('Playfair', 'bold', 13); color(C.white); doc.text(DAYS[d], x + colW / 2, top + 18.5, { align: 'center' }); });
     ss.forEach(function (s, ri) {
@@ -345,7 +446,13 @@
       });
     });
     stroke(C.line); doc.rect(left, top, W() - 2 * left, headH + ss.length * rowH, 'S');
-    var ny = top + headH + ss.length * rowH + 26; font('Playfair', 'bold', 13); color(C.deep); doc.text('Notizen', 36, ny); stroke([201, 214, 205]); doc.setLineWidth(0.5); if (ny + 18 < H() - 34) doc.line(36, ny + 18, W() - 36, ny + 18);
+    var ny = top + headH + ss.length * rowH + 26, cks = Object.keys(cpp.by).sort(function (a, b) { return cpos(+a) - cpos(+b); });
+    if (cks.length || cpp.fresh.length) { font('Playfair', 'bold', 13); color(C.deep); doc.text(T.cookTitle, 36, ny); font('Inter', 'normal', 10.5); color(C.text);
+      var cl = cks.map(function (c) { return DAYS[c] + ' ' + T.cookOn + ': ' + Object.keys(cpp.by[c]).map(function (id) { return byId[id].n + ' ×' + cpp.by[c][id]; }).join(' · '); });
+      if (cpp.fresh.length) cl.push(T.fresh + ': ' + cpp.fresh.map(function (f) { return SHORT[f.d] + ' ' + slot(f.s).s + ' – ' + byId[f.id].n; }).join(' · '));
+      cl.forEach(function (l, i) { if (ny + 16 + i * 14 < H() - 34) doc.text(doc.splitTextToSize(l, W() - 72)[0], 36, ny + 16 + i * 14); });
+      ny = H(); }
+    if (ny < H() - 40) { font('Playfair', 'bold', 13); color(C.deep); doc.text('Notizen', 36, ny); } stroke([201, 214, 205]); doc.setLineWidth(0.5); if (ny + 18 < H() - 34) doc.line(36, ny + 18, W() - 36, ny + 18);
     footer();
     // Seite 2: Einkaufsliste
     doc.addPage('a4', 'portrait'); bg(); title('Einkaufsliste', 'Mengen für ' + who() + ', über die Woche zusammengefasst.', 48);
@@ -386,12 +493,18 @@
   }
   $('sp-pdf').addEventListener('click', function () {
     var b = this, stEl = $('sp-pdf-status');
-    if (!planCount()) { autoFill(); }
+    if (!planCount()) { planWeek(); }
     b.disabled = true; var lbl = b.textContent; b.textContent = 'PDF wird erstellt …';
     Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1]).save('meal-prep-wochenplan.pdf'); stEl.textContent = 'Fertig – dein Wochenplan wurde heruntergeladen.'; })
       .catch(function () { stEl.textContent = 'Das PDF konnte nicht erstellt werden. Bitte versuch es noch einmal.'; })
       .then(function () { b.disabled = false; b.textContent = lbl; });
   });
 
+  (function () { var css = '#sb-planer .sp-mini{margin:6px 0 0;font-size:13px;color:var(--mu)}#sb-planer .sp-favs{margin:6px 0 14px}#sb-planer .sp-favs .sp-have{margin-top:8px}' +
+    '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
+    '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
+    '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
+    '#sb-planer .sp-favb[aria-pressed=true]{background:var(--g);color:#fff;border-color:var(--g)}';
+    var el = document.createElement('style'); el.textContent = css; document.head.appendChild(el); })();
   renderSetup(); renderTab(); renderPlan();
 })();

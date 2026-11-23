@@ -3,11 +3,27 @@ import json, re
 D = '/home/claude/smartbasket-website/dist/planer/'
 src = open(D + 'planer.js').read()
 
-R = [  # (deutsch, englisch) – längste/spezifischste zuerst
+R = [
+ ("""var T = { modeL: 'Planungsmodus', modes: [{ id: 'prep', l: 'Meal Prep', h: 'Wenige Kochtage, Gerichte reichen für 2–3 Mahlzeiten.' }, { id: 'mix', l: 'Gemischt', h: 'Mittags Meal Prep, an 2–3 Abenden frisch kochen.' }],""",
+  """var T = { modeL: 'Planning mode', modes: [{ id: 'prep', l: 'Meal prep', h: 'Few cooking days, each dish covers 2–3 meals.' }, { id: 'mix', l: 'Mixed', h: 'Meal prep for lunch, cook fresh on 2–3 evenings.' }],"""),
+ ("""cookL: 'Kochtage', cookH: 'An diesen Tagen wird vorgekocht.', favL: 'Deine Favoriten', favNone: 'Noch keine Favoriten. Wisch nach rechts oder tippe ♥ – der Planer nimmt dann passende Gerichte für dich.',""",
+  """cookL: 'Cooking days', cookH: 'Batch cooking happens on these days.', favL: 'Your favourites', favNone: 'No favourites yet. Swipe right or tap ♥ – otherwise the planner picks suitable dishes for you.',"""),
+ ("""favAdd: '♥ Merken', favOn: '♥ Gemerkt', favToast: ' gemerkt', favOff: ' entfernt', planBtn: 'Woche automatisch planen',""",
+  """favAdd: '♥ Save', favOn: '♥ Saved', favToast: ' saved', favOff: ' removed', planBtn: 'Plan my week automatically',"""),
+ ("""tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',""",
+  """tagP: 'from ', tagF: 'fresh', tagQ: 'quick', cookTitle: 'Your cooking plan', cookOn: 'cooking', fresh: 'Fresh', meals: ' meals', meal: ' meal',"""),
+ ("""sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',""",
+  """sumA: 'You cook ', sumB: '× for ', sumC: ' main meals', freeze: 'freezes well', moreCook: 'Tip: add another cooking day – otherwise some portions would be older than they keep.',"""),
+ ("""planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };""",
+  """planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', fill: 'Empty slots are filled with suitable dishes.' };"""),
+ ("'Vorkochen am: ' + (", "'Prep days: ' + ("),
+ ("Prepello plant die Woche für deinen Haushalt und rechnet die Einkaufsliste in ganze Packungen um.", "Prepello plans the week for your household and turns the shopping list into whole packs."),
+ ("Stell dir deinen Wochenplan kostenlos zusammen: Merk dir deine Lieblingsgerichte per Wischen oder Zutatensuche – der Planer macht daraus eine Meal-Prep-Woche mit wenigen Kochtagen, inklusive Einkaufsliste als PDF zum Herunterladen.",
+  "Build your weekly meal plan for free: save your favourite dishes by swiping or searching by ingredients, and the planner turns them into a meal prep week with fewer cooking days – with a shopping list as a PDF download."),
  ("'sb-wochenplaner-v1'", "'sb-weekly-planner-v1'"),
  ("Kostenlos · ohne Anmeldung", "Free · no sign-up"),
  ("<h1>Meal Prep Wochenplan Vorlage</h1>", "<h1>Meal Prep Weekly Planner Template</h1>"),
- ("Stell dir deinen Wochenplan kostenlos zusammen: Suche Rezepte nach Zutaten, die du zu Hause hast, oder wisch dich durch Frühstück, Mittag- und Abendessen. Jedes Gericht landet automatisch in deiner Wochenplan-Vorlage – mit Einkaufsliste als PDF zum Herunterladen.",
+ ("Stell dir deinen Wochenplan kostenlos zusammen: Merk dir deine Lieblingsgerichte per Wischen oder Zutatensuche – der Planer macht daraus eine Meal-Prep-Woche mit wenigen Kochtagen, inklusive Einkaufsliste als PDF zum Herunterladen.",
   "Build your weekly meal plan for free: search recipes by the ingredients you have at home, or swipe through breakfast, lunch and dinner ideas. Every dish goes straight into your weekly planner template – with a shopping list as a downloadable PDF."),
  ("Für wen und wann?", "Who and when?"), ("Rezepte finden", "Find recipes"),
  ("Mit Zutaten suchen", "Search by ingredients"), ("Nach Kategorie wischen", "Swipe by category"),
