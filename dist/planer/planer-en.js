@@ -152,10 +152,10 @@
       }
     });
     window.addEventListener('pointercancel', end);
-    root.addEventListener('click', function (e) { // ausgewähltes Gericht in freies/anderes Feld setzen
-      if (!dnd.sel) return; var td = e.target.closest('#sp-grid td[data-cell]'); if (!td || e.target.closest('.sp-grip,.sp-x,.sp-cn')) return;
-      applyDrop(dnd.sel, td.dataset.cell);
-    });
+    root.addEventListener('click', function (e) { // ausgewähltes Gericht: Tippen auf ein beliebiges Feld setzt/tauscht es
+      if (!dnd.sel) return; var td = e.target.closest('#sp-grid td[data-cell]'); if (!td || e.target.closest('.sp-grip,.sp-x')) return;
+      e.preventDefault(); e.stopPropagation(); applyDrop(dnd.sel, td.dataset.cell);
+    }, true);
     root.addEventListener('keydown', function (e) { var g = e.target.closest && e.target.closest('.sp-grip'); if (!g || (e.key !== 'Enter' && e.key !== ' ')) return; e.preventDefault();
       var s = srcOf(g); if (!s) return; if (dnd.sel && s.cell && !(dnd.sel.cell === s.cell)) { applyDrop(dnd.sel, s.cell); return; } dnd.sel = dnd.sel ? null : (s.cell ? { cell: s.cell } : { id: s.id }); renderPlan(); });
   })();
@@ -598,7 +598,7 @@
     '#sb-planer .sp-grip{cursor:grab;touch-action:none;user-select:none;color:var(--mu);font-size:16px;line-height:1;padding:4px;border-radius:6px}#sb-planer .sp-grip:hover{background:var(--ti);color:var(--gd)}#sb-planer .sp-cell{position:relative;cursor:grab;user-select:none;-webkit-user-select:none}#sb-planer .sp-cell .sp-grip{position:absolute;bottom:2px;right:2px}' +
     '#sb-planer td.sp-over,#sb-planer .sp-dock-list.sp-over{outline:2px dashed var(--g);outline-offset:-2px;background:var(--ti)}#sb-planer .sp-sel,#sb-planer td.sp-sel{outline:2px solid var(--ac);outline-offset:-2px}#sb-planer .sp-twarn{background:#FEF3C7;color:#92400E}' +
     '.sp-ghost{position:fixed;z-index:99999;pointer-events:none;padding:8px 12px;border-radius:10px;background:#111827;color:#fff;font:600 13px/1.3 Inter,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:220px}body.sp-dragging{cursor:grabbing;user-select:none}' +
-    '@media (max-width:900px){#sb-planer .sp-board{grid-template-columns:1fr}#sb-planer .sp-dock{position:static;max-height:none}#sb-planer .sp-dock-list{flex-direction:row;overflow-x:auto}#sb-planer .sp-di{flex:0 0 190px}}' +
+    '@media (max-width:900px){#sb-planer .sp-board{grid-template-columns:1fr}#sb-planer .sp-dock{position:static;max-height:none;order:-1}#sb-planer .sp-dock-list{flex-direction:row;overflow-x:auto}#sb-planer .sp-di{flex:0 0 190px}}' +
     '#sb-planer .sp-mpinfo{margin:8px 0 0;font-size:13.5px;color:var(--mu);display:flex;flex-wrap:wrap;gap:6px;align-items:center}#sb-planer .sp-favb[aria-pressed=true]{background:var(--g);color:#fff;border-color:var(--g)}';
     var el = document.createElement('style'); el.textContent = css; document.head.appendChild(el); })();
   renderSetup(); renderTab(); renderPlan();
