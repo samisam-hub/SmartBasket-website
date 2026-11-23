@@ -120,6 +120,7 @@ body.page-id-2260 .elementor-2260 .hd-tag{color:#A3237A!important;background:#FB
   body.page-id-2260 .elementor-2260 .pi-formats > *,body.page-id-2260 .elementor-2260 .pi-formats .pi-mock{min-width:0!important;max-width:100%!important}
   body.page-id-2260 .elementor-2260 .pi-formats :is(h3,h4){font-size:18px!important;overflow-wrap:anywhere;hyphens:auto}
   body.page-id-2260 .elementor-2260 .pi-mock{overflow:hidden}
+  body.page-id-2260 .elementor-2260 .pi-formats .pi-mock > *{zoom:.78}
   body.page-id-2260 .elementor-2260 .lf-scroll{overflow-x:hidden!important}
   body.page-id-2260 .elementor-2260 .lf-table{width:100%!important;max-width:100%!important;table-layout:fixed}
   body.page-id-2260 .elementor-2260 .lf-table :is(tr,th,td,tbody){width:auto!important;max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere}
