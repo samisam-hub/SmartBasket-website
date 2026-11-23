@@ -18,13 +18,37 @@
   var BASICS = ['salz', 'pfeffer', 'olivenöl', 'sonnenblumenöl', 'rapsöl', 'zucker', 'wasser', 'gemüsebrühe pulver'];
   var SUGGEST = ['Kartoffeln', 'Eier', 'Nudeln', 'Reis', 'Hähnchenbrust', 'Linsen', 'Brokkoli', 'Spinat', 'Haferflocken', 'Tomate', 'Lachsfilet', 'Naturtofu'];
 
+  // Automatische Meal-Prep-Einordnung für Rezepte ohne Handangabe (z. B. neue Blog-Rezepte).
+  // Handangaben (mp/k/fz in den Rezeptdaten) haben immer Vorrang.
+  function autoMp(r) {
+    var name = (r.n || '').toLowerCase(), all = (name + ' ' + r.i.map(function (i) { return i[0]; }).join(' ')).toLowerCase(), t = r.t || 0;
+    var main = r.s.indexOf('m') >= 0 || r.s.indexOf('a') >= 0, bf = r.s.indexOf('f') >= 0 && !main;
+    // 1) Nur frisch gut (aufgewärmt matschig/zäh)
+    if (/schnitzel|paniert|panko|pfannkuchen|pancake|pizza|flammkuchen|tarte flamb|steak|reibekuchen|fritter|arme ritter|french toast|omelett|omelette|spätzle|spaetzle|gnocchi|wrap|fischstäbchen|fish finger|bratkartoffel|fried potato|bratwurst|pesto|milchreis|rice pudding|grießbrei|semolina|ente|duck|gratin|maultasche|dumpling|tortellini|mozzarella|caprese/.test(name) || (main && /spiegelei|fried egg|mit ei\b|with egg\b|and egg\b/.test(name))) return { mp: 'f' };
+    // 2) Frühstück
+    if (bf) {
+      if (/über nacht|übernacht|eingeweicht|overnight|chia/.test(name)) return { mp: 'p', k: 3 };
+      if (t > 30 && /brötchen|muffin|bun|roll|bake|backen|brot/.test(name)) return { mp: 'p', k: 3, fz: 1 };
+      if (/tofu|linsen|lentil|kartoffel|potato|bohnen|bean/.test(all) && !/brot|bread|toast/.test(name)) return { mp: 'p', k: 3 };
+      return { mp: !t || t <= 25 ? 'q' : 'f' };
+    }
+    if (/blattsalat|lettuce|rucola|rocket/.test(all)) return { mp: 'f' };
+    // 3) Hauptgerichte
+    if (main && /lachs|salmon|thunfisch|tuna|forelle|trout|kabeljau|\bcod\b|garnele|shrimp|prawn|fisch|fish/.test(all)) return { mp: 'p', k: 2 };
+    if (/eintopf|stew|curry|chili|suppe|soup|gulasch|goulash|bolognese|lasagne|auflauf|\bbake\b|borschtsch|borscht|\bdal\b|ragout|frikadelle|patties|meatball|kotlety|pirozhki|piroggen/.test(name)) return { mp: 'p', k: 4, fz: 1 };
+    if (/brot|brötchen|toast|sandwich|lunchbox|brotdose|brotzeit|bread plate/.test(name)) return { mp: 'q' };
+    if (r.s.indexOf('s') >= 0 && !main) return t > 20 ? { mp: 'p', k: 3 } : { mp: 'q' };
+    if (main && /reis|rice|nudel|pasta|spaghetti|noodle|hähnchen|chicken|pute|turkey|linsen|lentil|kichererbsen|chickpea|kartoffel|potato|tofu|bohnen|bean|rind|beef|lamm|lamb/.test(all)) return { mp: 'p', k: 3 };
+    return { mp: t && t <= 15 ? 'q' : 'f' };
+  }
+  R.forEach(function (r) { if (!r.mp) { var a = autoMp(r); r.mp = a.mp; if (a.k) r.k = a.k; if (a.fz) r.fz = 1; r.mpAuto = 1; } });
   var byId = {}; R.forEach(function (r) { byId[r.id] = r; });
   var T = { modeL: 'Planungsmodus', modes: [{ id: 'prep', l: 'Meal Prep', h: 'Wenige Kochtage, Gerichte reichen für 2–3 Mahlzeiten.' }, { id: 'mix', l: 'Gemischt', h: 'Mittags Meal Prep, an 2–3 Abenden frisch kochen.' }],
     cookL: 'Kochtage', cookH: 'An diesen Tagen wird vorgekocht.', favL: 'Deine Favoriten', favNone: 'Noch keine Favoriten. Wisch nach rechts oder tippe ♥ – der Planer nimmt dann passende Gerichte für dich.',
     favAdd: '♥ Merken', favOn: '♥ Gemerkt', favToast: ' gemerkt', favOff: ' entfernt', planBtn: 'Woche automatisch planen',
     tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
-    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
   function typ(r) { return (r && r.mp) || 'f'; }
   function keepD(r) { return (r && r.k) || 0; }
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
@@ -382,6 +406,7 @@
     var meta = [r.s.map(function (s) { return slot(s).l; }).join(', ')]; if (r.t) meta.push(r.t + ' Min.'); if (r.kcal) meta.push(r.kcal + ' kcal / ' + r.p + ' g Eiweiß pro Portion');
     $('sp-dialog').innerHTML = '<button class="sp-close" id="sp-close" aria-label="Schließen">×</button>' + imgTag(r) + '<div class="sp-dbody">' +
       (r.src === 'blog' ? '<span class="sp-blog">Aus dem Blog</span>' : '') + '<h2 id="sp-mt">' + esc(r.n) + '</h2><span class="sp-meta">' + esc(meta.join(' · ')) + '</span>' +
+      '<p class="sp-mpinfo"><span class="sp-tag ' + (typ(r) === 'p' ? 'sp-tp' : typ(r) === 'f' ? 'sp-tf' : 'sp-tq') + '">' + (typ(r) === 'p' ? T.mpP : typ(r) === 'f' ? T.mpF : T.mpQ) + '</span>' + (typ(r) === 'p' && r.k ? ' ' + r.k + T.keepT : '') + (r.fz ? ' · ❄ ' + T.freeze : '') + (r.mpAuto ? ' · <em>' + T.autoT + '</em>' : '') + '</p>' +
       '<h3>Zutaten für ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { return '<li><strong>' + esc(fmtQty(i[1] * f, i[2])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
       (r.z ? '<h3>Zubereitung</h3><p>' + esc(r.z) + '</p>' : '') +
       (r.url ? '<p><a href="' + esc(r.url) + '">Zum ausführlichen Rezept im Blog →</a></p>' : '') +
@@ -513,7 +538,7 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
-    '#sb-planer .sp-favb[aria-pressed=true]{background:var(--g);color:#fff;border-color:var(--g)}';
+    '#sb-planer .sp-mpinfo{margin:8px 0 0;font-size:13.5px;color:var(--mu);display:flex;flex-wrap:wrap;gap:6px;align-items:center}#sb-planer .sp-favb[aria-pressed=true]{background:var(--g);color:#fff;border-color:var(--g)}';
     var el = document.createElement('style'); el.textContent = css; document.head.appendChild(el); })();
   renderSetup(); renderTab(); renderPlan();
 })();
