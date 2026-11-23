@@ -49,6 +49,10 @@
     tagP: 'from ', tagF: 'fresh', tagQ: 'quick', cookTitle: 'Your cooking plan', cookOn: 'cooking', fresh: 'Fresh', meals: ' meals', meal: ' meal',
     sumA: 'You cook ', sumB: '× for ', sumC: ' main meals', freeze: 'freezes well', moreCook: 'Tip: add another cooking day – otherwise some portions would be older than they keep.',
     planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', kcalL: 'kcal per adult', goal: 'Target ', portion: 'Portion ', offH: 'More than 10 % off target – portions are limited to 60–160 %. Add another dish or a snack.', tgtL: 'Daily calorie target', tgtA: 'Adults', tgtK: 'Children', tgtH: 'Rough guide: women approx. 1,900, men approx. 2,400 kcal, children 1,200–2,000 kcal depending on age. Portions are scaled per day – shopping list and cost follow.', costL: 'Cost approx.', costH: 'Estimated grocery cost for your household, proportional to recipe amounts (average German supermarket prices, excluding basics like salt).', weekC: ' · approx. ', weekC2: ' € per week', loc: 'en-GB', dockT: 'Drag into your plan', dockHint: 'Drop a dish on a slot = replace · drag slots onto each other = swap · drag a slot onto this list = remove. On mobile: tap ⠿, then tap the target.', dockNone: 'Save dishes (♥) and they show up here.', swapped: 'Swapped', placed: ' added', removedT: 'Removed from plan', tooOld: 'kept longer than recommended', grip: 'Move', dropOut: 'Drop here to remove', mpP: 'Good for meal prep', mpQ: 'quick to make fresh', mpF: 'best fresh', keepT: ' days in the fridge', autoT: 'estimated automatically', onlyMix: 'fresh – in Mixed mode', fill: 'Empty slots are filled with suitable dishes.' };
+  Object.assign(T, { calcBtn: 'Calculate from body data', calcDone: 'Done', pers: 'Person ', kidL: 'Child ', sexL: 'Sex', sexes: [['w', 'female'], ['m', 'male']], ageL: 'Age', hL: 'Height (cm)', wL: 'Weight (kg)', actL: 'Activity',
+    acts: [[1.2, 'mostly sitting'], [1.375, 'lightly active (1–3× exercise/week)'], [1.55, 'moderately active (3–5× exercise/week)'], [1.725, 'very active (6–7× exercise/week)'], [1.9, 'physical job + exercise']],
+    goalL: 'Goal', goals: [[0, 'maintain weight'], [-400, 'lose a little'], [300, 'gain weight']], perDay: ' kcal/day',
+    calcH: 'Calculated with the Mifflin-St Jeor formula × activity factor – an estimate, not medical advice. Children: rough guide values by age. Portions use the adult average; the shopping list uses the total.' });
   function typ(r) { return (r && r.mp) || 'f'; }
   function keepD(r) { return (r && r.k) || 0; }
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
@@ -64,7 +68,7 @@
   function age(d, c, s) { var o = d - cpos(c); if (o < 0 || (o === 0 && s !== 'a')) o += 7; return o; }
   var ING = []; (function () { var seen = {}; R.forEach(function (r) { r.i.forEach(function (i) { var k = i[0].toLowerCase(); if (!seen[k]) { seen[k] = 1; ING.push(i[0]); } }); }); ING.sort(function (a, b) { return a.localeCompare(b, 'de'); }); })();
 
-  function defaults() { return { adults: 2, kids: 0, days: [0, 1, 2, 3, 4], slots: ['f', 'm', 'a'], diets: [], plan: {}, meta: {}, fav: [], kcalA: 2000, kcalK: 1500, mode: 'prep', cook: [6, 2], have: [], q: '', tab: 'swipe', fslot: '', swipeSlot: 'm', queue: {}, shown: 12 }; }
+  function defaults() { return { adults: 2, kids: 0, days: [0, 1, 2, 3, 4], slots: ['f', 'm', 'a'], diets: [], plan: {}, meta: {}, fav: [], kcalA: 2000, kcalK: 1500, prof: { a: [], k: [] }, calc: false, mode: 'prep', cook: [6, 2], have: [], q: '', tab: 'swipe', fslot: '', swipeSlot: 'm', queue: {}, shown: 12 }; }
   var st = defaults();
   try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) Object.keys(st).forEach(function (k) { if (k in saved) st[k] = saved[k]; }); } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
@@ -80,6 +84,34 @@
   // Portionsgröße je Tag so skalieren, dass die geplanten Mahlzeiten zum Kalorienziel passen
   function dayKcal(d) { var k = 0; st.slots.forEach(function (s) { var r = byId[st.plan[cellKey(d, s)]]; if (r && r.kcal) k += r.kcal; }); return k; }
   function dayMult(d) { var k = dayKcal(d); return k ? Math.min(1.6, Math.max(0.6, (st.kcalA || 2000) / k)) : 1; }
+  // Kalorienbedarf aus Körperdaten (Mifflin-St Jeor × Aktivitätsfaktor); Kinder: grobe Richtwerte nach Alter
+  function adultNeed(p) { var bmr = 10 * p.w + 6.25 * p.h - 5 * p.age + (p.sx === 'm' ? 5 : -161); return Math.round((bmr * p.act + (p.goal || 0)) / 10) * 10; }
+  function kidNeed(p) { var a = p.age; return a <= 3 ? 1100 : a <= 6 ? 1400 : a <= 9 ? 1700 : a <= 12 ? 2000 : a <= 14 ? 2300 : 2500; }
+  function syncProf() {
+    var pa = st.prof.a, pk = st.prof.k;
+    while (pa.length < st.adults) pa.push(pa.length % 2 ? { sx: 'm', age: 35, h: 180, w: 80, act: 1.375, goal: 0 } : { sx: 'w', age: 35, h: 168, w: 65, act: 1.375, goal: 0 });
+    while (pk.length < st.kids) pk.push({ age: 8 });
+  }
+  function applyProf() {
+    syncProf(); var a = st.prof.a.slice(0, st.adults), k = st.prof.k.slice(0, st.kids);
+    if (a.length) st.kcalA = Math.max(1200, Math.min(4000, Math.round(a.reduce(function (s, p) { return s + adultNeed(p); }, 0) / a.length / 50) * 50));
+    if (k.length) st.kcalK = Math.max(800, Math.min(3000, Math.round(k.reduce(function (s, p) { return s + kidNeed(p); }, 0) / k.length / 50) * 50));
+  }
+  function calcForm() {
+    syncProf(); var sel = function (f, i, opts, v) { return '<select data-pf="' + f + '" data-i="' + i + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(v) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; };
+    var num = function (f, i, v, mn, mx, g) { return '<input type="number" inputmode="numeric" data-pf="' + f + '" data-i="' + i + '" data-g="' + g + '" value="' + v + '" min="' + mn + '" max="' + mx + '">'; };
+    var h = '<div class="sp-calc"><div class="sp-calc-grid">';
+    st.prof.a.slice(0, st.adults).forEach(function (p, i) {
+      h += '<fieldset><legend>' + T.pers + (i + 1) + ' · <strong data-res="a' + i + '">' + adultNeed(p).toLocaleString(T.loc) + T.perDay + '</strong></legend>' +
+        '<label>' + T.sexL + sel('sx', i, T.sexes, p.sx) + '</label><label>' + T.ageL + num('age', i, p.age, 16, 100, 'a') + '</label>' +
+        '<label>' + T.hL + num('h', i, p.h, 120, 220, 'a') + '</label><label>' + T.wL + num('w', i, p.w, 35, 250, 'a') + '</label>' +
+        '<label class="sp-wide">' + T.actL + sel('act', i, T.acts, p.act) + '</label><label class="sp-wide">' + T.goalL + sel('goal', i, T.goals, p.goal || 0) + '</label></fieldset>';
+    });
+    st.prof.k.slice(0, st.kids).forEach(function (p, i) {
+      h += '<fieldset><legend>' + T.kidL + (i + 1) + ' · <strong data-res="k' + i + '">' + kidNeed(p).toLocaleString(T.loc) + T.perDay + '</strong></legend><label>' + T.ageL + '<input type="number" inputmode="numeric" data-pf="age" data-i="' + i + '" data-g="k" value="' + p.age + '" min="1" max="17"></label></fieldset>';
+    });
+    return h + '</div><p class="sp-mini">' + T.calcH + '</p><button class="sp-btn sp-sec" data-calc="0">' + T.calcDone + '</button></div>';
+  }
   function who() { var p = []; if (st.adults) p.push(st.adults + (st.adults === 1 ? ' adult' : ' adults')); if (st.kids) p.push(st.kids + (st.kids === 1 ? ' child' : ' children')); return p.join(' and ') || '1 person'; }
   function isBasic(name) { var n = name.toLowerCase(); return BASICS.some(function (b) { return n.indexOf(b) >= 0; }); }
   function fmtQty(q, unit) {
@@ -276,24 +308,36 @@
     h += '<div><span class="sp-label">' + T.tgtL + '</span>' +
       '<div class="sp-counter"><span class="sp-cname">' + T.tgtA + '</span><button class="sp-round" data-kc="kcalA" data-v="-100" aria-label="' + T.tgtA + ' −100"' + (st.kcalA <= 1200 ? ' disabled' : '') + '>−</button><output class="sp-kc">' + st.kcalA.toLocaleString(T.loc) + '</output><button class="sp-round" data-kc="kcalA" data-v="100" aria-label="' + T.tgtA + ' +100"' + (st.kcalA >= 4000 ? ' disabled' : '') + '>+</button></div>' +
       (st.kids ? '<div class="sp-counter"><span class="sp-cname">' + T.tgtK + '</span><button class="sp-round" data-kc="kcalK" data-v="-100" aria-label="' + T.tgtK + ' −100"' + (st.kcalK <= 800 ? ' disabled' : '') + '>−</button><output class="sp-kc">' + st.kcalK.toLocaleString(T.loc) + '</output><button class="sp-round" data-kc="kcalK" data-v="100" aria-label="' + T.tgtK + ' +100"' + (st.kcalK >= 3000 ? ' disabled' : '') + '>+</button></div>' : '') +
-      '<p class="sp-mini">' + T.tgtH + '</p></div>';
+      '<p class="sp-mini">' + T.tgtH + '</p><button class="sp-chip sp-calcb" data-calc="' + (st.calc ? 0 : 1) + '" aria-expanded="' + !!st.calc + '">' + T.calcBtn + '</button></div>';
     h += '<div><span class="sp-label">Which days?</span><div class="sp-row">' + SHORT.map(function (s, i) { return '<button class="sp-chip" data-day="' + i + '" aria-pressed="' + (st.days.indexOf(i) >= 0) + '" aria-label="' + DAYS[i] + '">' + s + '</button>'; }).join('') + '</div></div>';
     h += '<div><span class="sp-label">Which meals?</span><div class="sp-row">' + SLOTS.map(function (s) { return '<button class="sp-chip" data-slot="' + s.id + '" aria-pressed="' + (st.slots.indexOf(s.id) >= 0) + '">' + s.l + '</button>'; }).join('') + '</div></div>';
     h += '<div><span class="sp-label">' + T.modeL + '</span><div class="sp-row">' + T.modes.map(function (m) { return '<button class="sp-chip" data-mode="' + m.id + '" aria-pressed="' + (st.mode === m.id) + '">' + m.l + '</button>'; }).join('') + '</div><p class="sp-mini">' + T.modes.filter(function (m) { return m.id === st.mode; })[0].h + '</p></div>';
     h += '<div><span class="sp-label">' + T.cookL + '</span><div class="sp-row">' + SHORT.map(function (s, i) { return '<button class="sp-chip" data-cook="' + i + '" aria-pressed="' + (st.cook.indexOf(i) >= 0) + '" aria-label="' + DAYS[i] + '">' + s + '</button>'; }).join('') + '</div><p class="sp-mini">' + T.cookH + '</p></div>';
     h += '<div><span class="sp-label">Diet</span><div class="sp-row">' + DIETS.map(function (d) { return '<button class="sp-chip" data-diet="' + d.id + '" aria-pressed="' + (st.diets.indexOf(d.id) >= 0) + '">' + d.l + '</button>'; }).join('') + '</div></div>';
+    if (st.calc) h += calcForm();
     $('sp-setup').innerHTML = h;
   }
   $('sp-setup').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.calc) { st.calc = b.dataset.calc === '1'; if (st.calc) applyProf(); save(); renderSetup(); renderPlan(); return; }
     if (b.dataset.kc) { var kk = b.dataset.kc; st[kk] = Math.max(kk === 'kcalA' ? 1200 : 800, Math.min(kk === 'kcalA' ? 4000 : 3000, st[kk] + +b.dataset.v)); save(); renderSetup(); renderPlan(); return; }
-    if (b.dataset.c) { st[b.dataset.c] = Math.max(0, Math.min(8, st[b.dataset.c] + +b.dataset.v)); }
+    if (b.dataset.c) { st[b.dataset.c] = Math.max(0, Math.min(8, st[b.dataset.c] + +b.dataset.v)); if (st.calc) applyProf(); }
     else if (b.dataset.day) { var d = +b.dataset.day, i = st.days.indexOf(d); if (i >= 0) { if (st.days.length > 1) st.days.splice(i, 1); } else st.days.push(d); }
     else if (b.dataset.slot) { var s = b.dataset.slot, j = st.slots.indexOf(s); if (j >= 0) { if (st.slots.length > 1) st.slots.splice(j, 1); } else st.slots.push(s); st.slots.sort(function (a, c) { return 'fmas'.indexOf(a) - 'fmas'.indexOf(c); }); if (st.slots.indexOf(st.swipeSlot) < 0) st.swipeSlot = st.slots[0]; }
     else if (b.dataset.mode) { st.mode = b.dataset.mode; }
     else if (b.dataset.cook) { var cd = +b.dataset.cook, ci = st.cook.indexOf(cd); if (ci >= 0) { if (st.cook.length > 1) st.cook.splice(ci, 1); } else st.cook.push(cd); }
     else if (b.dataset.diet) { var x = b.dataset.diet, k = st.diets.indexOf(x); if (k >= 0) st.diets.splice(k, 1); else st.diets.push(x); st.queue = {}; }
     save(); renderSetup(); renderTab(); if (Object.keys(st.meta).length) planWeek(true); else renderPlan();
+  });
+
+  $('sp-setup').addEventListener('change', function (e) {
+    var el = e.target; if (!el.dataset || !el.dataset.pf) return; var g = el.dataset.g === 'k' ? st.prof.k : st.prof.a, p = g[+el.dataset.i]; if (!p) return;
+    var f = el.dataset.pf, v = f === 'sx' ? el.value : +el.value;
+    if (f !== 'sx' && f !== 'act' && f !== 'goal') { var mn = +el.min, mx = +el.max; if (!isFinite(v) || !v) v = p[f]; v = Math.max(mn, Math.min(mx, v)); el.value = v; }
+    p[f] = v; applyProf(); save();
+    root.querySelectorAll('[data-res]').forEach(function (r) { var id = r.dataset.res, q = id[0] === 'k' ? st.prof.k[+id.slice(1)] : st.prof.a[+id.slice(1)]; if (q) r.textContent = (id[0] === 'k' ? kidNeed(q) : adultNeed(q)).toLocaleString(T.loc) + T.perDay; });
+    root.querySelectorAll('output.sp-kc').forEach(function (o, i) { o.textContent = (i === 0 ? st.kcalA : st.kcalK).toLocaleString(T.loc); });
+    renderPlan();
   });
 
   // ---------- 2a. Suche ----------
@@ -608,6 +652,9 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
+    '#sb-planer .sp-calcb{margin-top:8px}#sb-planer .sp-calc{grid-column:1/-1;background:var(--iv);border:1px solid var(--li);border-radius:14px;padding:16px}#sb-planer .sp-calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}' +
+    '#sb-planer .sp-calc fieldset{margin:0;border:1px solid var(--li);border-radius:12px;padding:10px 12px 12px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}#sb-planer .sp-calc legend{padding:0 4px;font-size:14px}#sb-planer .sp-calc legend strong{color:var(--g)}' +
+    '#sb-planer .sp-calc label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--mu)}#sb-planer .sp-calc .sp-wide{grid-column:1/-1}#sb-planer .sp-calc input,#sb-planer .sp-calc select{height:38px;border:1px solid var(--li);border-radius:9px;padding:0 8px;font:inherit;font-size:14px;color:var(--tx);background:#fff;width:100%}#sb-planer .sp-calc .sp-btn{margin-top:12px}' +
     '#sb-planer tr.sp-sumrow td.sp-off strong{color:#B45309}#sb-planer tr.sp-sumrow small{font-size:11.5px;color:var(--mu)}#sb-planer output.sp-kc{min-width:56px}' +
     '#sb-planer tr.sp-sumrow td,#sb-planer tr.sp-sumrow th{height:auto!important;min-height:0!important;vertical-align:middle!important;padding-top:7px!important;padding-bottom:7px!important}#sb-planer tr.sp-sumrow td{background:#fff;border-top:2px solid var(--tl);font-size:13px;color:var(--mu);text-align:center;padding:8px 4px}#sb-planer tr.sp-sumrow td strong{color:var(--tx);font-size:14px}#sb-planer tr.sp-sumrow th{font-size:13px}#sb-planer .sp-info{cursor:help;color:var(--mu)}' +
     '#sb-planer .sp-board{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:14px;align-items:start}#sb-planer .sp-dock{position:sticky;top:12px;background:#fff;border:1px solid var(--li);border-radius:14px;padding:12px;max-height:80vh;overflow:auto}#sb-planer .sp-dock h3{margin:0 0 8px;font-size:15px}' +
