@@ -49,6 +49,7 @@
     tagP: 'from ', tagF: 'fresh', tagQ: 'quick', cookTitle: 'Your cooking plan', cookOn: 'cooking', fresh: 'Fresh', meals: ' meals', meal: ' meal',
     sumA: 'You cook ', sumB: '× for ', sumC: ' main meals', freeze: 'freezes well', moreCook: 'Tip: add another cooking day – otherwise some portions would be older than they keep.',
     planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', kcalL: 'kcal per adult', goal: 'Target ', portion: 'Portion ', offH: 'More than 10 % off target – portions are limited to 60–160 %. Add another dish or a snack.', tgtL: 'Daily calorie target', tgtA: 'Adults', tgtK: 'Children', tgtH: 'Rough guide: women approx. 1,900, men approx. 2,400 kcal, children 1,200–2,000 kcal depending on age. Portions are scaled per day – shopping list and cost follow.', costL: 'Cost approx.', costH: 'Estimated grocery cost for your household, proportional to recipe amounts (average German supermarket prices, excluding basics like salt).', weekC: ' · approx. ', weekC2: ' € per week', loc: 'en-GB', dockT: 'Drag into your plan', dockHint: 'Drop a dish on a slot = replace · drag slots onto each other = swap · drag a slot onto this list = remove. On mobile: tap ⠿, then tap the target.', dockNone: 'Save dishes (♥) and they show up here.', swapped: 'Swapped', placed: ' added', removedT: 'Removed from plan', tooOld: 'kept longer than recommended', grip: 'Move', dropOut: 'Drop here to remove', mpP: 'Good for meal prep', mpQ: 'quick to make fresh', mpF: 'best fresh', keepT: ' days in the fridge', autoT: 'estimated automatically', onlyMix: 'fresh – in Mixed mode', fill: 'Empty slots are filled with suitable dishes.' };
+  Object.assign(T, { pcs: 'pcs' });
   Object.assign(T, { shopL: 'Download shopping list', shopH: 'All ingredients of the week combined – with amounts for your household and calorie target.', shopPdf: 'Shopping list as PDF', shopXls: 'Shopping list as Excel',
     xHead: ['Done', 'Amount', 'Unit', 'Ingredient', 'For', 'Note'], xBasic: 'Basics', xShop: 'Shopping list', xPlan: 'Meal plan', xFile: 'meal-prep-shopping-list.xlsx', pFile: 'meal-prep-shopping-list.pdf', xDone: 'Done – the shopping list was downloaded as an Excel file.', pDone: 'Done – the shopping list was downloaded as a PDF.' });
   Object.assign(T, { calcBtn: 'Calculate from body data', calcDone: 'Done', pers: 'Person ', kidL: 'Child ', sexL: 'Sex', sexes: [['w', 'female'], ['m', 'male']], ageL: 'Age', hL: 'Height (cm)', wL: 'Weight (kg)', actL: 'Activity',
@@ -116,7 +117,11 @@
   }
   function who() { var p = []; if (st.adults) p.push(st.adults + (st.adults === 1 ? ' adult' : ' adults')); if (st.kids) p.push(st.kids + (st.kids === 1 ? ' child' : ' children')); return p.join(' and ') || '1 person'; }
   function isBasic(name) { var n = name.toLowerCase(); return BASICS.some(function (b) { return n.indexOf(b) >= 0; }); }
+  // Eier werden in den Rezeptdaten in Gramm geführt – für Listen in Stück umrechnen (ca. 60 g pro Ei)
+  var EGG = /^(eier|ei|eggs?)( \(|$)/i, EGG_G = 60;
+  function ingQ(name, q, u) { return EGG.test(name) && u === 'g' ? [q / EGG_G, T.pcs] : [q, u]; }
   function fmtQty(q, unit) {
+    if (unit === T.pcs) return Math.max(1, Math.ceil(q)) + ' ' + unit;
     if (unit === 'g' || unit === 'ml') {
       var v = q < 20 ? Math.ceil(q) : Math.ceil(q / 10) * 10;
       if (v >= 1000) return (Math.round(v / 100) / 10).toString().replace('.', ',') + (unit === 'g' ? ' kg' : ' l');
@@ -523,7 +528,7 @@
     $('sp-dialog').innerHTML = '<button class="sp-close" id="sp-close" aria-label="Close">×</button>' + imgTag(r) + '<div class="sp-dbody">' +
       (r.src === 'blog' ? '<span class="sp-blog">From the blog</span>' : '') + '<h2 id="sp-mt">' + esc(r.n) + '</h2><span class="sp-meta">' + esc(meta.join(' · ')) + '</span>' +
       '<p class="sp-mpinfo"><span class="sp-tag ' + (typ(r) === 'p' ? 'sp-tp' : typ(r) === 'f' ? 'sp-tf' : 'sp-tq') + '">' + (typ(r) === 'p' ? T.mpP : typ(r) === 'f' ? T.mpF : T.mpQ) + '</span>' + (typ(r) === 'p' && r.k ? ' ' + r.k + T.keepT : '') + (r.fz ? ' · ❄ ' + T.freeze : '') + (r.mpAuto ? ' · <em>' + T.autoT + '</em>' : '') + '</p>' +
-      '<h3>Ingredients for ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { return '<li><strong>' + esc(fmtQty(i[1] * f, i[2])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
+      '<h3>Ingredients for ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { var iq = ingQ(i[0], i[1] * f, i[2]); return '<li><strong>' + esc(fmtQty(iq[0], iq[1])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
       (r.z ? '<h3>Method</h3><p>' + esc(r.z) + '</p>' : '') +
       (r.url ? '<p><a href="' + esc(r.url) + '">Full recipe on the blog (German) →</a></p>' : '') +
       '<div class="sp-add"><button data-fav="' + r.id + '" aria-pressed="' + isFav(r.id) + '" class="sp-favb">' + (isFav(r.id) ? T.favOn : T.favAdd) + '</button>' + r.s.map(function (s) { return '<button data-add="' + r.id + '" data-s="' + s + '">+ ' + slot(s).l + '</button>'; }).join('') + '</div></div>';
@@ -559,7 +564,7 @@
   function shopping() {
     var f = factor(), items = {};
     days().forEach(function (d) { st.slots.forEach(function (s) { var r = byId[st.plan[cellKey(d, s)]]; if (!r) return;
-      var fd = f * dayMult(d); r.i.forEach(function (i) { var k = i[0] + '|' + i[2]; if (!items[k]) items[k] = { n: i[0], u: i[2], q: 0, w: [] }; items[k].q += i[1] * fd; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
+      var fd = f * dayMult(d); r.i.forEach(function (i) { var iq = ingQ(i[0], i[1] * fd, i[2]), k = i[0] + '|' + iq[1]; if (!items[k]) items[k] = { n: i[0], u: iq[1], q: 0, w: [] }; items[k].q += iq[0]; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
     return Object.keys(items).map(function (k) { return items[k]; }).sort(function (a, b) { return isBasic(a.n) - isBasic(b.n) || a.n.localeCompare(b.n, 'de'); });
   }
   function buildPdf(jsPDF, fonts, onlyShop) {
@@ -633,7 +638,7 @@
         var meta = r.s.map(function (s) { return slot(s).s; }).join(' · ') + (r.t ? ' · ' + r.t + ' min' : '') + (r.src === 'blog' ? ' · from the blog' : '');
         font('Inter', 'semibold', 9.5); color(C.accent); doc.text(meta.toUpperCase(), 64, y + 42);
         var iy = y + 62, half = (W() - 128) / 2;
-        r.i.forEach(function (i, k) { var cx = 64 + (k % 2) * half, cy = iy + Math.floor(k / 2) * 17; font('Inter', 'bold', 11); color(C.text); doc.text(fmtQty(i[1] * f, i[2]), cx, cy); font('Inter', 'normal', 11); doc.text(doc.splitTextToSize(i[0], half - 80)[0], cx + 66, cy); });
+        r.i.forEach(function (i, k) { var cx = 64 + (k % 2) * half, cy = iy + Math.floor(k / 2) * 17; font('Inter', 'bold', 11); color(C.text); var iq = ingQ(i[0], i[1] * f, i[2]); doc.text(fmtQty(iq[0], iq[1]), cx, cy); font('Inter', 'normal', 11); doc.text(doc.splitTextToSize(i[0], half - 80)[0], cx + 66, cy); });
         var zy = iy + ingRows * 17 + 8;
         if (zl.length) { font('Inter', 'semibold', 10.5); color(C.green); doc.text('Method', 64, zy); font('Inter', 'normal', 11); color(C.text); doc.text(zl, 64, zy + 16, { lineHeightFactor: 1.32 }); zy += 20 + zl.length * 14.5; }
         if (r.url) { font('Inter', 'semibold', 10); color(C.accent); doc.textWithLink('Full recipe on meal-prep.tech', 64, zy + 4, { url: r.url }); }
@@ -667,7 +672,7 @@
   }
   function buildXlsx() {
     var items = shopping(), ds = days();
-    var shop = [T.xHead].concat(items.map(function (it) { var q = Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
+    var shop = [T.xHead].concat(items.map(function (it) { var q = it.u === T.pcs ? Math.max(1, Math.ceil(it.q)) : Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
     var plan = [[''].concat(ds.map(function (d) { return DAYS[d]; }))].concat(slots().map(function (s) { return [s.l].concat(ds.map(function (d) { var r = byId[st.plan[cellKey(d, s.id)]]; return r ? r.n : ''; })); }));
     plan.push([T.kcalL].concat(ds.map(function (d) { return Math.round(dayKcal(d) * dayMult(d)); })));
     var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xesc(T.xShop) + '" sheetId="1" r:id="rId1"/><sheet name="' + xesc(T.xPlan) + '" sheetId="2" r:id="rId2"/></sheets></workbook>';

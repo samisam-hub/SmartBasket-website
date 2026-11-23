@@ -49,6 +49,7 @@
     tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
     planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', kcalL: 'kcal pro Erwachsenem', goal: 'Ziel ', portion: 'Portion ', offH: 'Weicht über 10 % vom Ziel ab – Portionen sind auf 60–160 % begrenzt. Ein weiteres Gericht oder einen Snack einplanen.', tgtL: 'Kalorienziel pro Tag', tgtA: 'Erwachsene', tgtK: 'Kinder', tgtH: 'Grobe Orientierung: Frauen ca. 1.900, Männer ca. 2.400 kcal, Kinder je nach Alter 1.200–2.000 kcal. Die Portionen werden pro Tag passend skaliert – Einkaufsliste und Kosten rechnen mit.', costL: 'Kosten ca.', costH: 'Geschätzte Lebensmittelkosten für deinen Haushalt, anteilig nach Rezeptmenge (Durchschnittspreise, ohne Basics wie Salz).', weekC: ' · ca. ', weekC2: ' € pro Woche', loc: 'de-DE', dockT: 'Zum Einplanen ziehen', dockHint: 'Gericht auf ein Feld ziehen = ersetzen · Felder aufeinander ziehen = tauschen · Feld auf die Leiste ziehen = entfernen. Auf dem Handy: ⠿ antippen, dann Ziel antippen.', dockNone: 'Merk dir Gerichte (♥), dann erscheinen sie hier.', swapped: 'Getauscht', placed: ' eingesetzt', removedT: 'Aus dem Plan genommen', tooOld: 'länger als haltbar', grip: 'Verschieben', dropOut: 'Hierher ziehen zum Entfernen', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+  Object.assign(T, { pcs: 'Stk.' });
   Object.assign(T, { shopL: 'Einkaufsliste herunterladen', shopH: 'Alle Zutaten der Woche zusammengefasst – mit den Mengen für deinen Haushalt und dein Kalorienziel.', shopPdf: 'Einkaufsliste als PDF', shopXls: 'Einkaufsliste als Excel',
     xHead: ['Erledigt', 'Menge', 'Einheit', 'Zutat', 'Für', 'Hinweis'], xBasic: 'Basics', xShop: 'Einkaufsliste', xPlan: 'Wochenplan', xFile: 'meal-prep-einkaufsliste.xlsx', pFile: 'meal-prep-einkaufsliste.pdf', xDone: 'Fertig – die Einkaufsliste wurde als Excel-Datei heruntergeladen.', pDone: 'Fertig – die Einkaufsliste wurde als PDF heruntergeladen.' });
   Object.assign(T, { calcBtn: 'Aus Körperdaten berechnen', calcDone: 'Fertig', pers: 'Person ', kidL: 'Kind ', sexL: 'Geschlecht', sexes: [['w', 'weiblich'], ['m', 'männlich']], ageL: 'Alter', hL: 'Größe (cm)', wL: 'Gewicht (kg)', actL: 'Aktivität',
@@ -116,7 +117,11 @@
   }
   function who() { var p = []; if (st.adults) p.push(st.adults + (st.adults === 1 ? ' erwachsene Person' : ' Erwachsene')); if (st.kids) p.push(st.kids + (st.kids === 1 ? ' Kind' : ' Kinder')); return p.join(' und ') || '1 Person'; }
   function isBasic(name) { var n = name.toLowerCase(); return BASICS.some(function (b) { return n.indexOf(b) >= 0; }); }
+  // Eier werden in den Rezeptdaten in Gramm geführt – für Listen in Stück umrechnen (ca. 60 g pro Ei)
+  var EGG = /^(eier|ei|eggs?)( \(|$)/i, EGG_G = 60;
+  function ingQ(name, q, u) { return EGG.test(name) && u === 'g' ? [q / EGG_G, T.pcs] : [q, u]; }
   function fmtQty(q, unit) {
+    if (unit === T.pcs) return Math.max(1, Math.ceil(q)) + ' ' + unit;
     if (unit === 'g' || unit === 'ml') {
       var v = q < 20 ? Math.ceil(q) : Math.ceil(q / 10) * 10;
       if (v >= 1000) return (Math.round(v / 100) / 10).toString().replace('.', ',') + (unit === 'g' ? ' kg' : ' l');
@@ -523,7 +528,7 @@
     $('sp-dialog').innerHTML = '<button class="sp-close" id="sp-close" aria-label="Schließen">×</button>' + imgTag(r) + '<div class="sp-dbody">' +
       (r.src === 'blog' ? '<span class="sp-blog">Aus dem Blog</span>' : '') + '<h2 id="sp-mt">' + esc(r.n) + '</h2><span class="sp-meta">' + esc(meta.join(' · ')) + '</span>' +
       '<p class="sp-mpinfo"><span class="sp-tag ' + (typ(r) === 'p' ? 'sp-tp' : typ(r) === 'f' ? 'sp-tf' : 'sp-tq') + '">' + (typ(r) === 'p' ? T.mpP : typ(r) === 'f' ? T.mpF : T.mpQ) + '</span>' + (typ(r) === 'p' && r.k ? ' ' + r.k + T.keepT : '') + (r.fz ? ' · ❄ ' + T.freeze : '') + (r.mpAuto ? ' · <em>' + T.autoT + '</em>' : '') + '</p>' +
-      '<h3>Zutaten für ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { return '<li><strong>' + esc(fmtQty(i[1] * f, i[2])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
+      '<h3>Zutaten für ' + esc(who()) + '</h3><ul>' + r.i.map(function (i) { var iq = ingQ(i[0], i[1] * f, i[2]); return '<li><strong>' + esc(fmtQty(iq[0], iq[1])) + '</strong> ' + esc(i[0]) + '</li>'; }).join('') + '</ul>' +
       (r.z ? '<h3>Zubereitung</h3><p>' + esc(r.z) + '</p>' : '') +
       (r.url ? '<p><a href="' + esc(r.url) + '">Zum ausführlichen Rezept im Blog →</a></p>' : '') +
       '<div class="sp-add"><button data-fav="' + r.id + '" aria-pressed="' + isFav(r.id) + '" class="sp-favb">' + (isFav(r.id) ? T.favOn : T.favAdd) + '</button>' + r.s.map(function (s) { return '<button data-add="' + r.id + '" data-s="' + s + '">+ ' + slot(s).l + '</button>'; }).join('') + '</div></div>';
@@ -559,7 +564,7 @@
   function shopping() {
     var f = factor(), items = {};
     days().forEach(function (d) { st.slots.forEach(function (s) { var r = byId[st.plan[cellKey(d, s)]]; if (!r) return;
-      var fd = f * dayMult(d); r.i.forEach(function (i) { var k = i[0] + '|' + i[2]; if (!items[k]) items[k] = { n: i[0], u: i[2], q: 0, w: [] }; items[k].q += i[1] * fd; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
+      var fd = f * dayMult(d); r.i.forEach(function (i) { var iq = ingQ(i[0], i[1] * fd, i[2]), k = i[0] + '|' + iq[1]; if (!items[k]) items[k] = { n: i[0], u: iq[1], q: 0, w: [] }; items[k].q += iq[0]; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
     return Object.keys(items).map(function (k) { return items[k]; }).sort(function (a, b) { return isBasic(a.n) - isBasic(b.n) || a.n.localeCompare(b.n, 'de'); });
   }
   function buildPdf(jsPDF, fonts, onlyShop) {
@@ -633,7 +638,7 @@
         var meta = r.s.map(function (s) { return slot(s).s; }).join(' · ') + (r.t ? ' · ' + r.t + ' Min.' : '') + (r.src === 'blog' ? ' · aus dem Blog' : '');
         font('Inter', 'semibold', 9.5); color(C.accent); doc.text(meta.toUpperCase(), 64, y + 42);
         var iy = y + 62, half = (W() - 128) / 2;
-        r.i.forEach(function (i, k) { var cx = 64 + (k % 2) * half, cy = iy + Math.floor(k / 2) * 17; font('Inter', 'bold', 11); color(C.text); doc.text(fmtQty(i[1] * f, i[2]), cx, cy); font('Inter', 'normal', 11); doc.text(doc.splitTextToSize(i[0], half - 80)[0], cx + 66, cy); });
+        r.i.forEach(function (i, k) { var cx = 64 + (k % 2) * half, cy = iy + Math.floor(k / 2) * 17; font('Inter', 'bold', 11); color(C.text); var iq = ingQ(i[0], i[1] * f, i[2]); doc.text(fmtQty(iq[0], iq[1]), cx, cy); font('Inter', 'normal', 11); doc.text(doc.splitTextToSize(i[0], half - 80)[0], cx + 66, cy); });
         var zy = iy + ingRows * 17 + 8;
         if (zl.length) { font('Inter', 'semibold', 10.5); color(C.green); doc.text('Zubereitung', 64, zy); font('Inter', 'normal', 11); color(C.text); doc.text(zl, 64, zy + 16, { lineHeightFactor: 1.32 }); zy += 20 + zl.length * 14.5; }
         if (r.url) { font('Inter', 'semibold', 10); color(C.accent); doc.textWithLink('Ausführliches Rezept auf meal-prep.tech', 64, zy + 4, { url: r.url }); }
@@ -667,7 +672,7 @@
   }
   function buildXlsx() {
     var items = shopping(), ds = days();
-    var shop = [T.xHead].concat(items.map(function (it) { var q = Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
+    var shop = [T.xHead].concat(items.map(function (it) { var q = it.u === T.pcs ? Math.max(1, Math.ceil(it.q)) : Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
     var plan = [[''].concat(ds.map(function (d) { return DAYS[d]; }))].concat(slots().map(function (s) { return [s.l].concat(ds.map(function (d) { var r = byId[st.plan[cellKey(d, s.id)]]; return r ? r.n : ''; })); }));
     plan.push([T.kcalL].concat(ds.map(function (d) { return Math.round(dayKcal(d) * dayMult(d)); })));
     var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xesc(T.xShop) + '" sheetId="1" r:id="rId1"/><sheet name="' + xesc(T.xPlan) + '" sheetId="2" r:id="rId2"/></sheets></workbook>';
