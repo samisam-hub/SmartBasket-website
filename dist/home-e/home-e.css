@@ -92,7 +92,7 @@
 .sbe-rtabs{display:flex;flex-wrap:wrap;gap:8px}
 .sbe .sbe-rtabs button{min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;cursor:pointer;background:#fff;color:var(--p);border:1.5px solid #E2DBD1}
 .sbe .sbe-rtabs button[aria-selected=true]{background:var(--p);color:#fff;border-color:var(--p)}
-.sbe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.sbe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
 .sbe-rc{background:#fff;border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
 .sbe-rc .im{position:relative}.sbe-rc img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
 .sbe .sbe-rc .new{text-transform:uppercase;letter-spacing:.06em;position:absolute;top:14px;left:14px;background:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
