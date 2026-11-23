@@ -30,7 +30,9 @@
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
   function setFav(id, on) { var i = st.fav.indexOf(id); if (on && i < 0) st.fav.push(id); if (!on && i >= 0) st.fav.splice(i, 1); save(); }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-  function ingSet(r) { var o = {}; r.i.forEach(function (i) { if (!isBasic(i[0])) o[i[0].toLowerCase()] = 1; }); return o; }
+  var STAPLE = /nudel|spaghetti|pasta|reis|rice|kartoffel|potato|brot|bread|toast|tortilla|mehl|flour|zwiebel|onion|knoblauch|garlic|petersilie|parsley|pfeffer|pepper|salz|salt|öl|oil|butter|milch|milk/i;
+  function ingSet(r) { var o = {}; r.i.forEach(function (i) { if (!isBasic(i[0]) && !STAPLE.test(i[0])) o[i[0].toLowerCase()] = 1; }); return o; }
+  function base(r) { return (r.n.split(/[\s-]/)[0] || '').toLowerCase(); }
   function overlap(r, pool) { var a = ingSet(r), n = 0; Object.keys(pool).forEach(function (k) { if (a[k]) n++; }); return n; }
   // Tage seit dem Kochtag c bis zum Tag d (0 = am Kochtag selbst)
   function since(d, c) { return ((d - c) % 7 + 7) % 7; }
@@ -86,11 +88,12 @@
     function src(d, s) { // zuständiger Kochtag: Mittag nur aus vorher Gekochtem, Abend auch frisch vom selben Tag
       var best = null, bo = 99; cooks.forEach(function (c) { var o = age(d, c, s); if (o < bo) { bo = o; best = c; } }); return { c: best, o: bo };
     }
-    function note(r) { Object.keys(ingSet(r)).forEach(function (k) { chosenIng[k] = 1; }); }
+    var chosenBase = {};
+    function note(r) { Object.keys(ingSet(r)).forEach(function (k) { chosenIng[k] = 1; }); chosenBase[base(r)] = 1; }
     function pool(slotIds, types) { return R.filter(function (r) { return allowed(r) && types.indexOf(typ(r)) >= 0 && r.s.some(function (x) { return slotIds.indexOf(x) >= 0; }); }); }
     function ranked(list) { // Favoriten zuerst (in Reihenfolge), dann passende Zutaten, dann Zufall
       var fav = st.fav.map(function (id) { return byId[id]; }).filter(function (r) { return r && list.indexOf(r) >= 0; });
-      var rest = shuffle(list.filter(function (r) { return fav.indexOf(r) < 0; })).sort(function (a, b) { return ((a.t || 30) > 90) - ((b.t || 30) > 90) || overlap(b, chosenIng) - overlap(a, chosenIng) || matches(b).length - matches(a).length; });
+      var rest = shuffle(list.filter(function (r) { return fav.indexOf(r) < 0; })).sort(function (a, b) { return ((a.t || 30) > 90) - ((b.t || 30) > 90) || (chosenBase[base(a)] ? 1 : 0) - (chosenBase[base(b)] ? 1 : 0) || overlap(b, chosenIng) - overlap(a, chosenIng) || matches(b).length - matches(a).length; });
       return fav.concat(rest);
     }
     function byFresh(list) { var f = list.filter(function (r) { return isFav(r.id); }).sort(function (a, b) { return (typ(a) === 'f' ? 0 : 1) - (typ(b) === 'f' ? 0 : 1) || st.fav.indexOf(a.id) - st.fav.indexOf(b.id); });
@@ -111,12 +114,18 @@
       var fit = cells.filter(function (x) { return x.o <= 4; }).length || 1, need = Math.max(1, Math.ceil(fit / 3)), cap = Math.ceil(fit / need), maxO = Math.min(4, cells[cells.length - 1].o);
       var cand = ranked(prepPool.filter(function (r) { return !used[r.id]; })), picks = [];
       if (maxO > 3) cand = cand.filter(function (r) { return isFav(r.id); }).concat(cand.filter(function (r) { return !isFav(r.id) && keepD(r) >= 4; }), cand.filter(function (r) { return !isFav(r.id) && keepD(r) < 4; }));
-      for (var i = 0; i < cand.length && picks.length < need; i++) { if (keepD(cand[i]) >= Math.min(maxO, 2)) { picks.push({ r: cand[i], left: cap }); used[cand[i].id] = 1; note(cand[i]); } }
+      for (var i = 0; i < cand.length && picks.length < need; i++) { if (keepD(cand[i]) >= Math.min(maxO, 2)) { var within = cells.filter(function (x) { return x.o <= keepD(cand[i]); }).length; picks.push({ r: cand[i], left: keepD(cand[i]) < maxO ? Math.min(cap, Math.max(1, Math.floor(within / 2))) : cap }); used[cand[i].id] = 1; note(cand[i]); } }
+      var tot = picks.reduce(function (a, p) { return a + p.left; }, 0);
+      for (var j = 0; tot < fit && j < cand.length; j++) { if (used[cand[j].id] || keepD(cand[j]) < maxO) continue; picks.push({ r: cand[j], left: Math.min(cap, fit - tot) }); tot += picks[picks.length - 1].left; used[cand[j].id] = 1; note(cand[j]); }
       picks.sort(function (a, b) { return keepD(a.r) - keepD(b.r); }); // Verderbliches zuerst essen
       cells.forEach(function (cell) {
         var sameDay = cells.filter(function (x) { return x.d === cell.d && plan[x.k]; }).map(function (x) { return plan[x.k]; });
         var ok = picks.filter(function (p) { return p.left > 0 && keepD(p.r) >= cell.o && sameDay.indexOf(p.r.id) < 0; });
         if (!ok.length) ok = picks.filter(function (p) { return p.left > 0 && keepD(p.r) >= cell.o; });
+        // Abwechseln: nicht dasselbe wie gestern zur gleichen Mahlzeit – außer eine Portion wäre sonst zu alt
+        var pi = ds.indexOf(cell.d), yest = pi > 0 ? plan[cellKey(ds[pi - 1], cell.s)] : null;
+        ok.sort(function (a, b) { var ua = keepD(a.r) - cell.o <= 0 && a.left > 0, ub = keepD(b.r) - cell.o <= 0 && b.left > 0;
+          return (ub - ua) || ((a.r.id === yest) - (b.r.id === yest)) || (b.left - a.left) || (keepD(a.r) - keepD(b.r)); });
         if (ok.length) { var p = ok[0]; p.left--; plan[cell.k] = p.r.id; meta[cell.k] = { t: 'p', c: c }; return; }
         warn = warn || picks.some(function (p) { return p.left > 0; });
         var fb = byFresh(pool([cell.s], ['q', 'f']).filter(function (r) { return r.s.indexOf(cell.s) >= 0 && !used[r.id]; }))[0];
