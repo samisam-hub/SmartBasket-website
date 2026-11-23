@@ -49,6 +49,8 @@
     tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
     planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', kcalL: 'kcal pro Erwachsenem', goal: 'Ziel ', portion: 'Portion ', offH: 'Weicht über 10 % vom Ziel ab – Portionen sind auf 60–160 % begrenzt. Ein weiteres Gericht oder einen Snack einplanen.', tgtL: 'Kalorienziel pro Tag', tgtA: 'Erwachsene', tgtK: 'Kinder', tgtH: 'Grobe Orientierung: Frauen ca. 1.900, Männer ca. 2.400 kcal, Kinder je nach Alter 1.200–2.000 kcal. Die Portionen werden pro Tag passend skaliert – Einkaufsliste und Kosten rechnen mit.', costL: 'Kosten ca.', costH: 'Geschätzte Lebensmittelkosten für deinen Haushalt, anteilig nach Rezeptmenge (Durchschnittspreise, ohne Basics wie Salz).', weekC: ' · ca. ', weekC2: ' € pro Woche', loc: 'de-DE', dockT: 'Zum Einplanen ziehen', dockHint: 'Gericht auf ein Feld ziehen = ersetzen · Felder aufeinander ziehen = tauschen · Feld auf die Leiste ziehen = entfernen. Auf dem Handy: ⠿ antippen, dann Ziel antippen.', dockNone: 'Merk dir Gerichte (♥), dann erscheinen sie hier.', swapped: 'Getauscht', placed: ' eingesetzt', removedT: 'Aus dem Plan genommen', tooOld: 'länger als haltbar', grip: 'Verschieben', dropOut: 'Hierher ziehen zum Entfernen', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+  Object.assign(T, { shopL: 'Einkaufsliste herunterladen', shopH: 'Alle Zutaten der Woche zusammengefasst – mit den Mengen für deinen Haushalt und dein Kalorienziel.', shopPdf: 'Einkaufsliste als PDF', shopXls: 'Einkaufsliste als Excel',
+    xHead: ['Erledigt', 'Menge', 'Einheit', 'Zutat', 'Für', 'Hinweis'], xBasic: 'Basics', xShop: 'Einkaufsliste', xPlan: 'Wochenplan', xFile: 'meal-prep-einkaufsliste.xlsx', pFile: 'meal-prep-einkaufsliste.pdf', xDone: 'Fertig – die Einkaufsliste wurde als Excel-Datei heruntergeladen.', pDone: 'Fertig – die Einkaufsliste wurde als PDF heruntergeladen.' });
   Object.assign(T, { calcBtn: 'Aus Körperdaten berechnen', calcDone: 'Fertig', pers: 'Person ', kidL: 'Kind ', sexL: 'Geschlecht', sexes: [['w', 'weiblich'], ['m', 'männlich']], ageL: 'Alter', hL: 'Größe (cm)', wL: 'Gewicht (kg)', actL: 'Aktivität',
     acts: [[1.2, 'überwiegend sitzend'], [1.375, 'leicht aktiv (1–3× Sport/Woche)'], [1.55, 'mäßig aktiv (3–5× Sport/Woche)'], [1.725, 'sehr aktiv (6–7× Sport/Woche)'], [1.9, 'körperliche Arbeit + Sport']],
     goalL: 'Ziel', goals: [[0, 'Gewicht halten'], [-400, 'leicht abnehmen'], [300, 'zunehmen']], perDay: ' kcal/Tag',
@@ -293,7 +295,7 @@
     '<section class="sp-card" aria-labelledby="sp-h3" id="sp-plan"><div class="sp-plan-head"><div><div class="sp-step" style="margin-bottom:6px"><span class="sp-nr">3</span><h2 id="sp-h3">Deine Wochenplan-Vorlage</h2></div><p class="sp-status" id="sp-count"></p></div></div>' +
     '<div class="sp-favs" id="sp-favs"></div><div class="sp-plan-go"><button class="sp-btn" id="sp-go">' + T.planBtn + '</button></div><div class="sp-cook" id="sp-cook"></div>' +
     '<div class="sp-board"><div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div><aside class="sp-dock" id="sp-dock" aria-label="Favoriten"></aside></div>' +
-    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Wochenplan als PDF herunterladen</button><button class="sp-btn sp-sec" id="sp-clear">Plan leeren</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
+    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Wochenplan als PDF herunterladen</button><button class="sp-btn sp-sec" id="sp-clear">Plan leeren</button></div><div class="sp-shopdl"><span class="sp-label">' + T.shopL + '</span><p class="sp-mini">' + T.shopH + '</p><div class="sp-row"><button class="sp-btn sp-sec" id="sp-shop-pdf">' + T.shopPdf + '</button><button class="sp-btn sp-sec" id="sp-shop-xlsx">' + T.shopXls + '</button></div><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
     '<aside class="sp-teaser"><div><h3>Noch einfacher in der App</h3><p>Prepello plant die Woche für deinen Haushalt und rechnet die Einkaufsliste in ganze Packungen um.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Kostenlos Beta testen ↗</a></aside>' +
     '<footer class="sp-foot"><span>© 2026 Prepello</span><a href="/">Startseite</a><a href="/category/rezepte/">Rezepte</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
     '</div><div class="sp-modal" id="sp-modal" hidden><div class="sp-dialog" role="dialog" aria-modal="true" aria-labelledby="sp-mt" id="sp-dialog"></div></div><div class="sp-toast" role="status" aria-live="polite"></div>';
@@ -560,8 +562,8 @@
       var fd = f * dayMult(d); r.i.forEach(function (i) { var k = i[0] + '|' + i[2]; if (!items[k]) items[k] = { n: i[0], u: i[2], q: 0, w: [] }; items[k].q += i[1] * fd; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
     return Object.keys(items).map(function (k) { return items[k]; }).sort(function (a, b) { return isBasic(a.n) - isBasic(b.n) || a.n.localeCompare(b.n, 'de'); });
   }
-  function buildPdf(jsPDF, fonts) {
-    var doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4', compress: true });
+  function buildPdf(jsPDF, fonts, onlyShop) {
+    var doc = new jsPDF({ orientation: onlyShop ? 'portrait' : 'landscape', unit: 'pt', format: 'a4', compress: true });
     fonts.forEach(function (f) { doc.addFileToVFS(f.file, f.d); doc.addFont(f.file, f.n, f.s); });
     doc.setProperties({ title: 'Mein Meal Prep Wochenplan', author: 'meal-prep.tech', creator: 'meal-prep.tech' });
     var page = 0;
@@ -576,6 +578,7 @@
       var lines = [], cur = ''; tokens.forEach(function (tk) { var nx = cur ? cur + (tk.sp ? ' ' : '') + tk.t : tk.t; if (cur && doc.getTextWidth(nx) > maxW) { lines.push(cur); cur = tk.t; } else cur = nx; }); if (cur) lines.push(cur); return lines;
     }
     // Seite 1: Wochenplan
+    if (!onlyShop) {
     bg(); var ds = days(), ss = slots();
     title('Mein Meal Prep Wochenplan', 'für ' + who() + (st.diets.length ? '  ·  ' + DIETS.filter(function (d) { return st.diets.indexOf(d.id) >= 0; }).map(function (d) { return d.l.toLowerCase(); }).join(', ') : ''), 36);
     font('Inter', 'normal', 11.5); color(C.text); doc.text('Woche vom ____________ bis ____________', W() - 36, 60, { align: 'right' }); var cpp = cookPlan(); doc.text('Vorkochen am: ' + (Object.keys(cpp.by).length ? Object.keys(cpp.by).sort(function (a, b) { return cpos(+a) - cpos(+b); }).map(function (c) { return DAYS[c]; }).join(', ') : '____________'), W() - 36, 80, { align: 'right' });
@@ -602,8 +605,9 @@
       ny = H(); }
     if (ny < H() - 40) { font('Playfair', 'bold', 13); color(C.deep); doc.text('Notizen', 36, ny); } stroke([201, 214, 205]); doc.setLineWidth(0.5); if (ny + 18 < H() - 34) doc.line(36, ny + 18, W() - 36, ny + 18);
     footer();
+    }
     // Seite 2: Einkaufsliste
-    doc.addPage('a4', 'portrait'); bg(); title('Einkaufsliste', 'Mengen für ' + who() + ', über die Woche zusammengefasst.', 48);
+    if (!onlyShop) doc.addPage('a4', 'portrait'); bg(); title('Einkaufsliste', 'Mengen für ' + who() + ', über die Woche zusammengefasst.', 48);
     var items = shopping(), colX = [48, W() / 2 + 6], cw = W() / 2 - 54, y = 124, col = 0, startY = 124, lh = 34, per = Math.floor((H() - startY - 60) / lh);
     items.forEach(function (it, i) {
       if (i && i % per === 0) { col++; y = startY; if (col > 1) { footer(); doc.addPage('a4', 'portrait'); bg(); col = 0; y = startY = 60; per = Math.floor((H() - startY - 60) / lh); } }
@@ -617,7 +621,7 @@
     footer();
     // Rezepte
     var ids = []; days().forEach(function (d) { st.slots.forEach(function (s) { var id = st.plan[cellKey(d, s)]; if (id && ids.indexOf(id) < 0) ids.push(id); }); });
-    if (ids.length) {
+    if (ids.length && !onlyShop) {
       doc.addPage('a4', 'portrait'); bg(); title('Rezepte dieser Woche', 'Mengen pro Mahlzeit für ' + who() + '.', 48); y = 112;
       var f = factor();
       ids.forEach(function (id) {
@@ -639,6 +643,51 @@
     }
     return doc;
   }
+  // ---------- Einkaufsliste separat: PDF & Excel ----------
+  function crc32(u) { var c, t = crc32.t; if (!t) { t = crc32.t = []; for (var n = 0; n < 256; n++) { c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } }
+    c = 0xFFFFFFFF; for (var i = 0; i < u.length; i++) c = t[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+  function zip(files) { // ZIP ohne Kompression (reicht für .xlsx)
+    var enc = new TextEncoder(), parts = [], cen = [], off = 0;
+    function u16(v) { return [v & 255, (v >> 8) & 255]; } function u32(v) { return [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255]; }
+    files.forEach(function (f) { var name = enc.encode(f[0]), data = enc.encode(f[1]), crc = crc32(data);
+      var head = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
+      parts.push(new Uint8Array(head), name, data);
+      cen.push(new Uint8Array([].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(off))), name);
+      off += head.length + name.length + data.length; });
+    var cs = cen.reduce(function (a, b) { return a + b.length; }, 0);
+    return new Blob(parts.concat(cen, [new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length), u32(cs), u32(off), u16(0)))]), { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  }
+  function xesc(v) { return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function sheet(rows, widths) {
+    var col = function (i) { return String.fromCharCode(65 + i); };
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>' +
+      widths.map(function (w, i) { return '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>'; }).join('') + '</cols><sheetData>' +
+      rows.map(function (r, ri) { return '<row r="' + (ri + 1) + '">' + r.map(function (v, ci) { var ref = col(ci) + (ri + 1), st2 = ri === 0 ? ' s="1"' : '';
+        return typeof v === 'number' ? '<c r="' + ref + '"' + st2 + '><v>' + v + '</v></c>' : '<c r="' + ref + '" t="inlineStr"' + st2 + '><is><t xml:space="preserve">' + xesc(v) + '</t></is></c>'; }).join('') + '</row>'; }).join('') + '</sheetData></worksheet>';
+  }
+  function buildXlsx() {
+    var items = shopping(), ds = days();
+    var shop = [T.xHead].concat(items.map(function (it) { var q = Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
+    var plan = [[''].concat(ds.map(function (d) { return DAYS[d]; }))].concat(slots().map(function (s) { return [s.l].concat(ds.map(function (d) { var r = byId[st.plan[cellKey(d, s.id)]]; return r ? r.n : ''; })); }));
+    plan.push([T.kcalL].concat(ds.map(function (d) { return Math.round(dayKcal(d) * dayMult(d)); })));
+    var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xesc(T.xShop) + '" sheetId="1" r:id="rId1"/><sheet name="' + xesc(T.xPlan) + '" sheetId="2" r:id="rId2"/></sheets></workbook>';
+    return zip([
+      ['[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+      ['_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+      ['xl/workbook.xml', wb],
+      ['xl/_rels/workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+      ['xl/styles.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'],
+      ['xl/worksheets/sheet1.xml', sheet(shop, [9, 10, 9, 38, 30, 10])],
+      ['xl/worksheets/sheet2.xml', sheet(plan, [16].concat(ds.map(function () { return 28; })))]
+    ]);
+  }
+  function dl(blob, name) { var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+  $('sp-shop-xlsx').addEventListener('click', function () { if (!planCount()) planWeek(); dl(buildXlsx(), T.xFile); $('sp-pdf-status').textContent = T.xDone; });
+  $('sp-shop-pdf').addEventListener('click', function () {
+    var b = this, stEl = $('sp-pdf-status'); if (!planCount()) planWeek();
+    b.disabled = true; Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1], true).save(T.pFile); stEl.textContent = T.pDone; })
+      .catch(function () { stEl.textContent = 'Das PDF konnte nicht erstellt werden. Bitte versuch es noch einmal.'; }).then(function () { b.disabled = false; });
+  });
   $('sp-pdf').addEventListener('click', function () {
     var b = this, stEl = $('sp-pdf-status');
     if (!planCount()) { planWeek(); }
@@ -652,7 +701,7 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
-    '#sb-planer .sp-calcb{margin-top:8px}#sb-planer .sp-calc{grid-column:1/-1;background:var(--iv);border:1px solid var(--li);border-radius:14px;padding:16px}#sb-planer .sp-calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}' +
+    '#sb-planer .sp-shopdl{margin-top:16px;padding:14px 16px;border:1px solid var(--li);border-radius:14px;background:var(--iv)}#sb-planer .sp-shopdl .sp-row{margin-top:8px;gap:8px}#sb-planer .sp-calcb{margin-top:8px}#sb-planer .sp-calc{grid-column:1/-1;background:var(--iv);border:1px solid var(--li);border-radius:14px;padding:16px}#sb-planer .sp-calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}' +
     '#sb-planer .sp-calc fieldset{margin:0;border:1px solid var(--li);border-radius:12px;padding:10px 12px 12px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}#sb-planer .sp-calc legend{padding:0 4px;font-size:14px}#sb-planer .sp-calc legend strong{color:var(--g)}' +
     '#sb-planer .sp-calc label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--mu)}#sb-planer .sp-calc .sp-wide{grid-column:1/-1}#sb-planer .sp-calc input,#sb-planer .sp-calc select{height:38px;border:1px solid var(--li);border-radius:9px;padding:0 8px;font:inherit;font-size:14px;color:var(--tx);background:#fff;width:100%}#sb-planer .sp-calc .sp-btn{margin-top:12px}' +
     '#sb-planer tr.sp-sumrow td.sp-off strong{color:#B45309}#sb-planer tr.sp-sumrow small{font-size:11.5px;color:var(--mu)}#sb-planer output.sp-kc{min-width:56px}' +

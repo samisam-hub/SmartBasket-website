@@ -49,6 +49,8 @@
     tagP: 'from ', tagF: 'fresh', tagQ: 'quick', cookTitle: 'Your cooking plan', cookOn: 'cooking', fresh: 'Fresh', meals: ' meals', meal: ' meal',
     sumA: 'You cook ', sumB: '× for ', sumC: ' main meals', freeze: 'freezes well', moreCook: 'Tip: add another cooking day – otherwise some portions would be older than they keep.',
     planned: 'Week planned: ', likeHint: 'Swipe right = save · left = skip · arrow keys work too', favCount: ' favourites saved', stamp: 'SAVE', kcalL: 'kcal per adult', goal: 'Target ', portion: 'Portion ', offH: 'More than 10 % off target – portions are limited to 60–160 %. Add another dish or a snack.', tgtL: 'Daily calorie target', tgtA: 'Adults', tgtK: 'Children', tgtH: 'Rough guide: women approx. 1,900, men approx. 2,400 kcal, children 1,200–2,000 kcal depending on age. Portions are scaled per day – shopping list and cost follow.', costL: 'Cost approx.', costH: 'Estimated grocery cost for your household, proportional to recipe amounts (average German supermarket prices, excluding basics like salt).', weekC: ' · approx. ', weekC2: ' € per week', loc: 'en-GB', dockT: 'Drag into your plan', dockHint: 'Drop a dish on a slot = replace · drag slots onto each other = swap · drag a slot onto this list = remove. On mobile: tap ⠿, then tap the target.', dockNone: 'Save dishes (♥) and they show up here.', swapped: 'Swapped', placed: ' added', removedT: 'Removed from plan', tooOld: 'kept longer than recommended', grip: 'Move', dropOut: 'Drop here to remove', mpP: 'Good for meal prep', mpQ: 'quick to make fresh', mpF: 'best fresh', keepT: ' days in the fridge', autoT: 'estimated automatically', onlyMix: 'fresh – in Mixed mode', fill: 'Empty slots are filled with suitable dishes.' };
+  Object.assign(T, { shopL: 'Download shopping list', shopH: 'All ingredients of the week combined – with amounts for your household and calorie target.', shopPdf: 'Shopping list as PDF', shopXls: 'Shopping list as Excel',
+    xHead: ['Done', 'Amount', 'Unit', 'Ingredient', 'For', 'Note'], xBasic: 'Basics', xShop: 'Shopping list', xPlan: 'Meal plan', xFile: 'meal-prep-shopping-list.xlsx', pFile: 'meal-prep-shopping-list.pdf', xDone: 'Done – the shopping list was downloaded as an Excel file.', pDone: 'Done – the shopping list was downloaded as a PDF.' });
   Object.assign(T, { calcBtn: 'Calculate from body data', calcDone: 'Done', pers: 'Person ', kidL: 'Child ', sexL: 'Sex', sexes: [['w', 'female'], ['m', 'male']], ageL: 'Age', hL: 'Height (cm)', wL: 'Weight (kg)', actL: 'Activity',
     acts: [[1.2, 'mostly sitting'], [1.375, 'lightly active (1–3× exercise/week)'], [1.55, 'moderately active (3–5× exercise/week)'], [1.725, 'very active (6–7× exercise/week)'], [1.9, 'physical job + exercise']],
     goalL: 'Goal', goals: [[0, 'maintain weight'], [-400, 'lose a little'], [300, 'gain weight']], perDay: ' kcal/day',
@@ -293,7 +295,7 @@
     '<section class="sp-card" aria-labelledby="sp-h3" id="sp-plan"><div class="sp-plan-head"><div><div class="sp-step" style="margin-bottom:6px"><span class="sp-nr">3</span><h2 id="sp-h3">Your weekly plan</h2></div><p class="sp-status" id="sp-count"></p></div></div>' +
     '<div class="sp-favs" id="sp-favs"></div><div class="sp-plan-go"><button class="sp-btn" id="sp-go">' + T.planBtn + '</button></div><div class="sp-cook" id="sp-cook"></div>' +
     '<div class="sp-board"><div class="sp-scroll"><table class="sp-grid" id="sp-grid"></table></div><aside class="sp-dock" id="sp-dock" aria-label="Favourites"></aside></div>' +
-    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Download weekly plan as PDF</button><button class="sp-btn sp-sec" id="sp-clear">Clear plan</button><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
+    '<div class="sp-plan-actions"><button class="sp-btn" id="sp-pdf">Download weekly plan as PDF</button><button class="sp-btn sp-sec" id="sp-clear">Clear plan</button></div><div class="sp-shopdl"><span class="sp-label">' + T.shopL + '</span><p class="sp-mini">' + T.shopH + '</p><div class="sp-row"><button class="sp-btn sp-sec" id="sp-shop-pdf">' + T.shopPdf + '</button><button class="sp-btn sp-sec" id="sp-shop-xlsx">' + T.shopXls + '</button></div><span class="sp-status" id="sp-pdf-status" aria-live="polite"></span></div></section>' +
     '<aside class="sp-teaser"><div><h3>Even easier in the app</h3><p>Prepello plans the week for your household and turns the shopping list into whole packs.</p></div><a href="https://forms.gle/D3PrMx7ugt5bA5MHA" target="_blank" rel="noopener">Try the free beta ↗</a></aside>' +
     '<footer class="sp-foot"><span>© 2026 Prepello</span><a href="/">Home</a><a href="https://smartbasket.samisam.org/de/impressum/">Impressum</a><a href="https://smartbasket.samisam.org/de/datenschutz/">Datenschutz</a></footer>' +
     '</div><div class="sp-modal" id="sp-modal" hidden><div class="sp-dialog" role="dialog" aria-modal="true" aria-labelledby="sp-mt" id="sp-dialog"></div></div><div class="sp-toast" role="status" aria-live="polite"></div>';
@@ -560,8 +562,8 @@
       var fd = f * dayMult(d); r.i.forEach(function (i) { var k = i[0] + '|' + i[2]; if (!items[k]) items[k] = { n: i[0], u: i[2], q: 0, w: [] }; items[k].q += i[1] * fd; var w = SHORT[d]; if (items[k].w.indexOf(w) < 0) items[k].w.push(w); }); }); });
     return Object.keys(items).map(function (k) { return items[k]; }).sort(function (a, b) { return isBasic(a.n) - isBasic(b.n) || a.n.localeCompare(b.n, 'de'); });
   }
-  function buildPdf(jsPDF, fonts) {
-    var doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4', compress: true });
+  function buildPdf(jsPDF, fonts, onlyShop) {
+    var doc = new jsPDF({ orientation: onlyShop ? 'portrait' : 'landscape', unit: 'pt', format: 'a4', compress: true });
     fonts.forEach(function (f) { doc.addFileToVFS(f.file, f.d); doc.addFont(f.file, f.n, f.s); });
     doc.setProperties({ title: 'My Meal Prep Weekly Plan', author: 'meal-prep.tech', creator: 'meal-prep.tech' });
     var page = 0;
@@ -576,6 +578,7 @@
       var lines = [], cur = ''; tokens.forEach(function (tk) { var nx = cur ? cur + (tk.sp ? ' ' : '') + tk.t : tk.t; if (cur && doc.getTextWidth(nx) > maxW) { lines.push(cur); cur = tk.t; } else cur = nx; }); if (cur) lines.push(cur); return lines;
     }
     // Seite 1: Wochenplan
+    if (!onlyShop) {
     bg(); var ds = days(), ss = slots();
     title('My Meal Prep Weekly Plan', 'for ' + who() + (st.diets.length ? '  ·  ' + DIETS.filter(function (d) { return st.diets.indexOf(d.id) >= 0; }).map(function (d) { return d.l.toLowerCase(); }).join(', ') : ''), 36);
     font('Inter', 'normal', 11.5); color(C.text); doc.text('Week from ____________ to ____________', W() - 36, 60, { align: 'right' }); var cpp = cookPlan(); doc.text('Prep days: ' + (Object.keys(cpp.by).length ? Object.keys(cpp.by).sort(function (a, b) { return cpos(+a) - cpos(+b); }).map(function (c) { return DAYS[c]; }).join(', ') : '____________'), W() - 36, 80, { align: 'right' });
@@ -602,8 +605,9 @@
       ny = H(); }
     if (ny < H() - 40) { font('Playfair', 'bold', 13); color(C.deep); doc.text('Notes', 36, ny); } stroke([201, 214, 205]); doc.setLineWidth(0.5); if (ny + 18 < H() - 34) doc.line(36, ny + 18, W() - 36, ny + 18);
     footer();
+    }
     // Seite 2: Einkaufsliste
-    doc.addPage('a4', 'portrait'); bg(); title('Shopping list', 'Amounts for ' + who() + ', combined for the week.', 48);
+    if (!onlyShop) doc.addPage('a4', 'portrait'); bg(); title('Shopping list', 'Amounts for ' + who() + ', combined for the week.', 48);
     var items = shopping(), colX = [48, W() / 2 + 6], cw = W() / 2 - 54, y = 124, col = 0, startY = 124, lh = 34, per = Math.floor((H() - startY - 60) / lh);
     items.forEach(function (it, i) {
       if (i && i % per === 0) { col++; y = startY; if (col > 1) { footer(); doc.addPage('a4', 'portrait'); bg(); col = 0; y = startY = 60; per = Math.floor((H() - startY - 60) / lh); } }
@@ -617,7 +621,7 @@
     footer();
     // Rezepte
     var ids = []; days().forEach(function (d) { st.slots.forEach(function (s) { var id = st.plan[cellKey(d, s)]; if (id && ids.indexOf(id) < 0) ids.push(id); }); });
-    if (ids.length) {
+    if (ids.length && !onlyShop) {
       doc.addPage('a4', 'portrait'); bg(); title('This week\'s recipes', 'Amounts per meal for ' + who() + '.', 48); y = 112;
       var f = factor();
       ids.forEach(function (id) {
@@ -639,6 +643,51 @@
     }
     return doc;
   }
+  // ---------- Einkaufsliste separat: PDF & Excel ----------
+  function crc32(u) { var c, t = crc32.t; if (!t) { t = crc32.t = []; for (var n = 0; n < 256; n++) { c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } }
+    c = 0xFFFFFFFF; for (var i = 0; i < u.length; i++) c = t[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+  function zip(files) { // ZIP ohne Kompression (reicht für .xlsx)
+    var enc = new TextEncoder(), parts = [], cen = [], off = 0;
+    function u16(v) { return [v & 255, (v >> 8) & 255]; } function u32(v) { return [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255]; }
+    files.forEach(function (f) { var name = enc.encode(f[0]), data = enc.encode(f[1]), crc = crc32(data);
+      var head = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
+      parts.push(new Uint8Array(head), name, data);
+      cen.push(new Uint8Array([].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(off))), name);
+      off += head.length + name.length + data.length; });
+    var cs = cen.reduce(function (a, b) { return a + b.length; }, 0);
+    return new Blob(parts.concat(cen, [new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length), u32(cs), u32(off), u16(0)))]), { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  }
+  function xesc(v) { return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function sheet(rows, widths) {
+    var col = function (i) { return String.fromCharCode(65 + i); };
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>' +
+      widths.map(function (w, i) { return '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>'; }).join('') + '</cols><sheetData>' +
+      rows.map(function (r, ri) { return '<row r="' + (ri + 1) + '">' + r.map(function (v, ci) { var ref = col(ci) + (ri + 1), st2 = ri === 0 ? ' s="1"' : '';
+        return typeof v === 'number' ? '<c r="' + ref + '"' + st2 + '><v>' + v + '</v></c>' : '<c r="' + ref + '" t="inlineStr"' + st2 + '><is><t xml:space="preserve">' + xesc(v) + '</t></is></c>'; }).join('') + '</row>'; }).join('') + '</sheetData></worksheet>';
+  }
+  function buildXlsx() {
+    var items = shopping(), ds = days();
+    var shop = [T.xHead].concat(items.map(function (it) { var q = Math.round(it.q * 10) / 10; return ['☐', q, it.u, it.n, it.w.join(', '), isBasic(it.n) ? T.xBasic : '']; }));
+    var plan = [[''].concat(ds.map(function (d) { return DAYS[d]; }))].concat(slots().map(function (s) { return [s.l].concat(ds.map(function (d) { var r = byId[st.plan[cellKey(d, s.id)]]; return r ? r.n : ''; })); }));
+    plan.push([T.kcalL].concat(ds.map(function (d) { return Math.round(dayKcal(d) * dayMult(d)); })));
+    var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xesc(T.xShop) + '" sheetId="1" r:id="rId1"/><sheet name="' + xesc(T.xPlan) + '" sheetId="2" r:id="rId2"/></sheets></workbook>';
+    return zip([
+      ['[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
+      ['_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+      ['xl/workbook.xml', wb],
+      ['xl/_rels/workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+      ['xl/styles.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'],
+      ['xl/worksheets/sheet1.xml', sheet(shop, [9, 10, 9, 38, 30, 10])],
+      ['xl/worksheets/sheet2.xml', sheet(plan, [16].concat(ds.map(function () { return 28; })))]
+    ]);
+  }
+  function dl(blob, name) { var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+  $('sp-shop-xlsx').addEventListener('click', function () { if (!planCount()) planWeek(); dl(buildXlsx(), T.xFile); $('sp-pdf-status').textContent = T.xDone; });
+  $('sp-shop-pdf').addEventListener('click', function () {
+    var b = this, stEl = $('sp-pdf-status'); if (!planCount()) planWeek();
+    b.disabled = true; Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1], true).save(T.pFile); stEl.textContent = T.pDone; })
+      .catch(function () { stEl.textContent = 'The PDF could not be created. Please try again.'; }).then(function () { b.disabled = false; });
+  });
   $('sp-pdf').addEventListener('click', function () {
     var b = this, stEl = $('sp-pdf-status');
     if (!planCount()) { planWeek(); }
@@ -652,7 +701,7 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
-    '#sb-planer .sp-calcb{margin-top:8px}#sb-planer .sp-calc{grid-column:1/-1;background:var(--iv);border:1px solid var(--li);border-radius:14px;padding:16px}#sb-planer .sp-calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}' +
+    '#sb-planer .sp-shopdl{margin-top:16px;padding:14px 16px;border:1px solid var(--li);border-radius:14px;background:var(--iv)}#sb-planer .sp-shopdl .sp-row{margin-top:8px;gap:8px}#sb-planer .sp-calcb{margin-top:8px}#sb-planer .sp-calc{grid-column:1/-1;background:var(--iv);border:1px solid var(--li);border-radius:14px;padding:16px}#sb-planer .sp-calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}' +
     '#sb-planer .sp-calc fieldset{margin:0;border:1px solid var(--li);border-radius:12px;padding:10px 12px 12px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}#sb-planer .sp-calc legend{padding:0 4px;font-size:14px}#sb-planer .sp-calc legend strong{color:var(--g)}' +
     '#sb-planer .sp-calc label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--mu)}#sb-planer .sp-calc .sp-wide{grid-column:1/-1}#sb-planer .sp-calc input,#sb-planer .sp-calc select{height:38px;border:1px solid var(--li);border-radius:9px;padding:0 8px;font:inherit;font-size:14px;color:var(--tx);background:#fff;width:100%}#sb-planer .sp-calc .sp-btn{margin-top:12px}' +
     '#sb-planer tr.sp-sumrow td.sp-off strong{color:#B45309}#sb-planer tr.sp-sumrow small{font-size:11.5px;color:var(--mu)}#sb-planer output.sp-kc{min-width:56px}' +
