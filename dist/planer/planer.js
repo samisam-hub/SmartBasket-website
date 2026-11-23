@@ -24,7 +24,7 @@
     favAdd: '♥ Merken', favOn: '♥ Gemerkt', favToast: ' gemerkt', favOff: ' entfernt', planBtn: 'Woche automatisch planen',
     tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
-    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
   function typ(r) { return (r && r.mp) || 'f'; }
   function keepD(r) { return (r && r.k) || 0; }
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
@@ -80,7 +80,7 @@
     toast(byId[id].n + ' → ' + DAYS[d] + ', ' + slot(s).s);
     return true;
   }
-  function planWeek() {
+  function planWeek(quiet) {
     var ds = days(), cooks = (st.cook.length ? st.cook : [6]).slice(), plan = {}, meta = {}, used = {}, chosenIng = {}, warn = false;
     var mainS = ['m', 'a'].filter(function (x) { return st.slots.indexOf(x) >= 0; });
     function src(d, s) { // zuständiger Kochtag: Mittag nur aus vorher Gekochtem, Abend auch frisch vom selben Tag
@@ -144,7 +144,7 @@
     });
     st.plan = plan; st.meta = meta; st.warn = warn; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe();
     toast(T.planned + planCount() + ' / ' + totalCells());
-    var pl = $('sp-plan'); if (pl && pl.scrollIntoView) pl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var pl = $('sp-plan'); if (!quiet && pl && pl.scrollIntoView) pl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function autoFill() { planWeek(); }
   function cookPlan() {
@@ -197,7 +197,7 @@
     else if (b.dataset.mode) { st.mode = b.dataset.mode; }
     else if (b.dataset.cook) { var cd = +b.dataset.cook, ci = st.cook.indexOf(cd); if (ci >= 0) { if (st.cook.length > 1) st.cook.splice(ci, 1); } else st.cook.push(cd); }
     else if (b.dataset.diet) { var x = b.dataset.diet, k = st.diets.indexOf(x); if (k >= 0) st.diets.splice(k, 1); else st.diets.push(x); st.queue = {}; }
-    save(); renderSetup(); renderTab(); renderPlan();
+    save(); renderSetup(); renderTab(); if (Object.keys(st.meta).length) planWeek(true); else renderPlan();
   });
 
   // ---------- 2a. Suche ----------
@@ -347,10 +347,10 @@
     var b = e.target.closest('button'); if (!b) return;
     if (b.dataset.del) { delete st.plan[b.dataset.del]; delete st.meta[b.dataset.del]; save(); renderPlan(); if (st.tab === 'swipe') renderSwipe(); }
   });
-  $('sp-go').addEventListener('click', function () { planWeek(); });
+  $('sp-go').addEventListener('click', function () { planWeek(false); });
   function renderFavs() {
     var el = $('sp-favs'); if (!el) return;
-    el.innerHTML = '<span class="sp-label">' + T.favL + ' (' + st.fav.length + ')</span>' + (st.fav.length ? '<div class="sp-have">' + st.fav.map(function (id) { var r = byId[id]; return r ? '<button data-unfav="' + id + '" aria-label="' + esc(r.n) + T.favOff + '">♥ ' + esc(r.n) + ' ✕</button>' : ''; }).join('') + '</div>' : '<p class="sp-mini">' + T.favNone + '</p>');
+    el.innerHTML = '<span class="sp-label">' + T.favL + ' (' + st.fav.length + ')</span>' + (st.fav.length ? '<div class="sp-have">' + st.fav.map(function (id) { var r = byId[id]; return r ? '<button data-unfav="' + id + '" aria-label="' + esc(r.n) + T.favOff + '">♥ ' + esc(r.n) + (typ(r) === 'f' && st.mode === 'prep' && (r.s.indexOf('m') >= 0 || r.s.indexOf('a') >= 0) ? ' <small>(' + T.onlyMix + ')</small>' : '') + ' ✕</button>' : ''; }).join('') + '</div>' : '<p class="sp-mini">' + T.favNone + '</p>');
   }
   function renderCook() {
     var el = $('sp-cook'); if (!el) return; var cp = cookPlan(), keys = Object.keys(cp.by);
