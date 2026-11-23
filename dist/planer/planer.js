@@ -48,7 +48,7 @@
     favAdd: '♥ Merken', favOn: '♥ Gemerkt', favToast: ' gemerkt', favOff: ' entfernt', planBtn: 'Woche automatisch planen',
     tagP: 'vom ', tagF: 'frisch', tagQ: 'schnell', cookTitle: 'Dein Kochplan', cookOn: 'kochen', fresh: 'Frisch', meals: ' Mahlzeiten', meal: ' Mahlzeit',
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
-    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', dockT: 'Zum Einplanen ziehen', dockHint: 'Gericht auf ein Feld ziehen = ersetzen · Felder aufeinander ziehen = tauschen · Feld auf die Leiste ziehen = entfernen. Auf dem Handy: ⠿ antippen, dann Ziel antippen.', dockNone: 'Merk dir Gerichte (♥), dann erscheinen sie hier.', swapped: 'Getauscht', placed: ' eingesetzt', removedT: 'Aus dem Plan genommen', tooOld: 'länger als haltbar', grip: 'Verschieben', dropOut: 'Hierher ziehen zum Entfernen', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
+    planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', kcalL: 'kcal pro Person', costL: 'Kosten ca.', costH: 'Geschätzte Lebensmittelkosten für deinen Haushalt, anteilig nach Rezeptmenge (Durchschnittspreise, ohne Basics wie Salz).', weekC: ' · ca. ', weekC2: ' € pro Woche', loc: 'de-DE', dockT: 'Zum Einplanen ziehen', dockHint: 'Gericht auf ein Feld ziehen = ersetzen · Felder aufeinander ziehen = tauschen · Feld auf die Leiste ziehen = entfernen. Auf dem Handy: ⠿ antippen, dann Ziel antippen.', dockNone: 'Merk dir Gerichte (♥), dann erscheinen sie hier.', swapped: 'Getauscht', placed: ' eingesetzt', removedT: 'Aus dem Plan genommen', tooOld: 'länger als haltbar', grip: 'Verschieben', dropOut: 'Hierher ziehen zum Entfernen', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
   function typ(r) { return (r && r.mp) || 'f'; }
   function keepD(r) { return (r && r.k) || 0; }
   function isFav(id) { return st.fav.indexOf(id) >= 0; }
@@ -427,9 +427,14 @@
       });
       h += '</tr>';
     });
-    $('sp-grid').innerHTML = h + '</tbody>'; renderFavs(); renderCook(); renderDock();
+    var eur = function (v) { return v.toLocaleString(T.loc, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }, wk = 0;
+    var kc = ds.map(function (d) { var k = 0, n = 0; ss.forEach(function (s) { var r = byId[st.plan[cellKey(d, s.id)]]; if (r && r.kcal) { k += r.kcal; n++; } }); return n ? k : 0; });
+    var co = ds.map(function (d) { var c = 0; ss.forEach(function (s) { var r = byId[st.plan[cellKey(d, s.id)]]; if (r && r.eur) c += r.eur * factor(); }); wk += c; return c; });
+    h += '</tbody><tfoot><tr class="sp-sumrow"><th class="sp-sl" scope="row">' + T.kcalL + '</th>' + kc.map(function (k) { return '<td>' + (k ? '<strong>' + k.toLocaleString(T.loc) + '</strong> kcal' : '–') + '</td>'; }).join('') + '</tr>' +
+      '<tr class="sp-sumrow"><th class="sp-sl" scope="row" title="' + T.costH + '">' + T.costL + ' <span class="sp-info" aria-hidden="true">ⓘ</span></th>' + co.map(function (c) { return '<td>' + (c ? '<strong>' + eur(c) + '</strong>' : '–') + '</td>'; }).join('') + '</tr></tfoot>';
+    $('sp-grid').innerHTML = h; st.week = wk; renderFavs(); renderCook(); renderDock();
     var n = planCount(), t = totalCells();
-    $('sp-count').textContent = n + ' von ' + t + ' Plätzen geplant · für ' + who();
+    $('sp-count').textContent = n + ' von ' + t + ' Plätzen geplant · für ' + who() + (wk ? T.weekC + Math.round(wk) + T.weekC2 : '');
   }
   $('sp-grid').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
@@ -593,6 +598,7 @@
     '#sb-planer .sp-plan-go{margin:0 0 16px}#sb-planer .sp-cook{margin:0 0 18px;padding:16px 18px;border-radius:14px;background:var(--ti);border:1px solid var(--tl)}#sb-planer .sp-cook:empty{display:none}' +
     '#sb-planer .sp-cook h3{margin:0 0 8px;font-size:17px}#sb-planer .sp-cook ul{margin:0;padding-left:18px}#sb-planer .sp-cook li{margin:4px 0;font-size:14.5px}#sb-planer .sp-x3{font-weight:700;color:var(--g)}#sb-planer .sp-sum{margin:10px 0 0;font-weight:600}' +
     '#sb-planer .sp-tag{align-self:flex-start;font-size:11px;font-weight:600;line-height:1;padding:4px 7px;border-radius:999px;background:var(--ti);color:var(--gd)}#sb-planer .sp-tf{background:#FDECEA;color:#9A3412}#sb-planer .sp-tq{background:#F1F5F9;color:#475569}' +
+    '#sb-planer tr.sp-sumrow td{background:#fff;border-top:2px solid var(--tl);font-size:13px;color:var(--mu);text-align:center;padding:8px 4px}#sb-planer tr.sp-sumrow td strong{color:var(--tx);font-size:14px}#sb-planer tr.sp-sumrow th{font-size:13px}#sb-planer .sp-info{cursor:help;color:var(--mu)}' +
     '#sb-planer .sp-board{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:14px;align-items:start}#sb-planer .sp-dock{position:sticky;top:12px;background:#fff;border:1px solid var(--li);border-radius:14px;padding:12px;max-height:80vh;overflow:auto}#sb-planer .sp-dock h3{margin:0 0 8px;font-size:15px}' +
     '#sb-planer .sp-dock-list{display:flex;flex-direction:column;gap:6px;min-height:60px;border-radius:10px;padding:2px}#sb-planer .sp-di{display:flex;align-items:center;gap:8px;padding:6px;border:1px solid var(--li);border-radius:10px;background:var(--iv);cursor:grab;user-select:none}#sb-planer .sp-di .sp-dimg{width:34px;height:34px;border-radius:8px;object-fit:cover;flex:0 0 34px}#sb-planer .sp-dn{flex:1;font-size:13px;font-weight:600;line-height:1.25}' +
     '#sb-planer .sp-grip{cursor:grab;touch-action:none;user-select:none;color:var(--mu);font-size:16px;line-height:1;padding:4px;border-radius:6px}#sb-planer .sp-grip:hover{background:var(--ti);color:var(--gd)}#sb-planer .sp-cell{position:relative;cursor:grab;user-select:none;-webkit-user-select:none}#sb-planer .sp-cell .sp-grip{position:absolute;bottom:2px;right:2px}' +
