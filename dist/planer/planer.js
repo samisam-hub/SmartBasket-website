@@ -50,6 +50,7 @@
     sumA: 'Du kochst ', sumB: '× für ', sumC: ' Haupt-Mahlzeiten', freeze: 'lässt sich einfrieren', moreCook: 'Tipp: Wähle einen weiteren Kochtag – sonst wären manche Portionen älter als ihre Haltbarkeit.',
     planned: 'Woche geplant: ', likeHint: 'Nach rechts wischen = merken · nach links = überspringen · Pfeiltasten gehen auch', favCount: ' Favoriten gemerkt', stamp: 'MERKEN', kcalL: 'kcal pro Erwachsenem', goal: 'Ziel ', portion: 'Portion ', offH: 'Weicht über 10 % vom Ziel ab – Portionen sind auf 60–160 % begrenzt. Ein weiteres Gericht oder einen Snack einplanen.', tgtL: 'Kalorienziel pro Tag', tgtA: 'Erwachsene', tgtK: 'Kinder', tgtH: 'Grobe Orientierung: Frauen ca. 1.900, Männer ca. 2.400 kcal, Kinder je nach Alter 1.200–2.000 kcal. Die Portionen werden pro Tag passend skaliert – Einkaufsliste und Kosten rechnen mit.', costL: 'Kosten ca.', costH: 'Geschätzte Lebensmittelkosten für deinen Haushalt, anteilig nach Rezeptmenge (Durchschnittspreise, ohne Basics wie Salz).', weekC: ' · ca. ', weekC2: ' € pro Woche', loc: 'de-DE', dockT: 'Zum Einplanen ziehen', dockHint: 'Gericht auf ein Feld ziehen = ersetzen · Felder aufeinander ziehen = tauschen · Feld auf die Leiste ziehen = entfernen. Auf dem Handy: ⠿ antippen, dann Ziel antippen.', dockNone: 'Merk dir Gerichte (♥), dann erscheinen sie hier.', swapped: 'Getauscht', placed: ' eingesetzt', removedT: 'Aus dem Plan genommen', tooOld: 'länger als haltbar', grip: 'Verschieben', dropOut: 'Hierher ziehen zum Entfernen', mpP: 'Meal Prep geeignet', mpQ: 'schnell frisch gemacht', mpF: 'nur frisch', keepT: ' Tage haltbar', autoT: 'automatisch eingeschätzt', onlyMix: 'frisch – im Modus Gemischt', fill: 'Leere Plätze werden mit passenden Gerichten ergänzt.' };
   Object.assign(T, { pcs: 'Stk.' });
+  Object.assign(T, { tyPath: 'danke' });
   Object.assign(T, { shopL: 'Einkaufsliste herunterladen', shopH: 'Alle Zutaten der Woche zusammengefasst – mit den Mengen für deinen Haushalt und dein Kalorienziel.', shopPdf: 'Einkaufsliste als PDF', shopXls: 'Einkaufsliste als Excel',
     xHead: ['Erledigt', 'Menge', 'Einheit', 'Zutat', 'Für', 'Hinweis'], xBasic: 'Basics', xShop: 'Einkaufsliste', xPlan: 'Wochenplan', xFile: 'meal-prep-einkaufsliste.xlsx', pFile: 'meal-prep-einkaufsliste.pdf', xDone: 'Fertig – die Einkaufsliste wurde als Excel-Datei heruntergeladen.', pDone: 'Fertig – die Einkaufsliste wurde als PDF heruntergeladen.' });
   Object.assign(T, { calcBtn: 'Aus Körperdaten berechnen', calcDone: 'Fertig', pers: 'Person ', kidL: 'Kind ', sexL: 'Geschlecht', sexes: [['w', 'weiblich'], ['m', 'männlich']], ageL: 'Alter', hL: 'Größe (cm)', wL: 'Gewicht (kg)', actL: 'Aktivität',
@@ -686,18 +687,32 @@
       ['xl/worksheets/sheet2.xml', sheet(plan, [16].concat(ds.map(function () { return 28; })))]
     ]);
   }
+  function track(kind) {
+    try {
+      var base = location.pathname.replace(/\/(danke|thank-you)\/?$/, '/').replace(/\/?$/, '/');
+      var path = base + T.tyPath + '/';
+      var url = path + '?file=' + kind;
+      if (location.pathname + location.search !== url) history.pushState({ sbTy: 1 }, '', url);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'planner_download', file_type: kind, page_path: path, page_location: location.href });
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'page_view', { page_location: location.href, page_path: path, page_title: document.title + ' – ' + T.tyPath });
+        window.gtag('event', 'file_download', { file_name: kind, file_extension: kind.indexOf('xlsx') > -1 ? 'xlsx' : 'pdf', link_url: location.href });
+      }
+    } catch (e) {}
+  }
   function dl(blob, name) { var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
-  $('sp-shop-xlsx').addEventListener('click', function () { if (!planCount()) planWeek(); dl(buildXlsx(), T.xFile); $('sp-pdf-status').textContent = T.xDone; });
+  $('sp-shop-xlsx').addEventListener('click', function () { if (!planCount()) planWeek(); dl(buildXlsx(), T.xFile); $('sp-pdf-status').textContent = T.xDone; track('list-xlsx'); });
   $('sp-shop-pdf').addEventListener('click', function () {
     var b = this, stEl = $('sp-pdf-status'); if (!planCount()) planWeek();
-    b.disabled = true; Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1], true).save(T.pFile); stEl.textContent = T.pDone; })
+    b.disabled = true; Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1], true).save(T.pFile); stEl.textContent = T.pDone; track('list-pdf'); })
       .catch(function () { stEl.textContent = 'Das PDF konnte nicht erstellt werden. Bitte versuch es noch einmal.'; }).then(function () { b.disabled = false; });
   });
   $('sp-pdf').addEventListener('click', function () {
     var b = this, stEl = $('sp-pdf-status');
     if (!planCount()) { planWeek(); }
     b.disabled = true; var lbl = b.textContent; b.textContent = 'PDF wird erstellt …';
-    Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1]).save('meal-prep-wochenplan.pdf'); stEl.textContent = 'Fertig – dein Wochenplan wurde heruntergeladen.'; })
+    Promise.all([loadLib(), loadFonts()]).then(function (r) { buildPdf(r[0], r[1]).save('meal-prep-wochenplan.pdf'); stEl.textContent = 'Fertig – dein Wochenplan wurde heruntergeladen.'; track('plan-pdf'); })
       .catch(function () { stEl.textContent = 'Das PDF konnte nicht erstellt werden. Bitte versuch es noch einmal.'; })
       .then(function () { b.disabled = false; b.textContent = lbl; });
   });
