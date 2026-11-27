@@ -158,6 +158,8 @@
  .sbe-rtabs button{min-height:38px;padding:0 14px;font-size:14px}
  .sbe-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
  .sbe-rc{border-radius:16px}
+ .sbe-rc img{aspect-ratio:4/3}
+ .sbe-crc img{aspect-ratio:4/3}
  .sbe-rc .new{top:8px;left:8px;padding:3px 8px;font-size:10px}
  .sbe-rc .bd{padding:10px 12px 12px;gap:4px}
  .sbe-rc .mt{font-size:10px;letter-spacing:.06em}
