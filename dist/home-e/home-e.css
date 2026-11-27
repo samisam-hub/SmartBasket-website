@@ -140,3 +140,48 @@
  .sbe-rech h2,.sbe-feat h2{font-size:36px}.sbe-crb{padding:28px}.sbe-crb h2{font-size:32px}.sbe-cta h2{font-size:38px}
  .sbe-nav{gap:16px;font-size:14px}
 }
+
+/* Mobile kompakt */
+@media (max-width:600px){
+ .sbe .sbe-hero{gap:24px;padding-top:24px;padding-bottom:40px}
+ .sbe-copy h1{font-size:34px;margin-bottom:12px;letter-spacing:-.03em}
+ .sbe-copy .sub{font-size:20px;margin-bottom:12px}
+ .sbe-copy .lead{font-size:16px;line-height:1.55;margin-bottom:20px}
+ .sbe-ctas{gap:10px}
+ .sbe-checks{margin-top:20px;gap:8px;font-size:14px}
+ .sbe-visual{min-height:0;height:470px;overflow:visible}
+ .sbe-phone{transform:rotate(-3deg) scale(.8);transform-origin:center top}
+ .sbe-rec{padding:48px 0}
+ .sbe-rech{margin-bottom:18px;gap:14px}
+ .sbe-rech h2,.sbe-feat h2{font-size:27px;line-height:1.1}
+ .sbe-rtabs{gap:6px}
+ .sbe-rtabs button{min-height:38px;padding:0 14px;font-size:14px}
+ .sbe-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .sbe-rc{border-radius:16px}
+ .sbe-rc .new{top:8px;left:8px;padding:3px 8px;font-size:10px}
+ .sbe-rc .bd{padding:10px 12px 12px;gap:4px}
+ .sbe-rc .mt{font-size:10px;letter-spacing:.06em}
+ .sbe-rc h3{font-size:15px}
+ .sbe-rc .in{font-size:12px}
+ .sbe-rc .nu{gap:4px;margin:2px 0 6px}
+ .sbe-rc .nu span{padding:3px 7px;font-size:11px}
+ .sbe-rc a.add{min-height:36px;padding:0 12px;font-size:13px}
+ .sbe-feat{padding:48px 0 16px}
+ .sbe-feat h2{margin-bottom:24px}
+ .sbe-fgrid{gap:12px}
+ .sbe-fc{padding:18px 20px;border-radius:18px}
+ .sbe-fc .num{width:34px;height:34px;border-radius:10px;font-size:16px;margin-bottom:10px}
+ .sbe-fc h3{font-size:18px;margin-bottom:4px}
+ .sbe-fc p{font-size:14px;line-height:1.5}
+ .sbe-cr{padding:32px 0 48px}
+ .sbe-crb{padding:22px;border-radius:24px;gap:20px}
+ .sbe-crb h2{font-size:26px}
+ .sbe-crb p{font-size:15px;margin-bottom:16px}
+ .sbe-crc{gap:10px}
+ .sbe-crc .bd{padding:10px 12px 12px}
+ .sbe-crc h3{font-size:15px;margin:2px 0 6px}
+ .sbe-crc a{font-size:13px}
+ .sbe-cta{padding:52px 20px}
+ .sbe-cta h2{font-size:28px}
+ .sbe-cta p{font-size:15px;margin-bottom:20px}
+}
