@@ -149,7 +149,7 @@
  .sbe-copy .lead{font-size:16px;line-height:1.55;margin-bottom:20px}
  .sbe-ctas{gap:10px}
  .sbe-checks{margin-top:20px;gap:8px;font-size:14px}
- .sbe-visual{min-height:0;height:472px;box-sizing:border-box;overflow:hidden;justify-content:flex-start;padding-top:10px}
+ .sbe-visual{flex:none;min-height:0;height:472px;box-sizing:border-box;overflow:hidden;justify-content:flex-start;padding-top:10px}
  .sbe-phone{transform:rotate(-3deg) scale(.8);transform-origin:center top}
  .sbe-rec{padding:48px 0}
  .sbe-rech{margin-bottom:18px;gap:14px}
