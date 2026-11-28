@@ -200,3 +200,6 @@
 
 /* DE-Startseite: Hero-Bild auf Desktop rechts */
 @media (min-width:761px){.page-id-2470 .sbe .sbe-hero{flex-direction:row-reverse}}
+/* DE-Startseite: Handy nach rechts geneigt */
+.page-id-2470 .sbe-phone{transform:rotate(3deg)}
+@media (max-width:600px){.page-id-2470 .sbe .sbe-phone{transform:rotate(3deg) scale(.42);left:6px}}
