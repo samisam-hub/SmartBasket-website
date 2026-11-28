@@ -197,3 +197,6 @@
  .sbe-cta h2{font-size:28px}
  .sbe-cta p{font-size:15px;margin-bottom:20px}
 }
+
+/* DE-Startseite: Hero-Bild auf Desktop rechts */
+@media (min-width:761px){.page-id-2470 .sbe .sbe-hero{flex-direction:row-reverse}}
